@@ -1,0 +1,150 @@
+.tml {
+	font-size: 1em;
+}
+
+.tml * {
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.tml .tml-field-wrap {
+	margin-bottom: 1em;
+}
+
+.tml .tml-label {
+	display: block;
+	margin: 0.5em 0;
+}
+
+.tml .tml-checkbox + .tml-label {
+	display: inline;
+}
+
+.tml .tml-field {
+	width: 50%;
+}
+
+.tml .tml-description {
+	display: block;
+	font-size: 0.85em;
+	font-style: italic;
+	margin: 0.5em 0;
+}
+
+.tml .tml-errors,
+.tml .tml-messages {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tml .tml-error,
+.tml .tml-message,
+.tml .tml-success,
+.tml .tml-action-confirmaction .success {
+	border-left: 4px solid #00a0d2;
+	-webkit-box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
+	        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
+	display: block;
+	margin: 0 0 1em;
+	padding: 0.75em;
+}
+
+.tml .tml-error {
+	border-left-color: #dc3232;
+}
+
+.tml .tml-success,
+.tml .tml-action-confirmaction .success {
+	border-left-color: #46b450;
+}
+
+#pass-strength-result {
+	background-color: #eee;
+	border: 1px solid #ddd;
+	color: #23282d;
+	font-weight: bold;
+	opacity: 0;
+	margin-bottom: 1em;
+	padding: 0.5em;
+}
+
+#pass-strength-result.strong {
+	background-color: #c1e1b9;
+	border-color: #83c373;
+	opacity: 1;
+}
+
+#pass-strength-result.good {
+	background-color: #ffe399;
+	border-color: #ffc733;
+	opacity: 1;
+}
+
+#pass-strength-result.bad {
+	background-color: #fbc5a9;
+	border-color: #f78b53;
+	opacity: 1;
+}
+
+#pass-strength-result.short {
+	background-color: #f1adad;
+	border-color: #e35b5b;
+	opacity: 1;
+}
+
+
+
+input, input.form-control{
+	border: 1px solid #BCD84E;
+	line-height: 25px;
+	border-radius: 3px;
+	width: 300px;
+	font-family: 'axiformaregular';
+	color: #555555;
+	font-size: 1em;
+	padding: 7px 15px;
+	margin-bottom: 15px;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #D1D1D1;
+  font-size: 0.8em;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #D1D1D1;
+  font-size: 0.8em;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #D1D1D1;
+  font-size: 0.8em;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #D1D1D1;
+  font-size: 0.8em;
+}
+
+
+.blue-bg{
+	background: #002F6C;
+}
+
+.blue-bg h3, .blue-bg h4, .blue-bg h5, .blue-bg h6, .blue-bg h2, .blue-bg p, .blue-bg small{
+	color: #FFF;
+}
+
+.login{
+	margin-top: 100px;
+}
+
+.login-container{
+	padding: 70px;
+	margin-bottom: 100px;
+	text-align: center;
+}
+
+.link{
+	letter-spacing: 1px;
+	font-size: 0.9em;
+	color: #434343;
+}

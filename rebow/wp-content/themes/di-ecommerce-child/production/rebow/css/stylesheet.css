@@ -1,0 +1,217 @@
+@import url(bootstrap.min.css);
+@import url(ionicons.min.css);
+@import url(reset.css);
+@import url(fonts.css);
+
+.masthead{
+	background: #002F6C;
+	color: #FFF;
+	text-align: center;
+	padding: 5px;
+	font-weight: normal;
+}
+
+.masthead p{
+	font-size:0.8em;
+	letter-spacing: 2px;
+	margin-bottom: 0;
+	padding: 7px 0;
+}
+
+nav{
+	background: #F2F2F2;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link{
+	padding-right: 1.5rem;
+}
+
+.nav-link{
+	color: #515151;
+	text-transform: uppercase;
+	font-family: 'axiformaregular';
+	font-size: 0.7em;
+	letter-spacing: 1px;
+	font-weight: 700;
+	
+}
+.banner{
+	position: relative;
+}
+
+img.banner{
+	width: 100%;
+}
+
+.baner-overlay{
+	width: 100%;
+	height: 100%;
+	background: rgb(0,0,0, 0.5) !important;
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	color: #fff;
+}
+
+.baner-overlay h1{
+	color: #fff;
+	margin-bottom: 30px;
+}
+
+.banner-intro{
+	width: 42rem;
+	margin: 0 auto;
+	color: #FFF;
+	text-align: center;
+	padding: 130px 0;
+}
+
+.banner-intro p.small-heading{
+	letter-spacing: 1px;
+}
+
+.how-work{
+	background: #002F6C;
+	color: #FFF;
+}
+
+.work-steps{
+	float: left;
+	width: 20%;
+	text-align: center;
+}
+
+.system-content h2{
+	color: #005592;
+	text-align: center;
+	font-size: 3em;
+}
+
+.system-content p{
+	color: #5D5D5D;
+	font-size: 0.8em;
+}
+
+.benefits h3{
+	font-size: 3em;
+	color: #005592;
+	margin-bottom: 30px;
+}
+
+.benefits h3 span{
+	color: #C0DB5A;
+}
+
+.benefits ul li{
+	color: #888;
+	margin-bottom: 30px;
+}
+
+.benefits ul li span{
+	margin-left: 25px;
+}
+
+.free-delivery{
+	background: #F4F4F4;
+}
+
+.free-delivery h4{
+	margin-bottom: 0;
+	color: #296392;
+}
+
+.check-area{
+	background: #F4F4F4;
+}
+
+.subscribe p{
+	color: #fff;
+	margin: 0;
+}
+
+.footer{
+	background: #001838;
+	color: #D1D1D1;
+}
+
+.footer small{
+	color: #D1D1D1;
+	font-size: 0.7em;
+	width: 100%;
+	float: left;
+	margin-bottom: 15px;
+}
+
+.footer small svg{
+	margin-right: 10px;
+}
+
+.email{
+	color: #d1d1d1;
+}
+
+.email:hover{
+	color: #FFF;
+}
+
+.footer-nav li{
+	margin-bottom: 15px;
+
+}
+
+.footer-nav li a{
+	color: #d1d1d1;
+	font-size: 0.7em;
+	text-transform: uppercase;
+}
+
+.tc{
+	background: #000F23;
+	font-family: 'axiformasemibold';
+	font-size: 0.5em;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.tc ul li{
+	float: left;
+	margin: 0 15px;
+	border-right: 1px solid #bbb;
+	padding-right: 15px;
+}
+
+.tc ul li:last-child{
+	border-right: none;
+	margin-left: 0;
+}
+
+.tc ul li a, .tc p{
+	color: #BBBBBB;
+	margin: 0;
+}
+
+.tc ul.social{
+	float: right;
+}
+
+.tc ul.social li{
+	border: none;
+	margin: 0;
+	padding-right: 25px;
+}
+
+.why-choos h4{
+	color: #fff;
+	font-size: 3em;
+	padding-bottom: 30px;
+}
+
+.why-choos p{
+	color: #fff;
+	font-size: 1.5em;
+}
+
+.system-img{
+	font-size: 2em;
+	color: #4D4D4D;
+}

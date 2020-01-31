@@ -1,0 +1,170 @@
+<?php /* Template Name: add_more_boxes_order_summary*/ ?>
+<?php require_once("user_check_login.php");?>
+<html lang="en">
+	<body>
+		<?php
+		require_once('session_values.php');
+		get_header(); ?>
+		<div class="container-fluid">
+			<input type="hidden" id="new_order_id" value=""></input>
+			<div class="row justify-content-md-center">
+				<h5>Welcome <?php echo (wp_get_current_user()->display_name);
+					$user_id = wp_get_current_user()->id;
+				?></h5>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<ul>
+						<li><a href="#">MY ORDERS</a></li>
+						<li><a href="/rebow/my-information/">MY INFORMATION</a></li>
+						<li><a href="/rebow/payment-information/">PAYMENT INFO</a></li>
+						<li><a href="/rebow/support/">SUPPORT</a></li>
+					</ul>
+				</div>
+				<div class="vl"></div>
+				<div class="col-md-8">
+					<div class="rectangle justify-content-md-center" style="height: 59px;border:1px solid black;background-color: #002F6C;"><span style="color: white;align:left;"> 	ORDER DETAILS</span>
+							<span id="edit_order_details" style="color: white;align:right;">EDIT</span>
+					</div>
+					<div id="product_info">
+						<span><?php echo $added_box_no;?> ReBow™ Boxes</span>
+						<br/>
+						<span><?php echo $period_datas;?> Period : <?php echo $display_period." ".$dp_period;?></span>
+						<br/>
+						<ul>
+							Includes : 
+							<li><?php echo ($added_box_no/4);?> Nestable Dollies</li>
+							<li><?php echo ($added_box_no);?> Labels</li>
+							<li><?php echo ($added_box_no);?> Security Zip Ties</li>
+						</ul>
+					</div>
+					<?php 
+
+						$payments_data = get_payments_data($current_order_id);
+
+						if($period_datas=="RENTAL"){
+							$shipping_type = 'Delivery Empty Boxes';
+							$deliver_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+							$shipping_type = 'Pickup Empty Boxes';
+							$pickup_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						}else{
+							get_storage_data($current_order_id);
+						}
+					?>
+					<div id="payment_information">
+						<div class="rectangle justify-content-md-center" style="height: 59px;border:1px solid black;background-color: #002F6C;"><span style="color: white;align:left;"> PAYMENT INFORMATION</span>
+								<span id="edit_payment_details" style="color: white;align:right;" href="">EDIT</span>
+						</div>
+						<span><?php echo $payments_data['First_Name']." ".$payments_data['Last_Name'];?></span><br/>
+						<span>Ending in <?php echo substr($payments_data['Card_Number'],-4);?></span><br/>
+						<span>Ex:<?php echo $payments_data['Expiry_month']."/".$payments_data['Expiry_year'];?></span><br/>
+						<span><b>Billing Address: </b></span><br/>
+						<span><?php echo $payments_data['billing_address'];?></span><br/>
+						<br/>
+					</div>
+					<div id="delivery_pickup_info">
+						<div class="rectangle justify-content-md-center" style="height: 59px;border:1px solid black;background-color: #002F6C;"><span style="color: white;align:left;">Delievery & Pickup Details</span>
+							<span id="edit_delivery_pickup_details" style="color: white;align:right;">EDIT</span>
+
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<span>Delivery Address  :</span><br/>
+								<span><?php echo $deliver_empty_boxes_data['address'];?></span>
+								<span>Delivery Date :<?php echo $deliver_empty_boxes_data['date'];?></span><br/>
+								<span>Optional Delivery Time :</span><br/>
+								<span><?php echo str_replace("_"," ",$deliver_empty_boxes_data['preferred_time']);?></span><br/>
+								<span><?php echo str_replace("_"," ",$deliver_empty_boxes_data['alternative_time']);?></span><br/>
+								*We will confirm these times with you within 24-48 hours after your order
+							</div>
+							</div class="col-md-6">
+								<span>Pickup Address  :</span><br/>
+								<span><?php echo $pickup_empty_boxes_data['address'];?></span>
+								<span>Delivery Date :<?php echo $pickup_empty_boxes_data['date'];?></span><br/>
+								<span>Optional Delivery Time :</span><br/>
+								<span><?php echo str_replace("_"," ",$pickup_empty_boxes_data['preferred_time']);?></span><br/>
+								<span><?php echo str_replace("_"," ",$pickup_empty_boxes_data['alternative_time']);?></span><br/>
+								*We will confirm these times with you within 24-48 hours after your order
+							</div>
+						</div>
+					</div>
+					<div id="payment_details">
+
+						<span>Subtotal: <?php echo $subtotal_price;?></span><br/>
+						<span>Delivery : <?php echo $delivery_cost;?></span><br/>
+						
+						<span>Pickup : <?php echo $pickup_cost;?></span><br/>
+						
+						<span>Sales Tax : <?php echo $sales_tax;?></span><br/>
+
+						<span>Total : <?php echo $total_price;?></span><br/>
+						<span>Your card ending in <?php echo substr($payments_data['Card_Number'],-4)?> was charged <?php echo $total_price;?></span>
+						<p>
+							<input type="checkbox"></input>
+							You confirm that the changes above are correct and you agree to let ReBow charge the card ending in <?php echo substr($payments_data['Card_Number'],-4);?> for <?php echo $total_price;?>
+						</p>
+
+						<button id="submit_order3" class="btn btn-secondary" type="submit">SUBMIT</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php get_footer();?>
+		<script src="https://js.stripe.com/v2/"></script>
+		<script>
+			Stripe.setPublishableKey('<?php echo STRIPE_PUBLISHABLE_KEY; ?>');
+			jQuery(document).ready(function() {
+			jQuery('#submit_order3').click(function(){
+				alert('clicked');
+				var datastring = "ajax_request=order_confirmation_added_boxes";
+				jQuery.ajax({
+					url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+					method : "POST",
+					data : datastring,
+					success: function(result){
+
+					    console.log(result);
+					    //var jsonObj = JSON.parse(result);
+
+					    //jQuery('#new_order_id').val(jsonObj.order_id);
+					    //jQuery(location).attr('href', '/rebow/order-confirmation/');
+					}
+				});
+
+			});
+			/*jQuery('#submit_order3').click(function(){
+
+				var datastring = "ajax_request=order_confirmation_added_boxes1";
+				jQuery.ajax({
+					url: "/rebow/wp-content/themes/di-ecommerce-child/stripe_payment.php",
+					method : "POST",
+					data : datastring,
+					success: function(result){
+
+					    console.log(result);
+					    //var jsonObj = JSON.parse(result);
+
+					    //jQuery('#new_order_id').val(jsonObj.order_id);
+					    //jQuery(location).attr('href', '/rebow/order-confirmation/');
+					}
+				});
+
+			});*/
+
+			jQuery('#edit_order_details').click(function(){
+				jQuery(location).attr('href', '/rebow/add-moreboxes');
+			});
+			jQuery('#edit_payment_details').click(function(){
+				
+			});
+
+			jQuery('#edit_delivery_pickup_details').click(function(){
+				jQuery(location).attr('href', '/rebow/add-more-boxes-pickup-delivery');
+			});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,312 @@
+<?php /* Template Name: my_orders_change_dates*/ ?>
+<?php require_once("user_check_login.php");?>
+<?php require_once("db_config.php");?>
+<html lang="en">
+	<body>
+		<?php require_once('session_values.php');
+		//print_r($session_data);
+		get_header();?>
+		<!-- FAQ heading -->
+		<section class="faq-header">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col text-center">
+						<h1>Welcome <?php echo (wp_get_current_user()->display_name);
+					$user_id = wp_get_current_user()->id;?></h1>
+					</div>
+				</div>
+			</div>	
+		</section>	
+		
+			
+			
+			<div class="row">
+				<div class="col-md-3">
+					<ul>
+						<li><a href="#">MY ORDERS</a></li>
+						<li><a href="/rebow/my-information/">MY INFORMATION</a></li>
+						<li><a href="/rebow/payment-information/">PAYMENT INFO</a></li>
+						<li><a href="/rebow/support/">SUPPORT</a></li>
+					</ul>
+				</div>
+				<div class="vl"></div>
+				<?php 
+					$query = "select * from orders_data where order_id=".$current_order_id;
+
+					$res = mysql_query($query);
+
+					$data = mysql_fetch_assoc($res);
+
+					if($data['parent_order_id']!=0){
+						$payments_data = get_payments_data($current_order_id);
+					}else{
+						$payments_data = get_payments_data_user($user_id);
+					}
+
+					if($data['order_type']=="RENTAL"){
+						$shipping_type = 'Delivery Empty Boxes';
+						$deliver_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Pickup Empty Boxes';
+						$pickup_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+					}else{
+						$shipping_type = 'Delivery Empty Boxes';
+						$deliver_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Pickup Packed Boxes';
+						$pickup_packed_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Delivery Packed Boxes';
+						$delivery_packed_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Pickup Empty Boxes';
+						$pickup_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+					}
+
+					$product_data = get_package_data($data['product_id']);
+
+					$subtotal = (isset($session_data->subtotal)) ? $session_data->subtotal : ($data['product_price']+$data['added_box_price']);
+
+					$delivery_cost = (isset($session_data->delivery_cost)) ? $session_data->delivery_cost : ($data['delivery_cost']);
+
+					$pickup_cost = (isset($session_data->pickup_cost)) ? $session_data->pickup_cost : ($data['pickup_cost']);
+
+					$sales_tax = (isset($session_data->sales_tax)) ? $session_data->sales_tax : ($data['sales_tax']);
+
+					$total_price = (isset($session_data->total_price)) ? $session_data->total_price : ($data['total_price']);
+
+					$total_price = (isset($session_data->total_price)) ? $session_data->total_price : ($data['total_price']);
+
+					$pickup_date = (isset($session_data->end_date)) ? $session_data->end_date : ($pickup_empty_boxes_data['date']);
+
+				?>
+				<input type="hidden" id="start_date" value="<?php echo $deliver_empty_boxes_data['date']?>"/>
+				<div class="col-md-8">
+					<h2>MY ORDERS > ORDER #<?php echo $current_order_id;?></h2>
+					<br/>
+					<span><b>Order # <?php echo $current_order_id;?>: <?php echo $payments_data['status_text'];?></b></span>
+					<br/>
+					<span><b>Order Date: <?php echo date($data['created_at']);?></b></span>
+
+					<div id="product_info">
+							<?php if($data['product_id']!=0){?>
+							<b><?php echo $product_data['product_name']." Package - ".$product_data['box_count']." Boxes".$product_data['product_range'];?></b>
+							<ul>
+								Includes*
+								<li><?php echo $product_data['box_count'];?> ReBow™ Boxes</li>
+								<li><?php echo $product_data['nestable_dollies_count'];?> Nestable ReBow™ Dollies</li>
+								<li><?php echo $product_data['lables_count'];?> Labels</li>
+
+								<li><?php echo $product_data['zipties_count'];?> Security Zip Ties</li>
+							</ul>
+						<?php }else{?>
+							<b><?php echo $data['added_box_count']." Boxes";?></b>
+							<span><b><?php echo $data['order_type']." Period: ";?><?php echo $data['order_time_period'];?></b></span>
+							<ul>
+								Includes*
+								<li><?php echo ($data['added_box_count']);?> ReBow™ Boxes</li>
+								<li><?php echo ($data['added_box_count']/4);?> Nestable ReBow™ Dollies</li>
+								<li><?php echo $data['added_box_count'];?> Labels</li>
+
+								<li><?php echo $data['added_box_count'];?> Security Zip Ties</li>
+							</ul>
+						<?php }?>
+					</div>
+					<span><b><?php echo $data['order_type']." Period: ";?><?php echo $data['order_time_period'];?></b></span>
+					<div>
+						<div class="rectangle justify-content-md-center" style="height: 59px;border:1px solid black;background-color: #002F6C;"><span style="color: white;align:left;"><?php echo $data['order_type']." DETAILS";?></span>
+							<a style="color: white;align:right;" href="">Change</a>
+						</div>
+						<?php 
+							if($data['order_type']=="RENTAL"){?>
+							<span><b><?php echo $data['order_type']." Start Date";?></b>:<?php echo date("d-M-y",strtotime($deliver_empty_boxes_data['date']));?></span>
+							<br/>
+							<span><b><?php echo $data['order_type']." End Date";?></b>: <input id="end_date" type="date" value="<?php echo $pickup_date;?>"></input></span>
+
+						<?php }?>
+					</div>
+					
+					<div>
+						<div class="rectangle justify-content-md-center" style="height: 59px;border:1px solid black;background-color: #002F6C;"><span style="color: white;align:left;">PAYMENT DETAILS</span>
+							<a style="color: white;align:right;" href="">Change</a>
+						</div>
+						<span>Subtotal: </span><span id="subtotal"> <?php echo $subtotal;?></span><br/>
+						<span>Delivery : </span><span id="delivery_cost"><?php echo $delivery_cost;?></span><br/>
+						
+						<span>Pickup : </span><span id="pickup_cost"><?php echo $pickup_cost;?></span><br/>
+						
+						<span>Sales Tax :</span><span id="sales_tax"> <?php echo $sales_tax;?></span><br/>
+
+						<span>Total :</span><span id="total_price1"> <?php echo $total_price;?></span><br/>
+						<span>Your card ending in <?php echo substr($payments_data['Card_Number'],-4)?> was charged</span><span id="total_price2"><?php echo $total_price;?></span>
+						<br/>
+						<br/>
+						<button id="cancel" class="btn btn-secondary">cancel</button>
+						<button id="next" type="submit" class="btn btn-secondary">NEXT</button>
+					</div>	
+			</div>
+		</div>
+		<?php get_footer();?>
+		<script>
+			jQuery( "#end_date" ).change(function() {
+			    var start_date = jQuery('#start_date').val();
+			    //alert(start_date);
+
+			    var end_date = jQuery('#end_date').val();
+
+			    var dayDff = get_day_diffrence(start_date,end_date);
+			    //alert(dayDff);	
+			    price_calculation(dayDff);
+			    
+			});
+			function get_day_diffrence(start_date,end_date){
+			    var startDay = new Date(start_date);
+    			var endDay = new Date(end_date);
+
+    			var millisecondsPerDay = 1000 * 60 * 60 * 24;
+			    var millisBetween = endDay.getTime() - startDay.getTime();
+     			var days = millisBetween / millisecondsPerDay;
+
+			    // Round down.
+			    var dayDiff = Math.floor(days);
+			    return dayDiff;
+			}
+
+			function price_calculation(dayDff){
+
+				var previous_product_price = "<?php echo ($data['product_price']);?>";
+				var previous_added_box_price = "<?php echo $data['added_box_price'];?>";
+				var previous_delivery_cost = "<?php echo ($data['delivery_cost']);?>";
+
+				var previous_pickup_cost = "<?php echo ($data['pickup_cost']);?>";
+
+				var default_product_cost = Number(jQuery('#default_product_cost').val());
+				var tax_rates = Number(jQuery('#tax_rates').val());
+				var period_data_field = jQuery('#period_data_field').val();
+				var box_count = Number(jQuery('#box_count_field').val());
+				var added_box_count = Number(jQuery('#added_box_count_field').val());
+
+				var delivery_cost = Number(jQuery('#delivery_cost_field').val());
+
+				var pickup_cost = Number(jQuery('#pickup_cost_field').val());
+
+				var tax_rates = Number(jQuery('#tax_rates').val());
+
+				if(period_data_field=="RENTAL"){
+					//alert(dayDff/7);
+					var period=Math.ceil(dayDff/7);
+				}
+
+				var product_price = default_product_cost * box_count * period;
+
+				var added_boxes_price = default_product_cost * added_box_count * period;
+
+				product_price = product_price-previous_product_price;
+
+				added_boxes_price = added_boxes_price-previous_added_box_price;
+
+				var subtotal = (product_price+added_boxes_price);
+				//alert(subtotal);
+				delivery_cost = delivery_cost-previous_delivery_cost;
+				//alert(delivery_cost);
+				pickup_cost = pickup_cost-previous_pickup_cost;
+				//alert(pickup_cost);
+				var total_price = subtotal+delivery_cost+pickup_cost;
+				//alert(total_price);
+
+				var sales_tax = (total_price*tax_rates)/100;
+
+				total_price = total_price + sales_tax;
+
+				/*SET values to input fields*/
+				jQuery('#product_price_field').val(product_price);
+
+				jQuery('#added_box_price_field').val(added_boxes_price);
+
+				jQuery('#subtotal_field').val(subtotal);
+
+				jQuery('#sales_tax_field').val(sales_tax);
+
+				//jQuery('#delivery_cost_field').val(delivery_cost);
+
+				//jQuery('#pickup_cost_field').val(pickup_cost);
+
+				jQuery('#total_price_field').val(total_price);
+
+				jQuery('#display_period').val(period);
+
+				/*SET values to main fields*/
+
+				jQuery('#pickup_cost').text(pickup_cost);
+
+				jQuery('#delivery_cost').text(delivery_cost);
+
+
+				jQuery('#subtotal').text(subtotal);
+
+				jQuery('#sales_tax').text(sales_tax);
+
+				jQuery('#total_price1').text(total_price);
+
+				jQuery('#total_price2').text(total_price);
+				//jQuery('#delivery_cost').val(delivery_cost);
+
+			}
+			jQuery( "#next" ).click(function() {
+
+			    var display_period = jQuery('#display_period').val();
+
+			    var dp_period = jQuery('#dp_period').val();
+
+			    //var dp_period = jQuery('#dp_period').val();
+
+			    var box_count = jQuery('#box_count_field').val();
+
+			    var added_box_count = jQuery('#added_box_count_field').val();
+
+			    var added_box_price = jQuery('#added_box_price_field').val();
+
+			    var product_price = jQuery('#product_price_field').val();
+
+			    var subtotal = jQuery('#subtotal_field').val();
+
+			    var delivery_cost = jQuery('#delivery_cost_field').val();
+
+			    var pickup_cost = jQuery('#pickup_cost_field').val();
+
+			    var sales_tax = jQuery('#sales_tax_field').val();
+
+			    var total_price = jQuery('#total_price_field').val();
+
+			    var tax_rates = jQuery('#tax_rates').val();
+
+			    var default_product_cost = jQuery('#default_product_cost').val();
+
+			    var period_data = jQuery('#period_data_field').val(); 
+
+			    var start_date = jQuery('#start_date').val();
+
+			    var end_date = jQuery('#end_date').val();
+
+			    var datastring = "ajax_request=goto_order_summary3&display_period="+display_period+"&dp_period="+dp_period+"&box_count="+box_count+"&added_box_count="+added_box_count+"&added_box_price="+added_box_price+"&product_price="+product_price+"&subtotal="+subtotal+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&period_datas="+period_data+"&start_date="+start_date+"&end_date="+end_date;
+			    
+			    //alert(datastring);
+
+			    jQuery.ajax({
+					url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+					method : "POST",
+					data : datastring,
+					success: function(result){
+					    
+					    //var JSONobj = JSON.parse(result);
+					    console.log(result);
+					    jQuery(location).attr('href', '/rebow/my-order-summary');
+					    //alert(result);
+					}
+				});
+
+			}); 
+		</script>
+	</body>
+</html>

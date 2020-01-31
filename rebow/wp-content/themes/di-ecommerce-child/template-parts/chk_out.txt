@@ -1,0 +1,28 @@
+<?php }else{?>
+                <div id="existing_user_checkout">
+                  <input type="hidden" id="cardholder_name" value="<?php echo $card['First_Name']." ".$card['Last_Name'];?>"/>
+                  <div class="form-row">
+                    <label>Selected Payment Method</label><br/>
+                  </div>
+                  <div class="form-row">
+                    <select id="select_card">
+                      <?php foreach($cards_data as $card){?>
+                        <option value="<?php echo $card['payment_method_id'];?>"><?php echo $card['First_Name']." ".$card['Last_Name']." ************".$card['Card_Number']?></option>
+                        
+                      <?php }?>
+                        <option value="add_new_card">Add New Card</option>
+                    </select><br/>
+                  </div>
+                  <div class="form-row mt-2">
+                    <div class="form-group col-md-6">
+                      <label>Expiry Month</label>
+                      <input type="text" class="form-control" id="exp_month" value="<?php echo $exp_month;?>" placeholder="Month">
+                      <label>Expiry Year</label>
+                      <input type="text" class="form-control" id="exp_year" value="<?php echo $exp_year;?>" placeholder="Year">
+                    </div>
+                  </div>
+                  <div class="form-group col-md-8 new_card_element hide" >
+                      <div id="card-element"></div>
+                  </div>
+                </div>
+                <?php }?>

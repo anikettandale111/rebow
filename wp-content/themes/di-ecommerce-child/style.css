@@ -1,0 +1,307 @@
+/*
+ Theme Name:   Di Commerce Child
+ Theme URI:    
+ Description:  Di Commerce Child Theme
+ Author:       Quosphere
+ Author URI:   
+ Template:     di-ecommerce
+ Version:      1.0.0
+ License:      
+ License URI:  
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  dicommercechld
+*/
+.navbarsecondary .dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 99.78%;
+  margin-top: -1px;
+}
+
+.navbarsecondary .dropdown-menu {
+  min-width: 189px;
+  padding: 0px;
+}
+
+.navbarsecondary .dropdown-menu li {
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.navbarsecondary .small-menu-label {
+  position: relative;
+  top: 9px;
+  left: 10px;
+  font-size: 16px;
+  display: none;
+}
+
+.navbarsecondary .navbar-toggler {
+  border-color: rgba(0,0,0,.1);
+}
+.navbarsecondary .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* nav transition all case */
+.navbarsecondary .dropdown-menu > li > a {
+  transition: background-color 0.5s ease-in-out;
+}
+
+.navbarsecondary ul.primary-menu > li a {
+  transition: color 0.5s ease-out, background-color 0.5s ease-out;
+}
+
+
+/* If browser is greater than 768px */
+@media (min-width: 768px) {
+
+  .navbarsecondary ul a {
+    white-space: nowrap;
+  }
+
+  .navbarsecondary.navbar {
+    padding: 1px;
+  }
+
+  .navbarsecondary .dropdown-menu {
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .175);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .175);
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+  }
+
+  /* hover effect */
+  .navbarsecondary .navbar-nav > li > ul.dropdown-menu {
+    display: block;
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: margin 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+  }
+  .navbarsecondary .navbar-nav > li:hover > ul.dropdown-menu {
+    margin-top: 0px;
+    opacity: 1;
+    visibility: visible;
+  }
+  .navbarsecondary .dropdown-submenu > .dropdown-menu {
+    display: block;
+    left: 92%;
+    opacity: 0;
+    visibility: hidden;
+    transition: left 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+  }
+  .navbarsecondary .dropdown-submenu:hover > .dropdown-menu {
+    left: 99.50%;
+    opacity: 1;
+    visibility: visible;
+  }
+  /* hover effect END */
+
+  .navbarsecondary ul li > a.dropdown-toggle::after {
+    vertical-align: 0.15em;
+    border-top: 0.25em solid;
+    border-right: 0.25em solid transparent;
+    border-left: 0.25em solid transparent;
+  }
+
+  .navbarsecondary ul li ul li.dropdown-submenu > a.dropdown-toggle::after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 18px;
+    right: 8px;
+  }
+  .navbarsecondary ul.navbar-nav > li a.nav-link {
+    padding: 11px 15px;
+  }
+
+  .navbarsecondary ul.navbar-nav .dropdown-menu > li a.nav-link {
+    padding: 6px 20px;
+  }
+
+  .navbarsecondary .dropdowntoggle {
+    display: none;
+  }
+
+  .navbarsecondary ul li ul li ul li a.dropdown-toggle::after {
+    display: none;
+  }
+
+}
+
+/* If browser is less than 767px */
+@media (max-width: 767px) {
+
+  .navbarsecondary ul li a.dropdown-toggle::after {
+    display: none;
+  }
+
+  .navbarsecondary.navbar {
+    padding: 0px;
+  }
+
+  .navbarsecondary .navbar-header {
+    width: 100%;
+  }
+
+  .navbarsecondary .navbar-toggler {
+    margin: 5px 10px 5px 0px;
+    float: right;
+  }
+
+  .navbarsecondary .navbar-toggler {
+    padding: 0.30rem 0.50rem;
+    font-size: 1rem;
+  }
+
+  .navbarsecondary .dropdowntoggle {
+    background-color: #e6e6e6;
+    padding: 0px 2px;
+    outline: dotted 0.5px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+  }
+
+  .navbarsecondary-open > ul {
+    display: block !important;
+  }
+
+  .navbarsecondary ul > li a.nav-link {
+    padding: 6px 10px;
+  }
+
+  .navbarsecondary .dropdown-menu > li a.nav-link {
+    padding: 6px 25px;
+  }
+
+  .navbarsecondary .dropdown-menu > li.dropdown-submenu ul li a.nav-link {
+    padding: 6px 35px;
+  }
+
+  .navbarsecondary .dropdown-menu {
+    border: 0px;
+    margin-top: 0;
+  }
+
+  .navbarsecondary .small-menu-label {
+    display: inline-block;
+  }
+
+}
+
+#logo{
+	padding:20px;
+  margin-top:40px;
+}
+.headermain1{
+    background-color: #F2F2F2;
+    height: 50px;
+}
+
+.questions {
+  height: 20px;
+  padding: 10px;
+  color: #515151;
+  font-family: Axiforma;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.02px;
+  line-height: 20px;
+}
+
+.re-bow-provides-easy {
+
+  color: #D1D1D1;
+  font-family: Axiforma;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 16px;
+}
+
+.contacttext {
+  color: #D1D1D1;
+  font-family: Axiforma;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 16px;
+}
+.menustyle{
+  color: #D1D1D1; 
+  font-family: Axiforma; 
+  font-size: 12px; 
+  font-weight: 600;
+  letter-spacing: 0.74px;
+  line-height: 17px;
+}
+#footercontainer{
+  background-color: #001838;
+}
+
+.rectangle-2-copy-4 { 
+  height: 55px;
+  background-color: #000F23;
+}
+
+.footer-copyright {
+  color: #a7a7a7;
+  background-color: #000F23;
+  color: #BBBBBB;
+}
+
+.subscribe-and-get-ac {
+  height: 48px;
+  color: #FFFFFF;
+  font-family: Axiforma;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.55px;
+  line-height: 25px;
+  text-align: center;
+  margin-top: 50px;
+}
+#emailsubscribe{
+  margin-top:50px;
+  height: 36px;
+  width: 100px;
+  border: 1px solid #E0E1E2;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  padding-left:10px;
+}
+
+#buttonsubmit{
+  margin-top:50px;
+  height: 36px;
+  border: 1px solid #E0E1E2;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+}
+
+.navbarprimary {
+  background-color: #F2F2F2;
+ }
+
+ .navbarprimary {
+  background-color: #F2F2F2;
+ }
+
+ .navbarprimary .navbar-nav > li > a {
+      color: #515151;
+}
+
+.navbarprimary ul.primary-menu > li a {
+    transition: color 0.5s ease-out, background-color 0.5s ease-out;
+}

@@ -1,0 +1,12 @@
+host     = localhost
+user     = debian-sys-maint
+password = oqZOh6AT1kOonlDV
+socket   = /var/run/mysqld/mysqld.sock
+
+
+oqZOh6AT1kOonlDV
+
+
+oqZOh6AT1kOonlDV
+
+UPDATE mysql.user SET authentication_string=PASSWORD('test@123') where user='root';

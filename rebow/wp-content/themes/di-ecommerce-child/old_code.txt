@@ -1,0 +1,12 @@
+<div class="col-md-8 p-0">
+	<ul class="pkg-info">
+		<li><span id="product_name"> <?php echo $product_name;?></span> / <span id="box_count"><?php echo $box_count;?></span> Boxes</li>
+
+		<li><span id="price_text"><?php echo $display_price; ?></li>
+		
+		<li id="addedboxesfield" class="hide"><span id="addedboxno"> </span> Added Boxes  : <span id="addedboxprice">
+			$<?php echo $added_box_price;?></span>
+		</li>
+
+	</ul>
+</div>

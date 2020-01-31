@@ -1,0 +1,481 @@
+<?php /* Template Name: add_more_boxes_pickup_delivery*/ ?>
+<?php require_once("user_check_login.php");?>
+<html lang="en">
+	<body>
+		<?php
+		require_once('session_values.php');
+		get_header(); 
+		?>
+		<!-- FAQ heading -->
+		<section class="faq-header">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col text-center">
+						<h1>Welcome <?php echo (wp_get_current_user()->display_name);
+						$user_id = wp_get_current_user()->id;?></h1>
+					</div>
+				</div>
+			</div>	
+		</section>
+
+		
+			<div class="row">
+				<div class="col-md-3">
+					<ul>
+						<li><a href="#">MY ORDERS</a></li>
+						<li><a href="/rebow/my-information/">MY INFORMATION</a></li>
+						<li><a href="/rebow/payment-information/">PAYMENT INFO</a></li>
+						<li><a href="/rebow/support/">SUPPORT</a></li>
+					</ul>
+				</div>
+				<div class="vl"></div>
+				<div class="col-md-8">
+					<h2>MY ORDERS > ORDER #<?php echo $current_order_id;?> - ADD REBOW BOXES</h2>
+					<div class="row justify-content-md-center">
+
+						<div id="deliver_boxes" class="col-sm-12 col-md-10 check-area">
+							<form id="delivery_box_submit">
+								<h5>Delivery of your ReBow™ Boxes :</h5>
+								<label>Delivery Date* : </label>
+								<input id="delivery_date" type="date" value="<?php echo $delivery_date;?>" required/>
+								<br/>
+								<br/>
+								<label>Preferred Delivery Time* : </label>
+								<select id="preferred_delivery_time" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$preferred_delivery_time){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<label>Alternate Delivery Time* :  : </label>
+								<select id="alternate_delivery_time" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$alternate_delivery_time){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<br/>
+								<label>Delivery Address*: </label> <input id="delivery_address" type="text" value="<?php echo $delivery_address;?>" required/> <input id="apt_unit_delivery" type="text" value="<?php echo $apt_unit_delivery;?>" required/>
+								<br/>
+								<p>Do you live in a walk-up or elevator building?* Whats This?</p>
+								<br/>
+								<select id="apartment_level_delivery" class="apartment_level" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($elevator_bulding_array as $key=>$value){
+										if($key==$apartment_level_delivery){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}	
+									?>
+								</select>
+								<br/>
+							</form>
+						</div>
+					</div>
+					<br/>
+					<br/>
+					<div class="row justify-content-md-center">
+						<div id="pick_up_packed_boxes" class="storage col-sm-12 col-md-10 check-area">
+							<form id="pick_up_packed_boxes_submit">
+								<h5>Pick up your Packed ReBow™ Boxes For Storage: </h5>
+								<label>Pickup Date* : </label>
+								<span id="pickup_date_packed" value="<?php echo $pickup_date_packed;?>" >$</span>
+								<p>*If this date does not work, please adjust your delivery date.</p>
+								<label>Preferred Pickup Time* : </label>
+								<select id="preferred_pickup_time_packed" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$preferred_pickup_time_packed){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<label>Alternate Pickup Time* :  : </label>
+								<select id="alternate_pickup_time_packed" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$alternate_pickup_time_packed){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<br/>
+								<input id="checkbox1" type="checkbox" name="sameaddress" ><label>Same as Delivery Address</label>
+								<br/>
+								<label>Pickup Address*: </label> <input id="pickup_address_packed" type="text" value="<?php echo $pickup_address_packed;?>" required/> <input id="apt_unit_pickup_packed" type="text" value="<?php echo $apt_unit_pickup_packed;?>" required/>
+								<p>Do you live in a walk-up or elevator building?* Whats This?</p>
+								<select id="apartment_level_packed" class="apartment_level" required>
+									<option value="Select">Select</option>
+									<?php 
+									foreach($elevator_bulding_array as $key=>$value){
+										if($key==$apartment_level_packed){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<br/>
+							</form>
+						</div>
+					</div>
+					<br/>
+					<div class="row justify-content-md-center">
+						<div id="delivery_packed_boxes" class="col-sm-12 col-md-10 check-area">
+							<form id="delivery_packed_boxes_submit">
+								<h5>Delivery of your ReBow™ Boxes :</h5>
+								<label>Delivery Date* : </label>
+								<input id="delivery_packed_date" type="date" value="<?php echo $delivery_date;?>" required/>
+								<br/>
+								<br/>
+								<label>Preferred Delivery Time* : </label>
+								<select id="preferred_delivery_packed_time" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$preferred_delivery_time){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<label>Alternate Delivery Time* :  : </label>
+								<select id="alternate_delivery_packed_time" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$alternate_delivery_time){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<br/>
+								<div id="delivery_packed_address">
+									<label>Delivery Address*: </label> <input id="delivery_address_packed" required type="text" value="<?php echo $delivery_address_packed;?>"/> <input id="apt_unit_delivery_packed" type="text" value="<?php echo $apt_unit_delivery_packed;?>" required/>
+									<p>Do you live in a walk-up or elevator building?* Whats This?</p>
+									<select id="apartment_level_packed_delivery" class="apartment_level">
+										<option value="Select" required>Select</option>
+										<?php foreach($elevator_bulding_array as $key=>$value){
+											if($key==$apartment_level_packed_delivery){
+												echo "<option selected value=$key>$value</option>";
+											}else{
+												echo "<option value=$key>$value</option>";
+											}
+										}
+										?>
+									</select>
+								</div>
+							</form>
+						</div>
+					</div>
+					<br/>
+					<div class="row justify-content-md-center">
+						<div id="pick_up_boxes" class="col-sm-12 col-md-10 check-area">
+							
+								<h5>Pick up your Empty ReBow™ Boxes : </h5>
+								<label>Pickup Date* : </label>
+								<span id="pickup_date"><?php echo $pickup_date;?></span>
+								<p>*If this date does not work, please adjust your delivery date.</p>
+								<label>Preferred Pickup Time* : </label>
+								<select id="preferred_pickup_time" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$preferred_pickup_time){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<label>Alternate Pickup Time* :  : </label>
+								<select id="alternate_pickup_time" required>
+									<option value="">Select</option>
+									<?php 
+									foreach($time_slots_array as $key=>$value){
+										if($key==$alternate_pickup_time){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<br/>
+								<input id="checkbox2" type="checkbox" name="sameaddress"><label>Same as Delivery Addrss</label>
+								<br/>
+								<label>Pickup Address*: </label> <input id="pickup_address" type="text" value="<?php echo $pickup_address;?>"/> <input id="apt_unit_pickup" type="text" value="<?php echo $apt_unit_pickup;?>" required/>
+								<p>Do you live in a walk-up or elevator building?* Whats This?</p>
+								<select id="apartment_level_pickup" class="apartment_level">
+									<option value="Select">Select</option>
+									<?php 
+									foreach($elevator_bulding_array as $key=>$value){
+										if($key==$apartment_level_pickup){
+											echo "<option selected value=$key>$value</option>";
+										}else{
+											echo "<option value=$key>$value</option>";
+										}
+									}
+									?>
+								</select>
+								<br/>
+							
+						</div>
+					</div>
+					<button id="cancel" class="btn btn-secondary">CANCEL</button>
+					<button type="submit" id="submit_delivery_pickup_info" class="btn btn-secondary">NEXT</button>
+				</div>
+			</div>
+		</div>
+		<?php get_footer();?>
+		<script>
+			jQuery(document).ready(function() {
+				//alert('ready');
+				var period_data = jQuery('#period_data_field').val();
+				if(period_data=="RENTAL"){
+					jQuery('#deliver_boxes').show();
+					jQuery('#delivery_packed_boxes').hide();
+					jQuery('#pick_up_packed_boxes').hide();
+					jQuery('#pick_up_boxes').show();
+				}
+				jQuery('#delivery_date').change(function() {
+				    //var date = $(this).val();
+				    var delivery_date = jQuery('#delivery_date').val();
+
+					var display_period = jQuery('#display_period').val();
+
+					var period_data_field = jQuery('#period_data_field').val();
+					//alert(delivery_date);
+					if(period_data_field=="RENTAL"){
+						var days_to_add = (display_period*7);
+					}else{
+						var days_to_add = 2;
+					}
+					
+
+					if(period_data_field=="RENTAL"){
+						var days_to_add = (display_period*7);
+						//jQuery("#pick_up_boxes").show();
+						var next_pickup_date = get_date(delivery_date,days_to_add);
+						jQuery("#pickup_date").text(next_pickup_date);
+					}else{
+						//jQuery("#pick_up_packed_boxes").show();
+						var days_to_add = 2;
+						var next_pickup_date_pcaked = get_date(delivery_date,days_to_add);
+						jQuery("#pickup_date_packed").text(next_pickup_date_pcaked);
+						var days_to_add = (display_period*30);
+						var next_pickup_date = get_date(delivery_date,days_to_add);
+
+						jQuery("#pickup_date").text(next_pickup_date);
+
+					}
+
+				});
+				jQuery('.apartment_level').change(function(){
+					//alert('clicked');
+					var apartment_level_delivery = jQuery('#apartment_level_delivery').val();
+				
+					var apartment_level_packed = jQuery('#apartment_level_packed').val();
+
+					var apartment_level_packed_delivery = jQuery('#apartment_level_packed_delivery').val();
+
+					var apartment_level_pickup = jQuery('#apartment_level_pickup').val();
+
+					var added_box_count_field = Number(jQuery('#added_box_count_field').val());
+
+					var box_count = added_box_count_field;
+					
+					var apartment_level_delivery_cost = get_pickup_delivery_cost(apartment_level_delivery,box_count);
+					
+					var apartment_level_packed_cost = get_pickup_delivery_cost(apartment_level_packed,box_count);
+					
+					var apartment_level_packed_delivery_cost = get_pickup_delivery_cost(apartment_level_packed_delivery,box_count);
+					
+					var apartment_level_pickup_cost = get_pickup_delivery_cost(apartment_level_pickup,box_count);
+					
+					var delivery_cost = apartment_level_delivery_cost+apartment_level_packed_delivery_cost;
+					alert(delivery_cost);
+					var pickup_cost = apartment_level_packed_cost+apartment_level_pickup_cost;
+					alert(pickup_cost);
+
+					jQuery('#delivery_cost_field').val(delivery_cost);
+
+					jQuery('#pickup_cost_field').val(pickup_cost);
+
+					var added_box_price_field = Number(jQuery('#added_box_price_field').val());
+
+					var tax_rates = Number(jQuery('#tax_rates').val());
+
+					alert(added_box_price_field);
+					var total_price = (added_box_price_field+pickup_cost+delivery_cost);
+					alert(total_price);
+					var sales_tax = (total_price*tax_rates)/100;
+					alert(sales_tax);
+					total_price = total_price + sales_tax;
+					
+					jQuery('#total_price_field').val(total_price);
+
+					jQuery('#sales_tax_field').val(sales_tax);
+
+					//jQuery('#sales_tax_field').val(sales_tax);
+ 
+				});
+				jQuery("#submit_delivery_pickup_info").click(function(event) {
+					var datastring = "";
+					var period = jQuery('#period').val(); 
+
+					var period_data_field = jQuery('#period_data_field').val();
+					/*Form 1*/
+					var delivery_date = jQuery('#delivery_date').val();
+
+					var preferred_delivery_time = jQuery('#preferred_delivery_time').val();
+
+					var alternate_delivery_time = jQuery('#alternate_delivery_time').val();
+
+					var delivery_address = jQuery('#delivery_address').val();
+
+					var apt_unit_delivery = jQuery('#apt_unit_delivery').val();
+
+					var apartment_level_delivery = jQuery('#apartment_level_delivery').val();
+
+					/*END Form 1*/
+
+					/*Form 4*/
+
+					var pickup_date = jQuery('#pickup_date').text();
+
+					var preferred_pickup_time = jQuery('#preferred_pickup_time').val();
+
+					var alternate_pickup_time = jQuery('#alternate_pickup_time').val();
+
+					var pickup_address = jQuery('#pickup_address').val();
+
+					var apt_unit_pickup = jQuery('#apt_unit_pickup').val();
+
+					var apartment_level_pickup = jQuery('#apartment_level_pickup').val();
+
+					var delivery_cost = jQuery('#delivery_cost_field').val();
+						alert(delivery_cost);
+						var pickup_cost = jQuery('#pickup_cost_field').val();
+						alert(delivery_cost);
+						var sales_tax = jQuery('#sales_tax_field').val();
+						alert(sales_tax);
+						var total_price = jQuery('#total_price_field').val();
+
+						alert(total_price);
+
+					if(period_data_field=="STORAGE"){
+
+						/*Form 2*/
+						var pickup_date_packed = jQuery('#pickup_date_packed').text();
+
+						var preferred_pickup_time_packed = jQuery('#preferred_pickup_time_packed').val();
+						
+						var alternate_pickup_time_packed = jQuery('#alternate_pickup_time_packed').val();
+
+						var pickup_address_packed = jQuery('#pickup_address_packed').val();
+
+						var apt_unit_pickup_packed = jQuery('#apt_unit_pickup_packed').val();
+
+						var apartment_level_packed = jQuery('#apartment_level_packed').val();
+
+						/*END Form 2*/
+
+						/*Form 3*/
+						//var selectaddress = jQuery('#selectaddress').val();
+						var delivery_date_packed = jQuery('#delivery_date_packed').text();
+
+						var preferred_delivery_time_packed = jQuery('#preferred_delivery_time_packed').val();
+						
+						var alternate_delivery_time_packed = jQuery('#alternate_delivery_time_packed').val();
+
+						var delivery_address_packed = jQuery('#delivery_address_packed').val();
+
+						var apt_unit_delivery_packed = jQuery('#apt_unit_delivery_packed').val();
+
+						var apartment_level_packed_delivery = jQuery('#apartment_level_packed_delivery').val();
+
+						/*END Form 3*/
+
+						
+
+						datastring = "ajax_request=added_boxes_pickup_delivery_info&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&pickup_date_packed="+pickup_date_packed+"&preferred_pickup_time_packed="+preferred_pickup_time_packed+"&alternate_pickup_time_packed="+alternate_pickup_time_packed+"&pickup_address_packed="+pickup_address_packed+"&apt_unit_pickup_packed="+apt_unit_pickup_packed+"&apartment_level_packed="+apartment_level_packed+"&delivery_date_packed="+delivery_date_packed+"&delivery_address_packed="+delivery_address_packed+"&apt_unit_delivery_packed="+apt_unit_delivery_packed+"&apartment_level_packed_delivery="+apartment_level_packed_delivery+"&preferred_delivery_time_packed="+preferred_delivery_time_packed+"&alternate_delivery_time_packed="+alternate_delivery_time_packed+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price;
+					}else{
+						datastring = "ajax_request=added_boxes_pickup_delivery_info&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price;;
+					}
+
+					jQuery.ajax({
+						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+						method : "POST",
+						data : datastring,
+						success: function(result){
+						    
+						    
+						    console.log(result);
+
+						   
+						    jQuery(location).attr('href', '/rebow/add-more-boxes-order-summary');
+						}
+					});
+					
+
+				});
+				function get_date(date,days_to_add){
+					var someDate = new Date(date);
+					someDate.setDate(someDate.getDate() + days_to_add); //number  of days to add, e.x. 15 days
+					var next_date = someDate.toISOString().substr(0,10);
+					return next_date;
+				}
+				function get_pickup_delivery_cost(apartment_level,box_count){
+					//alert(box_count);
+				    if(apartment_level=="Elevator"){
+				        if(box_count<50){
+				            var delivery_cost = 25;
+				        }else if(box_count>49 && box_count<100){
+				            delivery_cost = 50;
+				        }
+				    }else if(apartment_level=="Stairs"){
+				        if(box_count<50){
+				            delivery_cost = 50;
+				        }else if(box_count>49 && box_count<100){
+				            delivery_cost = 100;
+				        }
+				    }else{
+				        delivery_cost = 0;
+				    }
+				    return delivery_cost;
+				}
+			});
+		</script>
+	</body>
+</html>

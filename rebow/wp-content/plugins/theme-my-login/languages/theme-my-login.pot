@@ -1,0 +1,380 @@
+# Copyright (C) 2019 Theme My Login
+# This file is distributed under the same license as the Theme My Login plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Theme My Login 7.0.14\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/theme-my-login\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-05-13T11:01:02-04:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.2.0\n"
+"X-Domain: theme-my-login\n"
+
+#. Plugin Name of the plugin
+#. Author of the plugin
+#: build/includes/class-theme-my-login-widget.php:23
+#: build/admin/functions.php:69
+#: src/includes/class-theme-my-login-widget.php:23
+#: src/admin/functions.php:69
+msgid "Theme My Login"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://thememylogin.com"
+msgstr ""
+
+#. Description of the plugin
+msgid "Creates an alternate login, registration and password recovery experience within your theme."
+msgstr ""
+
+#: build/includes/functions.php:511
+#: build/admin/functions.php:278
+#: src/includes/functions.php:511
+#: src/admin/functions.php:278
+msgid "Theme My Login Actions"
+msgstr ""
+
+#: build/includes/functions.php:512
+#: src/includes/functions.php:512
+msgid "Theme My Login Action"
+msgstr ""
+
+#: build/includes/functions.php:540
+#: build/includes/functions.php:567
+#: build/includes/functions.php:582
+#: src/includes/functions.php:540
+#: src/includes/functions.php:567
+#: src/includes/functions.php:582
+msgid "TML Action"
+msgstr ""
+
+#: build/includes/functions.php:646
+#: src/includes/functions.php:646
+msgid "<strong>ERROR</strong>: Please enter a password."
+msgstr ""
+
+#: build/includes/functions.php:649
+#: src/includes/functions.php:649
+msgid "<strong>ERROR</strong>: Passwords may not contain the character \"\\\"."
+msgstr ""
+
+#: build/includes/functions.php:652
+#: src/includes/functions.php:652
+msgid "<strong>ERROR</strong>: Please enter the same password in both password fields."
+msgstr ""
+
+#: build/includes/functions.php:669
+#: src/includes/functions.php:669
+msgid "If you have already set your own password, you may disregard this email and use the password you have already set."
+msgstr ""
+
+#: build/includes/actions.php:68
+#: src/includes/actions.php:68
+msgid "Your Data Request"
+msgstr ""
+
+#: build/includes/actions.php:455
+#: src/includes/actions.php:455
+msgid "Registration complete. You may now log in."
+msgstr ""
+
+#: build/includes/class-theme-my-login-widget.php:25
+#: src/includes/class-theme-my-login-widget.php:25
+msgid "A login form for your site."
+msgstr ""
+
+#: build/includes/class-theme-my-login-widget.php:57
+#: src/includes/class-theme-my-login-widget.php:57
+msgctxt "Howdy"
+msgid "Welcome"
+msgstr ""
+
+#: build/includes/class-theme-my-login-widget.php:92
+#: src/includes/class-theme-my-login-widget.php:92
+msgid "Profile"
+msgstr ""
+
+#: build/includes/class-theme-my-login-widget.php:173
+#: src/includes/class-theme-my-login-widget.php:173
+msgid "Show action links?"
+msgstr ""
+
+#: build/includes/forms.php:133
+#: src/includes/forms.php:133
+msgid "Confirm Password"
+msgstr ""
+
+#: build/includes/extensions.php:185
+#: build/includes/extensions.php:216
+#: build/includes/extensions.php:246
+#: build/includes/extensions.php:274
+#: src/includes/extensions.php:185
+#: src/includes/extensions.php:216
+#: src/includes/extensions.php:246
+#: src/includes/extensions.php:274
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: build/includes/extensions.php:198
+#: src/includes/extensions.php:198
+msgid "Your license key has been disabled."
+msgstr ""
+
+#: build/includes/extensions.php:203
+#: src/includes/extensions.php:203
+msgid "Invalid license."
+msgstr ""
+
+#: build/includes/extensions.php:208
+#: src/includes/extensions.php:208
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: build/includes/extensions.php:212
+#: src/includes/extensions.php:212
+msgid "Your license key has reached its activation limit."
+msgstr ""
+
+#: build/admin/functions.php:68
+#: build/admin/functions.php:79
+#: src/admin/functions.php:68
+#: src/admin/functions.php:79
+msgid "Theme My Login Settings"
+msgstr ""
+
+#: build/admin/functions.php:80
+#: src/admin/functions.php:80
+msgid "General"
+msgstr ""
+
+#: build/admin/functions.php:101
+#: src/admin/functions.php:101
+msgid "Theme My Login Licenses"
+msgstr ""
+
+#: build/admin/functions.php:102
+#: src/admin/functions.php:102
+msgid "Licenses"
+msgstr ""
+
+#: build/admin/functions.php:111
+#: src/admin/functions.php:111
+msgid "Theme My Login Extensions"
+msgstr ""
+
+#: build/admin/functions.php:112
+#: build/admin/functions.php:356
+#: src/admin/functions.php:112
+#: src/admin/functions.php:356
+msgid "Extensions"
+msgstr ""
+
+#: build/admin/functions.php:163
+#: src/admin/functions.php:163
+msgid "As a token of our gratitude, we would like to offer your an incentive for upgrading Theme My Login to version 7.0. For a limited time, we are offering a <strong>20% discount</strong> when you use the code <strong>SAVINGFACE</strong> at checkout. Act now - this offer won't last!"
+msgstr ""
+
+#: build/admin/functions.php:179
+#: src/admin/functions.php:179
+msgid "A new <strong>Theme My Login</strong> extension is available!"
+msgstr ""
+
+#: build/admin/functions.php:186
+#: build/admin/extensions.php:95
+#: src/admin/functions.php:186
+#: src/admin/extensions.php:95
+msgid "Get This Extension"
+msgstr ""
+
+#: build/admin/settings.php:96
+#: src/admin/settings.php:96
+msgid "Registration"
+msgstr ""
+
+#: build/admin/settings.php:101
+#: src/admin/settings.php:101
+msgid "Slugs"
+msgstr ""
+
+#: build/admin/settings.php:122
+#: build/admin/settings.php:127
+#: src/admin/settings.php:122
+#: src/admin/settings.php:127
+msgid "Login Type"
+msgstr ""
+
+#: build/admin/settings.php:129
+#: build/admin/settings.php:149
+#: src/admin/settings.php:129
+#: src/admin/settings.php:149
+msgid "Default"
+msgstr ""
+
+#: build/admin/settings.php:130
+#: src/admin/settings.php:130
+msgid "Username only"
+msgstr ""
+
+#: build/admin/settings.php:131
+#: build/admin/settings.php:150
+#: src/admin/settings.php:131
+#: src/admin/settings.php:150
+msgid "Email only"
+msgstr ""
+
+#: build/admin/settings.php:142
+#: build/admin/settings.php:147
+#: src/admin/settings.php:142
+#: src/admin/settings.php:147
+msgid "Registration Type"
+msgstr ""
+
+#: build/admin/settings.php:157
+#: src/admin/settings.php:157
+msgid "Passwords"
+msgstr ""
+
+#: build/admin/settings.php:162
+#: src/admin/settings.php:162
+msgid "Allow users to set their own password"
+msgstr ""
+
+#: build/admin/settings.php:169
+#: src/admin/settings.php:169
+msgid "Auto-Login"
+msgstr ""
+
+#: build/admin/settings.php:174
+#: src/admin/settings.php:174
+msgid "Automatically log in users after registration"
+msgstr ""
+
+#: build/admin/settings.php:221
+#: src/admin/settings.php:221
+msgid "The slugs defined here will be used to generate the URL to the corresponding action. You can see this URL below the slug field. If you would like to use pages for these actions, simply make sure the slug for the action below matches the slug of the page you would like to use for that action."
+msgstr ""
+
+#: build/admin/settings.php:420
+#: src/admin/settings.php:420
+msgid "Active"
+msgstr ""
+
+#: build/admin/settings.php:424
+#: src/admin/settings.php:424
+msgid "Invalid"
+msgstr ""
+
+#: build/admin/settings.php:427
+#: src/admin/settings.php:427
+msgid "Inactive"
+msgstr ""
+
+#: build/admin/settings.php:442
+#: src/admin/settings.php:442
+msgid "Deactivate"
+msgstr ""
+
+#: build/admin/settings.php:444
+#: src/admin/settings.php:444
+msgid "Activate"
+msgstr ""
+
+#: build/admin/settings.php:557
+#: src/admin/settings.php:557
+msgid "Welcome to Theme My Login!"
+msgstr ""
+
+#: build/admin/settings.php:558
+#: src/admin/settings.php:558
+msgid "Below, you can configure how you would like users to register and log in to your site."
+msgstr ""
+
+#: build/admin/settings.php:559
+#: src/admin/settings.php:559
+msgid "Additionally, you can change the slugs that are used to generate the URLs that represent specific actions."
+msgstr ""
+
+#: build/admin/settings.php:565
+#: build/admin/settings.php:588
+#: build/admin/settings.php:608
+#: build/admin/settings.php:636
+#: src/admin/settings.php:565
+#: src/admin/settings.php:588
+#: src/admin/settings.php:608
+#: src/admin/settings.php:636
+msgid "View Documentation"
+msgstr ""
+
+#: build/admin/settings.php:570
+#: build/admin/settings.php:592
+#: build/admin/settings.php:643
+#: src/admin/settings.php:570
+#: src/admin/settings.php:592
+#: src/admin/settings.php:643
+msgid "Get Support"
+msgstr ""
+
+#: build/admin/settings.php:580
+#: src/admin/settings.php:580
+msgid "When you purchase extensions for Theme My Login, you will enter your license keys on this page."
+msgstr ""
+
+#: build/admin/settings.php:581
+#: src/admin/settings.php:581
+msgid "After you enter your license keys and click the Save Changes button at the bottom of the screen, you will see a new button next to each field with a license in it."
+msgstr ""
+
+#: build/admin/settings.php:582
+#: src/admin/settings.php:582
+msgid "If you have not yet activated your license, this button will say \"Activate\". Click this button to activate your license."
+msgstr ""
+
+#: build/admin/settings.php:583
+#: src/admin/settings.php:583
+msgid "If you have already activated your license, this button will say \"Deactivate\". Click this button to deactivate your license."
+msgstr ""
+
+#: build/admin/settings.php:602
+#: src/admin/settings.php:602
+msgid "This page shows you all of the extensions available to purchase for Theme My Login."
+msgstr ""
+
+#: build/admin/settings.php:603
+#: src/admin/settings.php:603
+msgid "Once you purchase an extension, you download it from your email receipt or your account page on our website. Then, you install it just like a normal WordPress plugin."
+msgstr ""
+
+#: build/admin/settings.php:612
+#: src/admin/settings.php:612
+msgid "Go to the Extensions Store"
+msgstr ""
+
+#: build/admin/settings.php:616
+#: src/admin/settings.php:616
+msgid "View your Theme My Login account"
+msgstr ""
+
+#: build/admin/settings.php:627
+#: src/admin/settings.php:627
+msgid "On this page, you can configure the settings for the Theme My Login %s extension."
+msgstr ""
+
+#: build/admin/extensions.php:72
+#: src/admin/extensions.php:72
+msgid "Whoops! Looks like there was an error fetching extensions from the server. Please try again."
+msgstr ""
+
+#: build/admin/extensions.php:73
+#: src/admin/extensions.php:73
+msgid "Error: %s"
+msgstr ""
+
+#: build/admin/extensions.php:105
+#: src/admin/extensions.php:105
+msgid "View All Extensions"
+msgstr ""

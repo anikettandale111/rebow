@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'axiformabold';
+    src: url('../fonts/kastelov_-_axiforma_bold-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'axiformabook';
+    src: url('../fonts/kastelov_-_axiforma_book-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_book-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'axiformasemibold';
+    src: url('../fonts/kastelov_-_axiforma_semibold-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'axiformaregular';
+    src: url('../fonts/kastelov_-_axiforma_regular-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'axiformablack';
+    src: url('../fonts/kastelov_-_axiforma_black-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'axiformamedium';
+    src: url('../fonts/kastelov_-_axiforma_medium-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+
+}
+
+@font-face {
+    font-family: 'axiformalight';
+    src: url('../fonts/kastelov_-_axiforma_light-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'axiformaextrabold';
+    src: url('../fonts/kastelov_-_axiforma_extrabold-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_extrabold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'axiformaextrabold_italic';
+    src: url('../fonts/kastelov_-_axiforma_extrabold_italic-webfont.woff2') format('woff2'),
+         url('../fonts/kastelov_-_axiforma_extrabold_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

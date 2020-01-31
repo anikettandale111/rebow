@@ -1,0 +1,342 @@
+jQuery(document).ready(function() {
+				var hostname = location.hostname;
+				//jQuery("#addedboxesfield").hide();
+				jQuery("#add_box_count").change(function() {
+			        //alert("Changed");
+			       	var add_box_count = jQuery("#add_box_count").val();
+
+			       	var res = add_box_count.split("_");
+			       	var res1 = Number(res[0]); 
+
+			       	var period = jQuery('#period').val();
+
+			       	var selectperiod1 = jQuery('#selectperiod1').val();
+			       	var res = selectperiod1.split("_");
+			       	var res2 = Number(res[0]); 
+
+			       	//var period = jQuery('#period').val();
+			       	//alert(period);
+			       	var rental_cost_per_week = Number(jQuery('#rental_cost_per_week').val());
+			       	//alert(rental_cost_per_week);
+			       	var storage_cost_per_month = Number(jQuery('#storage_cost_per_month').val());
+			       	if(period=='RENTAL'){
+				       	
+				       	var price1 = Number(res1*rental_cost_per_week*res2);
+			       	}else{
+			       		//var per_box_price=16.25;
+				       	//var period1=1;
+				       	var price1 = Number(res1*storage_cost_per_month*res2);
+			       	}
+			       	//var per_box_price=3;
+			       	//alert(res1);
+			       	
+			       	//alert(price1);
+			       	jQuery('#price1').text(price1);
+
+			       	//alert(box_count);
+			       	
+			    });
+				jQuery("#add_more_boxes785").click(function() {
+					//alert('clicked');
+					var add_box_count = jQuery("#add_box_count").val();
+
+					var res = add_box_count.split("_");
+			       	var added_box_count = Number(res[0]);
+			       	//var per_box_price=3;
+			       	//alert(res1);
+			       	jQuery('#added_box_count').val(added_box_count);
+
+			       	var selectedpackage = jQuery("#selectpackage").val();
+
+			       	var selectperiod1 = jQuery("#selectperiod1").val();
+
+			       	var res1 = selectedpackage.split("_");
+
+			       	var package_id = res1.pop();
+
+			       	jQuery('#new_product_id').val(package_id);
+			       	//alert(package_id);
+			       	var selected_package=res1.join("_");
+
+			       	var new_addedboxprice = jQuery('#new_addedboxprice').val();
+
+			       	var res2 = selectperiod1.split("_");
+			       	var period1 = Number(res2[0]);
+			       	//alert(period1);
+
+			       	var period = jQuery('#period').val();
+			       	//alert(period);
+			       	var rental_cost_per_week = Number(jQuery('#rental_cost_per_week').val());
+			       	//alert(rental_cost_per_week);
+			       	var storage_cost_per_month = Number(jQuery('#storage_cost_per_month').val());
+
+			       	var tax_rates = Number(jQuery('#tax_rates').val());
+			       	//alert(storage_cost_per_month);
+			       	/*if(period=='RENTAL'){
+			       		//var period1 =2;
+			       		//per_box_price=3;
+			       		var price1 = res1*rental_cost_per_week*period1;
+			       	}else{
+			       		//var period1 =1;
+			       		//per_box_price=16.25;
+			       		var price1 = res1*storage_cost_per_month*period1;
+			       	}*/
+			       	
+			       	///sales_tax = 17.6;
+			       	
+			       	//alert(price1);
+			       	jQuery("#addedboxesfield").show();
+			       	//jQuery('#addedboxno').text(res1+" Added Boxes");
+			       	
+			       	//jQuery('#addedboxprice').text(price1);
+
+			       	//var mainprice = jQuery('#mainprice').text();
+			       	//alert(mainprice);
+			       	//jQuery("#subtotal").text(Number(mainprice)+Number(price1));
+
+			       	//jQuery("#total_price").text(Number(mainprice)+Number(price1)+Number(sales_tax));
+			       	var datastring = "ajax_request=show_upadated_package_info&product_id="+package_id+"&product_name="+selected_package+"&selectperiod1="+selectperiod1+"&new_addedboxprice="+new_addedboxprice+"&added_box_count="+added_box_count+"&rental_cost_per_week="+rental_cost_per_week+"&storage_cost_per_month="+storage_cost_per_month+"&period="+period+"&tax_rates="+tax_rates;
+					jQuery.ajax({
+						url: "http://"+hostname+"/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+						method : "POST",
+						data : datastring,
+						success: function(result){
+						    //alert(result);
+						    console.log(result);
+						    //alert("New Package Added");
+
+						    var JSONobj = JSON.parse(result);
+
+						    //var sales_tax = 17.6;
+						    jQuery("#product_name").text(JSONobj.product_name+" / "+JSONobj.box_count+" Boxes");
+
+						    jQuery("#nestable_dollies_count").text(JSONobj.nestable_dollies_count+" Nestable Dollies");
+
+						    jQuery("#labels_count").text(JSONobj.labels_count+" Labels");
+
+						    jQuery("#zipties_count").text(JSONobj.zipties_count+" Zipties");
+
+						    jQuery("#mainprice").text(JSONobj.price);
+
+						    jQuery("#subtotal").text(JSONobj.subtotal);
+
+						    jQuery("#sales_tax").text(JSONobj.sales_tax);
+
+						    jQuery("#new_sales_tax").text(JSONobj.sales_tax);
+
+						    jQuery("#new_addedboxprice").text(JSONobj.new_addedboxprice);
+
+						    jQuery("#addedboxprice").text(JSONobj.new_addedboxprice);
+
+						    jQuery("#addedboxno").text(JSONobj.added_box_count+" Added Boxes");
+
+
+						    jQuery("#total_price").text(JSONobj.total_price);
+
+
+						}
+					});
+					
+				});
+
+				jQuery("#next_order_page").click(function() {
+					var new_product_id = jQuery('#new_product_id').val();
+
+					var selectedpackage = jQuery("#selectpackage").val();
+
+			       	var selectperiod1 = jQuery("#selectperiod1").val();
+
+			       	var added_box_count = jQuery('#added_box_count').val();
+
+			       	var addedboxprice = Number(jQuery('#addedboxprice').text());
+
+			       	var subtotal = Number(jQuery('#subtotal').text());
+
+			       	var mainprice = Number(jQuery('#mainprice').text());
+
+					var sales_tax = Number(jQuery('#sales_tax').text());
+
+					var total_price = Number(jQuery('#total_price').text());
+
+					var period = jQuery('#period').val();
+
+
+
+					//var new_subtotal = jQuery('#new_subtotal').val();
+
+					//var new_total_price = jQuery('#new_total_price').val();
+
+					
+			       	//ar res1 = selectedpackage.split("_");
+
+			       	//var package_id = res1.pop();
+
+			       	//jQuery('#new_product_id').val(package_id);
+			       	//alert(package_id);
+			       	//var selected_package=res1.join("_");
+
+			       	//var new_addedboxprice = jQuery('#new_addedboxprice').val();
+
+			       	
+			       	//alert(period);
+			       	//var rental_cost_per_week = Number(jQuery('#rental_cost_per_week').val());
+			       	//alert(rental_cost_per_week);
+			       	//var storage_cost_per_month = Number(jQuery('#storage_cost_per_month').val());
+
+			       	//var tax_rates = Number(jQuery('#tax_rates').val());
+
+					var datastring = "ajax_request=gotonextpage&product_id="+new_product_id+"&selectperiod1="+selectperiod1+"&added_box_count="+added_box_count+"&addedboxprice="+addedboxprice+"&subtotal="+subtotal+"&sales_tax="+sales_tax+"&period="+period+"&total_price="+total_price+"&selectedpackage="+selectedpackage+"&mainprice="+mainprice;
+
+					jQuery.ajax({
+						url: "http://"+hostname+"/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+						method : "POST",
+						data : datastring,
+						success: function(result){
+						    //alert(result);
+						    //console.log(result);
+						    //alert("New Package Added");
+						    jQuery(location).attr('href', 'http://'+hostname+'/rebow/delivery_pickup');
+						}
+					});
+
+
+
+				});
+			    jQuery("#selectpackage").change(function() {
+			        //alert("Changed");
+			       	var selectedpackage = jQuery("#selectpackage").val();
+
+			       	var selectperiod1 = jQuery("#selectperiod1").val();
+
+			       	var res1 = selectedpackage.split("_");
+
+			       	var package_id = res1.pop();
+
+			       	jQuery('#new_product_id').val(package_id);
+			       	//alert(package_id);
+			       	var selected_package=res1.join("_");
+
+			       	var new_addedboxprice = jQuery('#new_addedboxprice').val();
+
+			       	var period = jQuery('#period').val();
+			       	//alert(period);
+			       	var rental_cost_per_week = Number(jQuery('#rental_cost_per_week').val());
+			       	//alert(rental_cost_per_week);
+			       	var storage_cost_per_month = Number(jQuery('#storage_cost_per_month').val());
+
+			       	var tax_rates = Number(jQuery('#tax_rates').val());
+			       	//alert(selected_package);
+			       	//alert(box_count);
+			       	//var datastring = "ajax_request=show_upadated_package_info&product_id="+package_id+"&product_name="+selected_package+"&selectperiod1="+selectperiod1+"&new_addedboxprice="+new_addedboxprice;
+			       	var datastring = "ajax_request=show_upadated_package_info&product_id="+package_id+"&product_name="+selected_package+"&selectperiod1="+selectperiod1+"&new_addedboxprice="+new_addedboxprice+"&rental_cost_per_week="+rental_cost_per_week+"&storage_cost_per_month="+storage_cost_per_month+"&period="+period+"&added_box_count="+added_box_count+"&tax_rates="+tax_rates;
+			       	//alert(datastring);
+			       	jQuery.ajax({
+						url: "http://"+hostname+"/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+						method : "POST",
+						data : datastring,
+						success: function(result){
+						    //alert(result);
+						   	console.log(result);
+
+						   	var JSONobj = JSON.parse(result);
+
+						    //var sales_tax = 17.6;
+						    jQuery("#product_name").text(JSONobj.product_name+" / "+JSONobj.box_count+" Boxes");
+
+						    jQuery("#nestable_dollies_count").text(JSONobj.nestable_dollies_count+" Nestable Dollies");
+
+						    jQuery("#labels_count").text(JSONobj.labels_count+" Labels");
+
+						    jQuery("#zipties_count").text(JSONobj.zipties_count+" Zipties");
+
+						    jQuery("#mainprice").text(JSONobj.price);
+
+						    jQuery("#subtotal").text(JSONobj.subtotal);
+
+						    jQuery("#sales_tax").text(JSONobj.sales_tax);
+
+						    jQuery("#new_sales_tax").text(JSONobj.sales_tax);
+
+						    jQuery("#new_addedboxprice").text(JSONobj.new_addedboxprice);
+
+						    jQuery("#addedboxprice").text(JSONobj.new_addedboxprice);
+
+						    jQuery("#addedboxno").text(JSONobj.added_box_count+" Added Boxes");
+
+						    jQuery("#total_price").text(JSONobj.total_price);
+						}
+					});
+			       	
+			    });
+
+			    jQuery("#selectperiod1").change(function() {
+			    	var selectedpackage = jQuery("#selectpackage").val();
+
+			       	var selectperiod1 = jQuery("#selectperiod1").val();
+			       	alert(selectperiod1);
+			       	var period = jQuery("#selectperiod1 option:selected").text();
+
+
+			       	alert(period);
+			       	jQuery('#new_period').text(period);
+
+			       	var res1 = selectedpackage.split("_");
+
+			       	var package_id = res1.pop();
+
+			       	var new_addedboxprice = jQuery('#new_addedboxprice').val();
+			       //	alert(package_id);
+			       	var selected_package=res1.join("_");
+
+			       	var period = jQuery('#period').val();
+			       	//alert(period);
+			       	var rental_cost_per_week = Number(jQuery('#rental_cost_per_week').val());
+			       	//alert(rental_cost_per_week);
+			       	var storage_cost_per_month = Number(jQuery('#storage_cost_per_month').val());
+
+			       	var tax_rates = Number(jQuery('#tax_rates').val());
+			       	//alert(selected_package);
+			       	//alert(box_count);
+			       	//var datastring = "ajax_request=show_upadated_package_info&product_id="+package_id+"&product_name="+selected_package+"&selectperiod1="+selectperiod1+"&new_addedboxprice="+new_addedboxprice;
+
+			       	var datastring = "ajax_request=show_upadated_package_info&product_id="+package_id+"&product_name="+selected_package+"&selectperiod1="+selectperiod1+"&new_addedboxprice="+new_addedboxprice+"&rental_cost_per_week="+rental_cost_per_week+"&storage_cost_per_month="+storage_cost_per_month+"&period="+period+"&added_box_count="+added_box_count+"&tax_rates="+tax_rates;
+
+			       	//alert(datastring);
+			       	jQuery.ajax({
+						url: "http://"+hostname+"/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+						method : "POST",
+						data : datastring,
+						success: function(result){
+						    //alert(result);
+						   	console.log(result);
+
+						   	var JSONobj = JSON.parse(result);
+
+						    //var sales_tax = 17.6;
+						    jQuery("#product_name").text(JSONobj.product_name+" / "+JSONobj.box_count+" Boxes");
+
+						    jQuery("#nestable_dollies_count").text(JSONobj.nestable_dollies_count+" Nestable Dollies");
+
+						    jQuery("#labels_count").text(JSONobj.labels_count+" Labels");
+
+						    jQuery("#zipties_count").text(JSONobj.zipties_count+" Zipties");
+
+						    jQuery("#mainprice").text(JSONobj.price);
+
+						    jQuery("#subtotal").text(JSONobj.subtotal);
+
+						    jQuery("#sales_tax").text(JSONobj.sales_tax);
+
+						    jQuery("#new_sales_tax").text(JSONobj.sales_tax);
+
+						    jQuery("#new_addedboxprice").text(JSONobj.new_addedboxprice);
+
+						    jQuery("#addedboxprice").text(JSONobj.new_addedboxprice);
+
+						    jQuery("#addedboxno").text(JSONobj.added_box_count+" Added Boxes");
+
+						    jQuery("#total_price").text(JSONobj.total_price);
+						}
+					});
+				});
+		    });

@@ -1,0 +1,120 @@
+<?php /* Template Name: my_orders*/ ?>
+<?if ( !is_user_logged_in() ) {
+
+wp_redirect( 'http://www.example.dev/page/' ); 
+    exit;
+   }?>
+<?php require_once("db_config.php");?>
+<html lang="en">
+	<body>
+		<?php 
+
+		session_start();
+		session_destroy();
+		get_header();?>
+
+		<!-- FAQ heading -->
+		<section class="faq-header">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col text-center">
+						<h1>Welcome Justine</h1>
+					</div>
+				</div>
+			</div>	
+		</section>	
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<h5>Welcome <?php echo (wp_get_current_user()->display_name);
+					$user_id = wp_get_current_user()->id;?></h5>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<ul>
+						<li><a href="#">MY ORDERS</a></li>
+						<li><a href="/rebow/my-information/">MY INFORMATION</a></li>
+						<li><a href="/rebow/payment-information/">PAYMENT INFO</a></li>
+						<li><a href="/rebow/support/">SUPPORT</a></li>
+					</ul>
+				</div>
+				<div class="vl"></div>
+				
+				<div class="col-md-8">
+
+					<h4>ACTIVE ORDERS</h4>
+					<div class="row">
+					<?php 
+					$query = "SELECT * FROM active_orders where user_id=$user_id";
+					
+					$res = mysql_query($query);
+					while($row = mysql_fetch_assoc($res)){?>
+					
+						<div class="check-area col-md-3" >
+							<p>
+							<?php 
+
+								echo $msg1=($row['order_type']=="RENTAL")? "You Rented Rebow boxes ":"You have Rented Rebow Boxes for Storage ";
+
+								echo $msg2=($row['shipping_type']=="Delivery Empty Boxes")? "We will deliver on ".$row['shipping_info'] : "You have Rented Rebow Boxes for Storage";
+							?>
+							</p>
+							<p>Order Id: <a class="orders_info" id="<?php echo $row['order_id'];?>">#<?php echo $row['order_id'];?></a></p>
+						</div>
+					<?php }?>
+					</div>
+					<h4>ORDER HISTORY</h4>
+					<?php 
+					$query = "SELECT * FROM orders_history where user_id=$user_id";
+
+					$res = mysql_query($query);
+					?>
+					<table id="orderhistory" class="table-bordered">
+
+						<tr>
+							<th>Order#</th><th>Date</th><th>Order Type</th><th>Payment Status</th><th>Fulfillment Status</th><th>Order Total</th>
+						</tr>
+					<?php 
+						
+
+						while($row = mysql_fetch_assoc($res)){
+					?>
+					<?php 
+						echo "<tr>";
+						echo "<td>#<a class='orders_info' id=".$row['order_id'].">".$row['order_id']."</a></td><td>".$row['order_date']."</td><td>".$row['order_type']."</td><td>".$row['payment_status']."</td><td>".$row['fullfillment_status']."</td><td>".$row['order_total']."</td>";
+						echo "</tr>";
+					}?>
+					</table>
+				</div>
+			</div>
+		</div> 
+
+		<?php get_footer();?>
+		<script>
+			jQuery(document).ready(function() {
+				jQuery('.orders_info').click(function(event) {
+					
+					var current_id = jQuery(this).attr('id');
+					//alert(current_id);
+					//var period_datas = "<?php echo $row['order_type'];?>";
+					//alert(period_datas);
+					var datastring = "ajax_request=goto_order_summary&current_id="+current_id;
+					jQuery.ajax({
+						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+						method : "POST",
+						data : datastring,
+						success: function(result){
+						    
+						    //var JSONobj = JSON.parse(result);
+						    console.log(result);
+
+						    //alert(result);
+						    jQuery(location).attr('href', '/rebow/my-order-summary');
+						}
+					});
+				});
+
+				
+			});
+		</script>
+	</body>
+</html>
