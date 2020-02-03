@@ -89,6 +89,7 @@ img.banner{
 	font-size: 1.2em;
 	color: #FFF;
 	margin-bottom: 30px;
+	font-family: 'ralewaybold';
 }
 
 .how-work{
@@ -183,7 +184,8 @@ img.banner{
 }
 
 .ptu li a{
-	font-size: 1.2em;
+	font-size: 1.3em;
+	line-height: 10px
 }
 
 .email{
@@ -234,6 +236,7 @@ img.banner{
 .tc p{
 	margin-top: 10px;
 	font-size: 1.4em;
+	font-family: 'axiformasemibold';
 }
 
 .tc ul.social{
@@ -277,6 +280,7 @@ img.banner{
 	font-family: 'axiformabook';
 	color: #fff;
 	font-size: 1.2em;
+	margin-bottom: 0;
 }
 
 .price-tabs li {
@@ -433,6 +437,7 @@ p.hide-text{
 	color: #296392;
 	margin-bottom: 0;
 	font-size: 1.5em;
+	text-align: center;
 }
 
 .call-one p{
@@ -544,6 +549,10 @@ aside.rntl-strg a{
 
 /*** Faq CSS ***/
 
+.faq-heading{
+	margin-bottom: 100px;
+}
+
 .faq-header, .contact-h{
 	padding: 30px 0;
 }
@@ -553,6 +562,10 @@ aside.rntl-strg a{
 	font-family: 'axiformabook';
 	color: #4D4D4D;
 	font-weight: normal;
+}
+
+.page-header h1{
+	margin-bottom: 40px;
 }
 
 .faq-heading h3{
@@ -670,7 +683,7 @@ aside.rntl-strg a{
 }
 
 .rental small{
-	font-size: 1em;
+	font-size: 0.8em;
 }
 
 .rental-benefits {
@@ -964,6 +977,10 @@ ul.includs li::before{
 	letter-spacing: 1px;
 }
 
+.control-checkbox{
+	margin-top: 30px;
+}
+
 .location-pin{
 	display: inline-block;
 	width: 10%;
@@ -1010,9 +1027,9 @@ label.date-print{
 	font-size: 1.1em;
 }
 
-.edit a{
+.edit em a{
 	color: #B4D339;	
-	text-transform: uppercase;
+	text-transform: uppercase; 
 }
 
 .information label, .information p{
@@ -1179,11 +1196,15 @@ label.date-print{
 }
 
 .view-order p, .view-order label, .view-order .pkg-info li, .view-order em, .view-order address{
-	color: #737373;
+	color: #4D4d4d;
 }
 
 .view-order p, .view-order label, .view-order .pkg-info li, .view-order address{
 	font-family: 'axiformamedium';
+}
+
+.view-order p{
+	margin-bottom: 0;
 }
 
 .view-order label{
@@ -1364,9 +1385,10 @@ label.date-print{
 }
 
 .about-heading h3{
-	font-size: 1em;
+	font-size: 1.5em;
 	color: #4D4D4D;
 	padding: 30px 0;
+	font-family: 'axiformabook';
 }
 
 .w-steps{
@@ -1432,6 +1454,23 @@ label.date-print{
 .q-call p{
 	margin-bottom: 0;
     font-family: 'axiformasemibold';
+}
+
+p.note{
+	text-align: center;
+}
+
+.ax-md{
+	font-family: 'axiformamedium';
+}
+
+.ax-li{
+	font-family: 'axiformalight';
+}
+
+
+section.con-details p{
+	color: #464646;
 }
 
 /*** Media Query ***/

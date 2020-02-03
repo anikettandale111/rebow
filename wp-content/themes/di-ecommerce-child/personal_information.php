@@ -76,7 +76,7 @@
 						  	</div>
 						  	<div class="form-row">
 						    	<div class="form-group col-md-6">
-						      		<input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number*" minlength=10 maxlength="10" pattern="^[2-9]{2}[0-9]{8}$" value="<?php echo $phoneNumber;?>" required>
+						      		<input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number*" minlength=10 maxlength="10" pattern="^[0-9]{10}$" value="<?php echo $phoneNumber;?>" required>
 						    	</div>
 						    	<div class="form-group col-md-6">
 						      		<input type="text" class="form-control" id="SecondaryPhoneNumber" placeholder="Secondary Phone Number" maxlength="10" pattern="^[2-9]{2}[0-9]{8}$" value="<?php echo $SecondaryPhoneNumber;?>">
@@ -87,7 +87,7 @@
 							      <label for="inputEmail4">How did you hear about us ?</label>
 							      <!--<div class="selectholder">
 							        <label>Select</label>-->
-							        <select id="selecthearus">
+							        <select id="selecthearus" required>
 										<?php 
 										foreach($hearus_array as $key=>$value){
 											if($key==$selecthearus){
@@ -173,12 +173,24 @@
 					                  	<?php echo $zipties_count;?> Security Zip Ties
 					                  </span>
 					              	</li>
-					                <li>
-					                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
-					                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
-					                  </svg>
-					                  Free Delivery &amp; Pickup 
-					             	</li>
+					                <?php if($period_data==0){?>
+						                <li>
+						                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
+						                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
+						                  </svg>
+						                  Free Delivery &amp; Pickup 
+						             	</li>
+						             	<?php }else{?>
+						             	<li>
+						                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
+						                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
+						                  </svg>
+						                  2 Day Complimentary
+						             	</li>
+						             	<li>
+						             		Packing / Unpacking Window &nbsp;<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" title="" data-toggle="modal" data-target="#exampleModalCenter"/>
+						             	</li>
+						             	<?php }?>
 				              	</ul>
 				              	<label>Rental Time Period:</label>
 					            <!--<div class="selectholder md-selectholder">
@@ -363,6 +375,19 @@
 			jQuery(document).ready(function() {
 				//jQuery('#my-modal-login').show();
 				//alert(1);
+				jQuery("#phoneNumber").on("keypress keyup blur",function (event) {    
+	           		jQuery(this).val(jQuery(this).val().replace(/[^\d].+/, ""));
+		            if ((event.which < 48 || event.which > 57)) {
+		                event.preventDefault();
+		            }
+	        	});
+
+	        	jQuery("#SecondaryPhoneNumber").on("keypress keyup blur",function (event) {    
+	           		jQuery(this).val(jQuery(this).val().replace(/[^\d].+/, ""));
+		            if ((event.which < 48 || event.which > 57)) {
+		                event.preventDefault();
+		            }
+	        	});
 				var user_status = jQuery('#user_status').val();
 
 				//alert(user_status);

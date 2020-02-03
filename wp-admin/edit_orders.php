@@ -1,307 +1,523 @@
 <?php
-/**
- * Edit user administration panel.
- *
- * @package WordPress
- * @subpackage Administration
- */
 
-//echo "<link rel='stylesheet' type='text/css' href='bootstrap.css' />";
-/** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+/*
+Plugin Name: Test plugin
+Description: A test plugin to demonstrate wordpress functionality
+Author: Yogesh Patil
+Version: 0.1
+*/
+//require_once( '/includes/loader.php' );
+//require_once('db_config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/rebow/db_config.php');
-include( ABSPATH . 'wp-admin/admin-header.php' );
+add_action('admin_menu', 'test_plugin_setup_menu');
 
-$order_id = $_REQUEST['order'];
-//echo $order_id;
+function test_plugin_setup_menu(){
+        add_menu_page( 'Test Plugin Page', 'Packages', 'manage_options', 'test-plugin', 'test_init' ,'dashicons-album');
+}
 
-show_order_details($order_id);
+function test_init(){
 
-function show_order_details($order_id){
-	$order_data =  get_order_details($order_id);
-	//print_r($order_data);
-	$user_id = $order_data['user_id'];
+	$url = admin_url()."add_packages.php";
+    echo "<div><h1>Packages </h1>&nbsp;&nbsp;<a href='$url' class='button button-primary'>Add New Package</a></div><br/>";
+    
+	show_products();
+}
 
-	$user_data =get_user_data($user_id);
-	//$email = $user_data['email'];
-
-	$customer_data = get_customer_data($user_id);
-	$email = $customer_data['email'];
-	$phone_number = $customer_data['phone_number'];
-	//$email = $customer_data['email'];
-	//print_r($user_data);
-	$order_date = $order_data['created_at'];
-	$order_type = $order_data['order_type'];
-	$product_id = $order_data['product_id'];
-
-	$payments_data = get_payments_data_user($user_id);
-
-	$product_data = get_product_data($product_id);
-
-	$billing_address = $payments_data['billing_address'];
-	//print_r($payments_data);
-	$order_tracking_data = get_order_tracking_info($order_id);
-	$order_tracking_history_data = get_order_tracking_info_histroy($order_id);
-	$get_additional_order_details_data = get_additional_order_details($order_id);
-	$order_status = $order_tracking_data['order_status'];
-	$order_status_data = get_order_status_data($order_type);
-	//print_r($order_status_data);
-
-	if($order_type=='RENTAL'){
-		$shipping_type='Delivery Empty Boxes';
-		$deliver_empty_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
-
-		$shipping_type='Pickup Empty Boxes';
-		$pickup_empty_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
-
-	}else if($order_type=='STORAGE'){
-		$shipping_type='Delivery Empty Boxes';
-		$deliver_empty_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
-
-		$shipping_type='Delivery Packed Boxes';
-		$deliver_packed_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
-
-		$shipping_type='Pickup Packed Boxes';
-		$pickup_packed_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
-
-		$shipping_type='Pickup Empty Boxes';
-		$pickup_empty_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
+function get_custom_formatted_date($date1){
+	$date=date_create($date1);
+	return date_format($date,"M d, Y");
+}
+function show_products(){
+	
+	/*$con = mysql_connect("localhost","root","");
+	if (!$con) {
+	    die('Could not connect: ' . mysql_error());
 	}
 	
-	$order_status_array = array('Order_Received'=>'Order Received','Order_Confirmed'=>'Order Confirmed',
-		'Order_Completed'=>'Order Completed','Order_Cancelled'=>'Order Cancelled','Order_Refund'=>'Order Refund');
-	?>
-	<div class="inside">
-		<div class="panel-wrap">
-			<form action="" method="POST" id="order_edit_form"> 
-			<input id="ajax_request" name="ajax_request" type="hidden" value="order_update"/>
-			<input id="order_status_old" name="order_status_old" type="hidden" value="<?php echo $order_status;?>"/>
-			<div class="col-md-12">
-			<center><h3>Order Number <?php echo "#".$order_id ;?> Details</h3></center>
-			<h5 style="display:none;background:lightgray;padding:10px;font-size:15px;color:currentColor;" id="resp_message"></h5>
-			<button id="edit_order_Details" type="button" class="btn btn-info pull-right" style="padding:5px !important;float: right !important;"> Edit </button>
-			<div class="row" style="margin:20px;">
-				<div class="col-md-4">
-					<center><label><b>General</b></label></center>
-					<input id="user_id" name="user_id" type="hidden" value="<?php echo $user_id;?>" />
-					<input id="order_id" name="order_id" type="hidden" value="<?php echo $order_id;?>" />
-					<input id="order_type" name="order_type" type="hidden" value="<?php echo $order_type;?>" />
-					<input id="billing_edited_change" name="billing_edited_change" type="hidden" value="0" />
-					<input id="shipping_edited_change" name="shipping_edited_change" type="hidden" value="0" />
-					<label><b>Date Created </b></label>
-					<input class="form-control in_readonly " value="<?php echo $order_date;?>" >					
-					<label><b>Order Status </b></label>
-					<select class="form-control in_readonly editable" id="order_status" name="order_status">
-						<?php foreach($order_status_data as $key=>$value){	
-							$value1 = str_replace(" ", "_", $value);
-							if($value==$order_status){
-	    						echo "<option selected value=$value1>$value</option>";
-	    					}else{
-	    						echo "<option value=$value1>$value</option>";
-	    					}
-						}?>
-					</select>
-					<label><b>Customer </b></label>
-					<input class="form-control in_readonly " value="<?php echo $email;?>" id="email" name="email">
-				</div>
+	mysql_set_charset('utf8');
+	$db = mysql_select_db("rebow");*/
 
-				<div class="col-md-4" >
-					<center><label><b>Billing</b></label></center>
-					<!-- <span id="billing_info_change">Edit</span> -->
-					<label><b>Address:</b></label>
-					<input class="form-control in_readonly " type="text" name="billing_address_edited_value" id="billing_address_edited_value" value="<?php echo $billing_address;?>">
-					<label><b>Email Address:</b></label>
-					<input class="form-control in_readonly " id="email_edited_value" type="text" name="email_edited_value" value="<?php echo $email;?>">
-					<label><b>Contact Number:</b></label>
-					<input class="form-control in_readonly " type="text" id="phone_number_edited_value" name="phone_number_edited_value" value="<?php echo $phone_number;?>" />
-				</div>
-				<div class="col-md-4">
-					<center><label><b>Shipping</b></label></center>
-					<?php if($order_type == 'RENTAL'){?>
-						<label><b>Delivery Address:</b></label>
-						<!-- <span id="delivery_address"><?php echo $deliver_empty_boxes_data['address'];?></span> -->
-						<input type="text" class="form-control in_readonly editable" id="delivery_address_edited_value" name="delivery_address_edited_value" value="<?php echo $deliver_empty_boxes_data['address'];?>">
-						<label><b>Pickup Address:</b></label>
-						<!-- <span id="pickup_address"><?php echo $pickup_empty_boxes_data['address'];?></span> -->
-						<input type="text" class="form-control in_readonly editable" id="pickup_address_edited_value" name="pickup_address_edited_value" value="<?php echo $pickup_empty_boxes_data['address'];?>">
-					<?php }else{?>
-						<label><b>Delivery Empty Box Address:</b></label>
-						<!-- <span id="delivery_address"><?php echo $deliver_empty_boxes_data['address'];?></span> -->
-						<input type="text" class="form-control in_readonly editable" id="delivery_address_edited_value" name="delivery_address_edited_value" value="<?php echo $deliver_empty_boxes_data['address'];?>">
-						<label><b>Pickup Address for Packed Boxes:</b></label>
-						<!-- <span id="pickup_address"><?php echo $pickup_packed_boxes_data['address'];?></span> -->
-						<input type="text" class="form-control in_readonly editable" id="pickup_packed_address_edited_value" name="pickup_packed_address_edited_value" value="<?php echo $pickup_packed_boxes_data['address'];?>">
-						<label><b>Delivery Packed Boxes Address:</b></label>
-						<!-- <span id="delivery_packed_address"><?php echo $deliver_packed_boxes_data['address'];?></span> -->
-						<input type="text" class="form-control in_readonly editable" id="delivery_packed_address_edited_value" name="delivery_packed_address_edited_value" value="<?php echo $deliver_packed_boxes_data['address'];?>" />
-						<label><b>Pickup Empty Box Address:</b></label>
-						<!-- <span id="pickup_address"><?php echo $pickup_empty_boxes_data['address'];?></span> -->
-						<input type="text" class="form-control in_readonly editable" id="pickup_address_edited_value" name="pickup_address_edited_value" value="<?php echo $pickup_empty_boxes_data['address'];?>" />
-					<?php } ?>
-				<label><b> Comment/Reason for change </b></label>
-				<textarea class="form-control in_readonly editable" id="edit_reason_message" name="edit_reason_message" placeholder="write in 250 words"></textarea>
-				</div>
-			</div>
-			<div class="col-md-12">
-			<center><b>Order Product Details</b></center>
-			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th>Product Name</th><th>Box Count</th><th>Subtotal</th><th>Total</th></tr>
-				<tr>
-					<td><?php echo $product_data['product_name'];?>
-					</td>
-					<td><?php echo $product_data['box_count'];?>
-					</td>
-					<td><?php echo $order_data['subtotal'];?>
-					</td>
-					<td><?php echo $order_data['total_price'];?>
-					</td>
-				</tr>
-			</table>
-			<?php if(count($get_additional_order_details_data)): ?>
-			<center><b>Aditional Order Product Details</b></center>
-			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th>Order Number</th><th>Product Name</th><th>Date</th><th>Box Count</th><th>Subtotal</th><th>Total</th></tr>
-				<?php foreach($get_additional_order_details_data as $val): ?>
-					<?php $order_id = $val['order_id']; ?>
-				<tr>
-					<td><a class='orders_info' href='edit_orders.php?order=<?php echo $order_id;?>' id='<?php echo $order_id;?>'> #<?php echo $order_id;?></a></td>
-					<td><?php echo "Additional Box";?></td>
-					<td><?php echo $val['created_at'];?></td>
-					<td><?php echo $val['added_box_count'];?></td>
-					<td><?php echo $val['subtotal'];?></td>
-					<td><?php echo $val['total_price'];?></td>
-				</tr>
-				<?php endforeach ?>
-			</table>
-			<?php endif ?>
+	$sql="SELECT * FROM products WHERE status=1 ";
 
-			<?php if(count($order_tracking_history_data)): ?>
-			<center><b>Order Tracking Status Histroy</b></center>
-			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th>Order Status</th><th>Description</th><th>Date</th></tr>
-				<?php foreach($order_tracking_history_data as $val): ?>
-				<tr>
-					<td><?php echo $val['order_status'];?></td>
-					<td><?php echo $val['order_status_description'];?></td>
-					<td><?php echo $val['created_at'];?></td>
-				</tr>
-				<?php endforeach ?>
-			</table>
-			<?php endif ?>
-			</div>
-		</div>
-		<center>
-			<button type="button" id="update_order_Details" class="btn btn-success reset_readonly" style="margin:20px;">UPDATE</button>
-			<button type="button" class="btn btn-info reset_readonly" style="margin:20px;">CANCEL</button>
-		</center>
-	</form>
-	</div>
+	$result = mysql_query($sql);
+	$count =1;
+	//echo "<pre>";
+	//print_r(mysql_fetch_array($result));
+	echo '<h5 style="display:none;background:lightgray;padding:10px;font-size:15px;color:currentColor;" id="resp_message"></h5>';
+	echo "<table id='example' class='display testexample' width='100%'><thead>";
+	echo "<tr><th >Sr.No.</th><th >Product Name</th><th >Product Type</th><th >Box Count</th><th >Rental Packages</th><th >Storage Packages</th><th>Action</th></tr></thead>";
+	echo "<tbody>";
+
+	while($row = mysql_fetch_array($result)){
+		//echo "product_id: ".
+		$product_id = $row['product_id'];
+		$price = get_rental_price($product_id,2,2);
+		$storage_price = get_storage_price($product_id,1,1);
+		echo '<form method="post" action="options.php">';
+		echo '<tr id="row_id_'.$product_id.'">';
+		echo '<td>'.$count++.'</td>';
+		echo '<td>'.$row['product_name'].'</td>';
+
+		echo '<td>'.$row['product_type'].'</td>';
+		echo '<td>'.$row['box_count'].'</td>';
+		echo '<td>$'.$price.'/2 week</td>';
+		echo '<td>$'.$storage_price.'/ month</td>';
+		echo '<td><a href="edit_packages.php?product=$product_id" class="button button-primary">Edit</a> <button  onClick="deletepacakge('.$product_id.')" class="button button-primary">Delete</button></td>';
+		echo '</tr>';
+		echo '</form>';
+	}
+	echo "</tbody>";
+	echo "</table>";
+}
+function get_order_status_data($order_type){
+
+	$query = "SELECT order_status from order_status_master Where order_type='$order_type'";
+
+	$res = mysql_query($query);
+
+	while($row = mysql_fetch_assoc($res)){
+
+		$rows[] = $row['order_status'];
+
+	}
+
+	return $rows;
+}
+function get_tax_rate(){
+	$sql="select value from lookup_table where keyy='Tax_Rates'";
 	
-<?php }
-?>
-</div>
-<?php
-function get_order_details($order_id){
-	$query="select * from orders_data where order_id=$order_id";
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+
+function get_price($product_id,$period,$calender){
+	/*$con = mysql_connect("localhost","root","");
+	if (!$con) {
+	    die('Could not connect: ' . mysql_error());
+	}
+	
+	mysql_set_charset('utf8');
+	$db = mysql_select_db("rebow");*/
+	
+	$sql="select price from pricing where product_id=$product_id and period='$period' and calender='$calender'";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+function get_base_level_pricing_rental($product_id,$rental_period){
+	$sql="select (rental_price/2) from pricing where product_id=$product_id and rental_period='$rental_period'";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+function get_rental_price($product_id,$rental_period,$duration){
+	$base_price_per_week = get_base_level_pricing_rental($product_id,$rental_period);
+
+	return $duration * $base_price_per_week;
+
+}
+function get_rental_price_data($product_id){
+	
+	$sql="select * from pricing where product_id=$product_id";
+
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_assoc($result);
+
+	return $row;
+
+}
+function get_customer_data($user_id){
+	$sql="select * from customers where user_id=$user_id";
+
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_assoc($result);
+
+	return $row;
+}
+function get_order_tracking_info($order_id){
+
+	$sql="select * from order_tracking where order_id=$order_id and active=1";
+
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_assoc($result);
+
+	return $row;
+}
+function get_order_tracking_info_histroy($order_id){
+
+	$sql="select * from order_tracking where order_id=$order_id order by tracking_id desc";
+
+	$result = mysql_query($sql);
+	// $row = mysql_fetch_assoc($result);
+	$result_one = array();
+	if($result){
+		while($res = mysql_fetch_assoc($result)){
+			$result_one[] = $res;
+		}
+	}
+	return $result_one;
+}
+function get_additional_order_details($order_id){
+
+	$sql="select * from orders_data where parent_order_id=$order_id order by order_id desc";
+
+	$result = mysql_query($sql);
+	// $row = mysql_fetch_assoc($result);
+	$result_one = array();
+	if($result){
+		while($res = mysql_fetch_assoc($result)){
+			$result_one[] = $res;
+		}
+	}
+	return $result_one;
+}
+
+function get_storage_price_data($product_id){
+	
+	$sql="select * from pricing where product_id=$product_id";
+
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_assoc($result);
+
+	return $row;
+
+}
+
+function get_lowest_price_rental_package(){
+	$sql="select min(rental_price) from pricing";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+function get_loweset_price_storage_package(){
+	$sql="select min(storage_monthly_price) from pricing";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+function get_product_data($product_id){
+	$query = "SELECT * from products where product_id=$product_id";
 
 	$res = mysql_query($query);
-
+	
 	$row = mysql_fetch_assoc($res);
 
 	return $row;
 }
-function get_user_data($user_id){
-	$query="select * from wp_users where ID=$user_id";
+function get_minimum_package_data(){
+	$product_id = get_product_id();
+
+	$query1="select * from products where product_id=$product_id";
+
+	$res1 = mysql_query($query1);
+
+	$row1 = mysql_fetch_assoc($res1);
+
+	return $row1;
+}
+function get_product_id(){
+	$query="select product_id from pricing where product_type!='' ORDER BY rental_price asc limit 1";
+	
+	$result = mysql_query($query);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+function get_storage_price($product_id,$storage_period,$duration){
+	
+	$sql="select storage_monthly_price from pricing where product_id=$product_id and storage_monthly_period='$storage_period'";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $duration*$row[0];
+}
+function get_per_week_price($product_id){
+	
+	$sql="select rental_price_per_week from pricing where product_id=$product_id";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+function get_expiry_price($product_id,$period,$calender){
+	/*$con = mysql_connect("localhost","root","");
+	if (!$con) {
+	    die('Could not connect: ' . mysql_error());
+	}
+	
+	mysql_set_charset('utf8');
+	$db = mysql_select_db("rebow");*/
+	
+	$sql="select after_expiry_price from pricing where product_id=$product_id and period='$period' and calender='$calender'";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_row($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row[0];
+}
+
+function get_base_pricing($component_name){
+
+	$sql = "select componet_per_box_price from base_pricing where component_name='$component_name'";
+
+	$result = mysql_query($sql);
+
+	$row = mysql_fetch_row($result);
+
+	return $row[0];
+
+}
+function get_payments_data($current_order_id){
+	$query = "select * from payments where order_id=".$current_order_id;
+	$res = mysql_query($query);
+
+	$data = mysql_fetch_assoc($res);
+
+	return $data;
+}
+function get_payments_data_user($user_id){
+	$query = "select * from payments where user_id=$user_id and active=1";
 
 	$res = mysql_query($query);
 
-	$row = mysql_fetch_assoc($res);
+	$data = mysql_fetch_assoc($res);
 
-	return $row;
+	return $data;
+}
+function get_rental_shipping_data($current_order_id,$shipping_type){
+	$query = "select * from order_shipping where order_id=$current_order_id and shipping_type='$shipping_type'";
+	$res = mysql_query($query);
+
+	$data = mysql_fetch_assoc($res);
+
+	return $data;
 }
 
-?>
+function get_storage_shipping_data($current_order_id,$shipping_type){
+	$query = "select * from order_shipping where order_id=$current_order_id and shipping_type='$shipping_type'";
+	$res = mysql_query($query);
 
-<script>
-	jQuery('.reset_readonly').click(function(){
-		jQuery(".editable").attr("readonly", "true");
-	});
-	jQuery('#edit_order_Details').click(function(){
-		jQuery(".editable").removeAttr("readonly");
-		jQuery('#shipping_edited_change').val(1);
-	});
+	$data = mysql_fetch_assoc($res);
+
+	return $data;
+}
+function get_package_data($product_id){
+	$sql="select * from products where product_id=$product_id";
+	
+	$result = mysql_query($sql);
+	
+	$row = mysql_fetch_assoc($result);
+	//print_r($row);
+	//echo $row[0];
+	return $row;
+}
+function get_packages_datas($product_type){
+
+	$product_type = strtoupper($product_type);
+	$sql="select product_id,product_name,product_type,box_count from products where product_type='$product_type'";
+	
+	$result = mysql_query($sql);
+	
+	while($row = mysql_fetch_assoc($result)){
+		$rows[] = array('product_name'=>$row['product_name'],'product_id'=>$row['product_id'],'product_type'=>$row['product_type'],'box_count'=>$row['box_count']);
+	}
+	return $rows;
+}
+//$first_obj = new PackagesView();
+//$first_obj->create_view();
+
+//create_view();
+	function create_view(){
+        //echo '<form>';
+        get_products_data();
+        //echo '</form>';
+    }
+   function  get_products_data(){
+        $con = mysql_connect("localhost","root","");
+        if (!$con) {
+            die('Could not connect: ' . mysql_error());
+        }
+        //mysql_query('SET names utf8');
+        mysql_set_charset('utf8');
+        $db = mysql_select_db("rebow");
+
+        $sql="select * from products";
+
+        $result = mysql_query($sql);
+
+        while($row = mysql_fetch_array($result)){
+            $product_id = $row['product_id'];
+            //$price = get_price($product_id,'2w');
+            //$storage_price = get_price($product_id,'1m');
+            echo '<form><tr>';
+            echo '<input type="text" value='.$row['product_name'].'>';
+            echo '<br/>';
+            echo '<input type="text" value='.$row['product_type'].'>';
+            echo '<br/>';
+            echo '<input type="text" value='.$row['box_count'].'>';
+            echo '<br/>';
+            echo '<input type="text" value='.$row['box_count'].'>';
+            echo '<br/>';
+            //echo '<td><h3> $'.$price.'/2 week</h3></td>';
+            //echo '<td><h3> $'.$storage_price.'/ month</h3></td>';
+            //echo '<td><a href="packages-view.php?product='.$product_id.'&action=edit">Edit Package</a></td>';
+            echo '</tr></form>';
+        
+        }
+   }
+
+   function display_data(){
+   	 	$string1 =preg_replace("/[A-Z]/", "<span class=\"initial\">$1</span>", $str);
+   		display_data_from_db($string1);
+
+   }
+   function display_data_from_db($stringnow){
+   		$conn = mysql_connect('localhost','root','');
+
+   		$db = mysql_select_db('rebow',$conn);
+
+   		$query = mysql_query("select * from products");
+
+   		$result = mysql_fetch_result($query);
+
+   		while(mysql_fetch_assoc($result)){
+   			$package_name = $result['package_name']; 
+   			$price = $result['price'];  
+
+   			$base_price = $result['base_price']; 
+   			$base_price_month = $result['base_price_month']; 
+   			$base_price_week = $result['base_price_week'];
+
+   			$base_price_week1 = $result['base_price_week1'];
+
+   			pass_the_values($package_name,$price,$base_price,$base_price_month,$base_price_week,$base_price_week1);
+   		}
+   }
+   function pass_the_values($package_name,$price,$base_price,$base_price_month,$base_price_week,$base_price_week1){
+   	
+
+   }
+
+   add_action('admin_menu', 'test_packages_menu');
+ 
+	function test_packages_menu(){
+	        add_menu_page( 'Basic Forumula Page', 'Basic Formula', 'manage_options', 'basic_formula', 'test_init1',
+	        	'dashicons-clipboard' );
+	}
+	function test_init1(){
+	    //echo "<h1>Packages </h1>";
+	    
+		show_basic_values();
+	}
+	function show_basic_values(){
+		echo "<h1>Base Formula</h1>";
+		$con = mysql_connect("localhost","root","");
+		if (!$con) {
+		    die('Could not connect: ' . mysql_error());
+		}
+		//mysql_query('SET names utf8');
+		mysql_set_charset('utf8');
+		$db = mysql_select_db("rebow");
+
+		$sql="select * from base_pricing";
+
+		$result = mysql_query($sql);
+		//echo "<pre>";
+		//print_r(mysql_fetch_array($result));
+		echo "<table  class='wp-list-table widefat fixed striped posts'>";
+		echo "<tr><th ><h3>Base Formula</h3></th><th><h3>Base Price</h3></th></tr>";
+		while($row = mysql_fetch_array($result)){
+			//echo "product_id: ".
+			//$product_id = $row['product_id'];
+			//$price = get_price($product_id,'2w');
+			//$storage_price = get_price($product_id,'1m');
+			$cname = str_replace("_"," ",$row['component_name']);
+			//echo '<';
+			echo '<tr>';
+			echo '<td id='.$row['component_name'].' ><h3> '.$cname.'</h3></td>';
+			$con_price = $row['component_name']."_price";
+			echo '<td contenteditable="true" id='.$con_price.' ><h3> $'.$row['componet_per_box_price'].'</h3></td>';
+			
+			//echo '<td><input type="submit" value="UPDATE"/></td>';
+			//echo '<td ><h3> '.$row['box_count'].'</h3></td>';
+			//echo '<td ><h3> $'.$price.'/2 week</h3></td>';
+			//echo '<td ><h3> $'.$storage_price.'/ month</h3></td>';
+			//echo "<td ><a href='edit_prices.php'>Edit Package</a></td>";
+			echo '</tr>';
+			//echo '</form>';
+		}
+		echo "</table><br/>";
+		echo '<td><input id="base_values_update" type="Submit" value="UPDATE"/></td>';
+		//echo '<script>';
+		echo '<script>
 		jQuery(document).ready(function(){
-			jQuery(".in_readonly").attr("readonly", "true");
-			jQuery('#billing_info_change').click(function(){
-			
-			jQuery('#billing_address').hide();
-			jQuery('#billing_address_edited').show();
 
-			jQuery('#email').hide();
-			jQuery('#email_edited').show();
+			jQuery( "#base_values_update" ).click(function() {
+				var Moving_dollies_per_box_price = jQuery("#Moving_dollies_per_box_price").text().trim();
+				//alert(Moving_dollies_per_box_price);
 
-			jQuery('#phone_number').hide();
-			jQuery('#phone_number_edited').show();
+				var Labels_per_box_price = jQuery("#Labels_per_box_price").text().trim();
+				//alert(Labels_per_box_price);
 
+				var Zipties_per_box_price = jQuery("#Zipties_per_box_price").text().trim();
+				//alert(Zipties_per_box_price);
 
-		});
-		jQuery('#shipping_info_change').click(function(){
-			
-			jQuery('#delivery_address').hide();
-			jQuery('#delivery_address_edited').show();
+				var Rental_cost_per_1_box_per_1_week_price = jQuery("#Rental_cost_per_1_box_per_1_week_price").text().trim();
+				//alert(Rental_cost_per_1_box_per_1_week_price);
 
-			jQuery('#pickup_address').hide();
-			jQuery('#pickup_address_edited').show();
+				var Monthly_storage_cost_per_box_price = jQuery("#Monthly_storage_cost_per_box_price").text().trim();
+				//alert(Monthly_storage_cost_per_box_price);
+				
+				var datastring ="ajax_request=base_values_update&Moving_dollies_per_box_price="+Moving_dollies_per_box_price+"&Labels_per_box_price="+Labels_per_box_price+"&Zipties_per_box_price="+Zipties_per_box_price+"&Rental_cost_per_1_box_per_1_week_price="+Rental_cost_per_1_box_per_1_week_price+"&Monthly_storage_cost_per_box_price="+Monthly_storage_cost_per_box_price;
+				
+				//alert(datastring);
+				console.log(datastring);
 
-			jQuery('#shipping_edited_change').val(1);
-
-		});
-
-		jQuery('#update_order_Details').click(function(){
-
-			// var order_id = jQuery('#order_id').val();
-
-			// var user_id = jQuery('#user_id').val();
-
-			// var order_type = jQuery('#order_type').val();
-
-			// var order_status_old = jQuery('#order_status_old').val();
-
-			// var order_status = jQuery('#order_status_select').val();
-
-			// var billing_address_edited_value = jQuery('#billing_address_edited_value').val();
-
-			// var email_edited_value = jQuery('#email_edited_value').val();
-
-			// var delivery_address_edited_value = jQuery('#delivery_address_edited_value').val();
-
-			// var pickup_address_edited_value = jQuery('#pickup_address_edited_value').val();
-
-			// var shipping_edited_change = jQuery('#shipping_edited_change').val();
-
-			// var billing_edited_change = jQuery('#billing_edited_change').val();
-
-			// var datastring ={ajax_request:"order_update",order_status:order_status,billing_address_edited_value:billing_address_edited_value,email_edited_value:email_edited_value,delivery_address_edited_value:delivery_address_edited_value,pickup_address_edited_value:pickup_address_edited_value,order_id:order_id,order_status_old:order_status_old,user_id:user_id,shipping_edited_change:shipping_edited_change,billing_edited_change:billing_edited_change,order_type:order_type};
-
-			// var datastring ="ajax_request=order_update&order_status="+order_status+"&billing_address_edited_value="+billing_address_edited_value+"&email_edited_value="+email_edited_value+"&delivery_address_edited_value="+delivery_address_edited_value+"&pickup_address_edited_value="+pickup_address_edited_value+"&order_id="+order_id+"&order_status_old="+order_status_old+"&user_id="+user_id+"&shipping_edited_change="+shipping_edited_change+"&billing_edited_change="+billing_edited_change+"&order_type="+order_type;
-			//alert(datastring);
-			
-			jQuery.ajax({
-				url: "test-plugin-api.php",
-				method : "POST",
-				data : jQuery('#order_edit_form').serialize(),
-				success: function(result){
-					jQuery('#resp_message').css('display','block');
-				    jQuery('#resp_message').text(result);
-				    jQuery('html, body').animate({
-					    scrollTop: jQuery("div.panel-wrap").offset().top
-					}, 1000)
-				    setTimeout(function() {
-				    	jQuery('#resp_message').fadeOut('fast');
-				    	location.reload();
-					}, 3000);
-				}
+				jQuery.ajax({
+					url: "test-plugin-api.php",
+					method : "POST",
+					data : datastring,
+					success: function(result){
+					    alert(datastring);
+					}
+				});
 			});
 		});
-	});
-</script>
+		</script>';
+
+	}
+ ?>	

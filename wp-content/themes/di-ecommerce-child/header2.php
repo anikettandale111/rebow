@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> >
+<html <?php language_attributes(); ?>>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.css" >
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
@@ -56,7 +56,14 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/rebow/db_config.php');
             <span class="circle c1">1</span>
             <span class="circle c2" style="display:none"><img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/tick-icon.png" alt=""></span>
             <br>
-            <span class="text">RENTAL <br>PERIOD</span>
+            <span class="text">
+            <?php 
+              if($period_data==0){
+                echo "RENTAL";
+              }else{
+                echo "STORAGE";
+              }
+              ?> <br>PERIOD</span>
           </a>
         </li>
         <?php echo (stripos($url,'delivery')!==FALSE) ? ' <li class="nav-item text-center act-step">' : ' <li class="nav-item text-center">';?>

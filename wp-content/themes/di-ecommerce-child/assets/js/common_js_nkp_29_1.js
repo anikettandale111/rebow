@@ -26,8 +26,9 @@ jQuery(document).ready(function ($) {
     $(this).children('select').children('option').each(function () {
       if ($(this).attr('value') != '0') {
         $drop = $(this).parent().siblings('.selectdropdown');
-        var name = $(this).attr('value');
-        $drop.append('<span>' + name + '</span>');
+        var name = $(this).attr('data-content');
+        var value = $(this).val();
+        $drop.append('<span data-value='+value+'>' + name + '</span>');
       }
     });
     // on click, show dropdown
@@ -73,65 +74,28 @@ jQuery(document).ready(function ($) {
   $('.selectholder .selectdropdown span').click(function () {
     $(this).siblings().removeClass('active');
     $(this).addClass('active');
-    var value = $(this).text();
-    $(this).parent().siblings('select').val(value);
+    var value = $(this).attr('data-value');
+    var textval = $(this).text();
+    $('#selectperiod1').each(function(){
+          if($(this).val()==value){
+            $(this).prop("selected",true);
+          }
+      });
+    // $(this).parent().siblings('select').val(value);
     $(this).parent().siblings('.desc').fadeOut(100, function () {
       $(this).text(value);
       $(this).fadeIn(100);
     });
   });
-  
+	
 // FAq Accordiaon
     $(".acord h4").click(function() {
-       
-        $(this).next(".ans").slideToggle();
-
-        var class_name = $(this).attr("class");
-        
-        if(class_name=='active'){
-          //$(this).next(".ans").slideUp();
-          $(this).removeClass("active");
-        }else{
-          //$(this).next(".ans").slideDown();
-          $(this).addClass("active");
-          
-        }
-    });
-
-    /*$(".acord h4").click(function() {
         $(this).next(".ans").slideDown().siblings(".ans").slideUp();
         $(this).addClass("active").siblings().removeClass("active");
-    });*/
+    });
+
     // date piker
 
   
 
 });
-
-function deletecoupon(rowid){
-    if(confirm('Are you sure to delete this coupon ?')){
-      jQuery.post( "../wp-admin/test-plugin-api.php", { ajax_request: 'delete_coupon',rowid: rowid })
-        .done(function( data ) {
-            jQuery('#resp_message').css('display','block');
-            jQuery('#resp_message').text(data);
-        setTimeout(function() {
-            jQuery('#resp_message').fadeOut('fast');
-        }, 3000); // <-- time in milliseconds
-        jQuery('#row_id_'+rowid).remove();
-      });
-    }
-  }
-    function deletepacakge(packageid){
-    if(confirm('Are you sure to delete this pacakge ?')){
-      jQuery.post( "../wp-admin/test-plugin-api.php", { ajax_request: 'delete_pacakge',packageid: packageid })
-        .done(function( data ) {
-            jQuery('#resp_message').css('display','block');
-            jQuery('#resp_message').text(data);
-        setTimeout(function() {
-            jQuery('#resp_message').fadeOut('fast');
-        }, 3000); // <-- time in milliseconds
-        jQuery('#row_id_'+packageid).remove();
-      });
-    }
-  }
-

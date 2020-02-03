@@ -37,7 +37,7 @@ define( 'DB_CHARSET', 'utf8mb4' );
 /** The Database Collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
-define( 'EXPIRATION_TIME_SECONDS', 2 * HOUR_IN_SECONDS );
+define( 'EXPIRATION_TIME_SECONDS', 2 * 3600 );
 
 /**#@+
  * Authentication Unique Keys and Salts.

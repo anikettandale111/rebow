@@ -55,6 +55,8 @@
 
 		<?php get_footer(); ?>
 		<script>
+
+			
 			jQuery("#zipcodesubmit").click(function(){
 				
 				var zip_current = jQuery('input[placeholder="Current Zip Code"]').val();

@@ -1,6 +1,6 @@
 <?php
 //session_start();
-// require_once("../../../wp-load.php");
+require_once("../../../wp-load.php");
 
 require_once("session_handler.php");
 
@@ -423,6 +423,52 @@ function retrieve_payment_method_id($customer_stripe_id){
 
     return $row[0];
 }
+if($ajax_resquest_type=="add_new_payment_method"){
+
+    $user_id = wp_get_current_user()->id;
+
+    $user_email = wp_get_current_user()->user_email;
+
+   // echo "customer_stripe_id: ".
+    $customer_stripe_id = retrieve_customer_id($user_email);
+
+    $intent = json_decode(stripslashes($_REQUEST['result']));
+
+    $firstName = $_REQUEST['firstName'];
+    $lastName = $_REQUEST['lastName'];
+    $billingaddress = $_REQUEST['billingaddress'];
+
+    $payment_type = $_REQUEST['payment_type'];
+
+    //print_r($intent);
+    echo "payment_method_id: ".
+    $payment_method_id = $intent->setupIntent->payment_method;
+
+    $payment_method = \Stripe\PaymentMethod::retrieve(
+      $payment_method_id
+    );
+    print_r($payment_method);
+    $payment_method->attach([
+      'customer' => $customer_stripe_id,
+    ]);
+
+    insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+
+    $card_number = $payment_method->card->last4;
+
+    $exp_month = $payment_method->card->exp_month;
+
+    $exp_year = $payment_method->card->exp_year;
+
+    $zipcode = $payment_method->billing_details->address->postal_code;
+    $order_id =0;
+    $city = "";
+    $promocode = "";
+    $state = "";
+    
+    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billingaddress,$city,$zipcode,$promocode,$state,$user_id);
+
+}
 if($ajax_resquest_type=="send_card_intent2"){
     //echo "in";
     //print_r($_REQUEST);
@@ -760,7 +806,7 @@ if($ajax_resquest_type=="send_card_intent2"){
         }
 
     }
-    $json_array = array('payment_status'=>$payment_status,'order_id'=>$order_id);
+    $json_array = array('payment_status'=>$payment_status,'subscription_status'=>$subscription_status,'order_id'=>$order_id);
     echo json_encode($json_array);
 }
 
@@ -1101,7 +1147,7 @@ if($ajax_resquest_type=="send_card_intent3"){
         }
 
     }
-    $json_array = array('payment_status'=>$payment_status,'order_id'=>$order_id);
+    $json_array = array('payment_status'=>$payment_status,'subscription_status'=>$subscription_status,'order_id'=>$order_id);
     echo json_encode($json_array);
 }
 if($ajax_resquest_type=="send_card_intent"){
@@ -1748,6 +1794,15 @@ function day_diff_between_two_dates($new_date,$db_date){
 
     return $interval->format('%d days');
     //echo $interval->format('%R%a days');
+}
+if($ajax_resquest_type=="remove_payment_method"){
+    $query = "UPDATE payments SET active=0,updated_at=NOW() WHERE payment_id=$_POST[rowid]";
+    if($query){
+        echo "Payment method removed successfully.";
+    }else{
+        echo "Sorry, Please try agan.";
+    }
+    mysql_query($query);
 }
 if($ajax_resquest_type=="add_more_boxes1"){
 
@@ -3232,7 +3287,7 @@ function insert_into_shipping_info($order_id,$order_type,$shipping_type,$date,$a
     $res = mysql_query($query);
 }
 
-function insert_into_payments($order_id,$user_id,$payment_type,$First_Name,$Last_Name,$Card_Number,$Expiry_month,$Expiry_year,$billing_address,$city,$zipcode,$promocode,$state){
+function insert_into_payments($order_id,$user_id,$payment_type,$First_Name,$Last_Name,$Card_Number,$Expiry_month,$Expiry_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id){
     //echo "Query: ".
     $query = "INSERT INTO payments(`order_id`,`user_id`,`payment_type`,`First_Name`,`Last_Name`,`Card_Number`,`Expiry_month`,`Expiry_year`,`billing_address`,`city`,`state`,`zipcode`,`promocode`,`active`,`created_at`,`abandoned`)
         VALUES ($order_id,$user_id,'$payment_type','$First_Name','$Last_Name',$Card_Number,$Expiry_month,$Expiry_year,'$billing_address','$city','$state',$zipcode,'$promocode',1,NOW(),1)";

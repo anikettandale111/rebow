@@ -61,13 +61,14 @@
 		          	<p>Please confirm your delivery details for your additional boxes below :</p>
 		          </div>
 		        </div>
+		        
 		        <div class="row col-order" id="deliver_boxes">
 		          	<div class="col-sm-12">
 			            <div class="grey-bg p-5">
 			              <div class="row">
 			                <div class="col-sm-12 mb-4 form-header p-0">
 			                  <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/warehouse-godown.png" alt="">
-			                  <p class="txt-blue mt-3"><b>Delivery of your ReBow™ Boxes :</b></p>
+			                  <p class="txt-blue mt-3">Delivery of your ReBow™ Boxes :</p>
 			                </div>
 			              </div>
 			              <div class="row justify-content-start">
@@ -76,7 +77,7 @@
 						            <label class="col-sm-12 col-md-2 mt-3" for="">Delivery Date* : </label>
 						            <div class="col-sm-12 col-md-3">
 						            	<input id="delivery_date_field" type="hidden" value="<?php echo $delivery_date;?>" >
-						              <input id="delivery_date" type="text" name="" placeholder="Date" value="<?php echo $delivery_date;?>" required>
+						              <input id="delivery_date" class="global_date" type="text" required name="" <?php echo (get_custom_formatted_date($delivery_date)) ? 'value="'.get_custom_formatted_date($delivery_date).'"' : 'value ="" placeholder="Choose Date"' ?>  readonly>
 						            </div>
 					        	</div>
 			                  <div class="row-form">
@@ -181,7 +182,7 @@
 				                    </div>
 			                    	<div class="col-from-field">
 			                    		<input id="dpickup_date_packed_field" type="hidden" value="<?php echo $pickup_date_packed;?>" >
-			                      		<label id="pickup_date_packed" for=""><?php echo $pickup_date_packed;?></label>
+			                      		<label id="pickup_date_packed" for=""><?php echo get_custom_formatted_date($pickup_date_packed);?></label>
 			                    	</div>
 			                  	</div>
 			                  	<div class="row-form">
@@ -289,7 +290,7 @@
 			                    </div>
 			                    <div class="col-from-field">
 			                    	<input id="delivery_date_packed_field" type="hidden" value="<?php echo $delivery_date_packed;?>" >
-			                      <label id="delivery_date_packed" for=""><?php echo $delivery_date_packed;?></label>
+			                      <label id="delivery_date_packed" for=""><?php echo get_custom_formatted_date($delivery_date_packed);?></label>
 			                    </div>
 			                  </div>
 			                  <div class="row-form">
@@ -394,12 +395,12 @@
 			                    </div>
 			                    <div class="col-from-field">
 			                    	<input id="pickup_date_field" type="hidden" value="<?php echo $pickup_date;?>" >
-			                      <label id="pickup_date" for=""><?php echo $pickup_date;?></label>
+			                      <label id="pickup_date" for=""><?php echo get_custom_formatted_date($pickup_date);?></label>
 			                    </div>
 			                  </div>
 			                  	<div class="row-form">
 				                    <div class="col-from-field custom-label">
-				                      <p>Preferred Pickup Time* :</p>
+				                      <p>Preferred Pick Up Time* :</p>
 				                    </div>
 				                    <div class="col-from-field">
 				                      <!--<div class="selectholder">
@@ -419,7 +420,7 @@
 				                      <!--</div>-->
 				                    </div>
 				                    <div class="col-from-field custom-label">
-				                      <p>Alternative Pickup Time* :</p>
+				                      <p>Alternative Pick Up Time* :</p>
 				                    </div>
 				                    <div class="col-from-field">
 				                      <!--<div class="selectholder">
@@ -498,6 +499,7 @@
 		            <button id="submit_delivery_pickup_info" type="submit" class="btn btn-secondary">NEXT</button>
 		          </div>
 		        </div>
+		    	
 		        </div>
 
 		      </div>
@@ -523,15 +525,26 @@
 		</div>
 		<?php get_footer();?>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 		<script>
+			function noWeekendsOrHolidays(date) {
+
+			    var noWeekend = jQuery.datepicker.noWeekends(date);
+			     
+			    return noWeekend;
+			    
+			}
+			$('#delivery_date').datepicker({
+				startDate: "today",
+				daysOfWeekDisabled: [0,6],
+				format: "M dd, yyyy ",
+			});
+				
 			jQuery(document).ready(function() {
 				//alert('ready');
 
-				jQuery( "#delivery_date").datepicker({
-					dateFormat: 'M dd , yy',
-					minDate: 0
-				});
+				
 				jQuery("#back_btn").click(function (){
 				  window.history.back();
 				});
@@ -542,7 +555,7 @@
 					jQuery('#pick_up_packed_boxes').hide();
 					jQuery('#pick_up_boxes').show();
 				}
-				jQuery('#delivery_date').change(function() {
+				$('#delivery_date').change(function() {
 				    //var date = $(this).val();
 				    var delivery_date = jQuery('#delivery_date').val();
 				    console.log(delivery_date);
@@ -643,6 +656,178 @@
  
 				});
 				jQuery("#submit_delivery_pickup_info").click(function(event) {
+					event.preventDefault();
+					var period_data_field = jQuery('#period_data').val();
+					
+					if(jQuery('#delivery_daye').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#edit_details_pickup_delivery").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#delivery_daye').focus();
+			            },1000);
+			            return false;
+			        }
+			        if(jQuery('#alternate_delivery_time').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#edit_details_pickup_delivery").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#alternate_delivery_time').focus();
+			            },1000);
+			            return false;
+			        } 
+			        if(jQuery('#delivery_address').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#edit_details_pickup_delivery").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#delivery_address').focus();
+			            },1000);
+			            return false;
+			        }
+			        if(jQuery('#apartment_level_delivery').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#edit_details_pickup_delivery").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#apartment_level_delivery').focus();
+			            },1000);
+			            return false;
+			        }
+
+		          	
+			        if(jQuery('#preferred_pickup_time').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#preferred_pickup_time').focus();
+			            },1000);
+			            return false;
+			        }	
+			        if(jQuery('#alternate_pickup_time').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#alternate_pickup_time').focus();
+			            },1000);
+			            return false;
+			        } 
+			        if(jQuery('#pickup_address').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#pickup_address').focus();
+			            },1000);
+			            return false;
+			        }
+			        if(jQuery('#apartment_level_pickup').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#apartment_level_pickup').focus();
+			            },1000);
+			            return false;
+			        }
+					if(period_data_field=="STORAGE"){
+
+						if(jQuery('#preferred_pickup_time_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#pick_up_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#preferred_pickup_time_packed').focus();
+				            },1000);
+				            return false;
+				        }
+				        if(jQuery('#alternate_delivery_time_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#pick_up_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#alternate_delivery_time_packed').focus();
+				            },1000);
+				            return false;
+				        }
+				        if(jQuery('#pickup_address_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#pick_up_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#pickup_address_packed').focus();
+				            },1000);
+				            return false;
+				        }
+				        if(jQuery('#apartment_level_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#pick_up_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#apartment_level_packed').focus();
+				            },1000);
+				            return false;
+				        }
+
+			          	if(jQuery('#preferred_delivery_time_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#delivery_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#preferred_delivery_time_packed').focus();
+				            },1000);
+				            return false;
+				        }
+				        
+				        if(jQuery('#alternate_delivery_time_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#delivery_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#alternate_delivery_time_packed').focus();
+				            },1000);
+				            return false;
+				        } 
+				        if(jQuery('#delivery_address_packed').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#delivery_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#delivery_address_packed').focus();
+				            },1000);
+				            return false;
+				        }
+				        if(jQuery('#apartment_level_packed_delivery').val()==''){
+				            alert('Fill all required field');
+				            jQuery([document.documentElement, document.body]).animate({
+				                scrollTop: jQuery("#pick_up_packed_boxes").offset().top
+				            }, 1000);
+				            setTimeout(function(){
+				              jQuery('#apartment_level_packed_delivery').focus();
+				            },1000);
+				            return false;
+				        }
+
+					}
+					//check_empty_fields();
 
 					var datastring = "";
 

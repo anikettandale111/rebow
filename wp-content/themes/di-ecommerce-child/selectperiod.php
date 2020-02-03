@@ -55,10 +55,11 @@
 					           	<label>Select <?php //echo $period; ?> Period:</label>-->
 
 					            <?php echo '<input id="period" type="hidden" value="'.$period.'">'; 
-					            $array1 = ($period_data==0)?array(2=>"2 Weeks - $144",3=>"3 Weeks- $216",4=>"4 Weeks",5=>"5 Weeks",6=>"6 Weeks") : array("MM"=>"Month to Month",1=>"1 Month",2=>"2 Months",3=>"3 Months",4=>"4 Months",5=>"5 Months",6=>"6 Months",7=>"7 Months",8=>"8 Months");
+
+					            $array1 = ($period_data==0)?array(2=>"2 Weeks",3=>"3 Weeks",4=>"4 Weeks",5=>"5 Weeks",6=>"6 Weeks") : array("MM"=>"Month to Month",1=>"1 Month",2=>"2 Months",3=>"3 Months",4=>"4 Months",5=>"5 Months",6=>"6 Months",7=>"7 Months",8=>"8 Months");
 					            ?>
-					            <div class="selectholder md-selectholder">
-		          					<label for="">Your Package Selection :</label>
+					            <!--<div class="selectholder md-selectholder">
+		          					<label for="">Your Package Selection :</label> -->
 					    			<select id="selectperiod1" class="selectpicker">
 					    				<?php
 					    				foreach($array1 as $key=>$value){
@@ -71,7 +72,7 @@
 					    				}
 					    				?>
 					    			</select>
-				    			</div>
+				    			<!--</div>-->
 					          	</div>
 					          	<button id="next_order_page" type="button" class="btn btn-secondary">Next</button>
 
@@ -120,7 +121,7 @@
 							    					}
 							    				}
 							    				
-							    				?> 
+							    				?>
 							    				
 							    			</select>
 						    			</div>
@@ -153,12 +154,24 @@
 						                  	<?php echo $zipties_count;?> Security Zip Ties
 						                  </span>
 						              	</li>
+						              	<?php if($period_data==0){?>
 						                <li>
 						                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
 						                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
 						                  </svg>
 						                  Free Delivery &amp; Pickup 
 						             	</li>
+						             	<?php }else{?>
+						             	<li>
+						                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
+						                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
+						                  </svg>
+						                  2 Day Complimentary
+						             	</li>
+						             	<li>
+						             		Packing / Unpacking Window &nbsp;<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" title="" data-toggle="modal" data-target="#exampleModalCenter"/>
+						             	</li>
+						             	<?php }?>
 					              	</ul>
 					              	<button type="submit" id="add_more_boxes" class="btn btn-secondary">Add more boxes</button>
 				    			</div>

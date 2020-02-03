@@ -49,7 +49,7 @@ get_header();
         <li>create your own</li>
       </ul>
       <?php 
-        $query = "select * from products where product_type='RESIDENTIAL'";
+        $query = "select * from products where product_type='RESIDENTIAL' and status=1";
         $res = mysql_query($query);
         
       ?>
@@ -64,7 +64,7 @@ get_header();
               <p class="sq-ft"><?php echo $d['product_range'];?></p>
               <p><img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/box icon.svg" alt="" title=""> <?php echo $d['box_count'];?> BOXES</p>
               <hr>
-              <small class="includes-text">Includes<sup>*</sup> :</small>
+              <small class="includes-text"><em>Includes</em><sup>*</sup> :</small>
               <ul class="includes pl-3 pr-3 pt-1 mb-2">
                 <li>
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
@@ -134,7 +134,7 @@ get_header();
               <p class="sq-ft"><?php echo $d['product_range'];?></p>
               <p><img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/box icon.svg" alt="" title=""> <?php echo $d['box_count'];?> BOXES</p>
               <hr>
-              <small class="includes-text">Includes<sup>*</sup> :</small>
+              <small class="includes-text"><em>Includes</em><sup>*</sup> :</small>
               <ul class="includes pl-3 pr-3 pt-1 mb-2">
                 <li>
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
@@ -203,7 +203,7 @@ get_header();
               <p class="sq-ft"><?php echo $d['product_range'];?></p>
               <p><img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/box icon.svg" alt="" title=""> <?php echo $d['box_count'];?> BOXES</p>
               <hr>
-              <small class="includes-text">Includes<sup>*</sup> :</small>
+              <small class="includes-text"><em>Includes</em><sup>*</sup> :</small>
               <ul class="includes pl-3 pr-3 pt-1 mb-2">
                 <li>
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
@@ -370,9 +370,11 @@ get_header();
     <div class="row justify-content-md-center">
       <div class="col-auto py-4"> <small><sup>*</sup>Available in our Los Angeles location only.</small> </div>
     </div>
-    <div class="row justify-content-md-center bg-grey py-3">
-      <div class="col-auto free-curbside">
-        <p><em>FREE</em> Curbside Delivery &amp; Pickup in the Los Angeles Area&nbsp;<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" data-toggle="modal" data-target=".bd-example-modal-lg"></p>
+    <div class="row justify-content-md-center py-3">
+      <div class="bg-grey w m-2 py-3">
+        <div class="col-auto free-curbside">
+          <p><em>FREE</em> Curbside Delivery &amp; Pickup in the Los Angeles Area&nbsp;<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" data-toggle="modal" data-target=".bd-example-modal-lg"></p>
+        </div>
       </div>
     </div>
     <div class="row justify-content-md-center my-4">
@@ -392,10 +394,10 @@ get_header();
       </div>
       <div class="clearfix"></div>
       <div class="col-sm-12 col-md-4 col-auto">
-        <input type="text" name="" placeholder="Zipcode of Current Address*">
+        <input type="text" minlength=5 maxlength=5 id="current_address_zip" name="" placeholder="Zipcode of Current Address*">
       </div>
       <div class="col-sm-12 col-md-4 col-auto">
-        <input type="text" name="" placeholder="Zipcode of New Address*">
+        <input type="text" minlength=5 maxlength=5 name="" id="new_address_zip" placeholder="Zipcode of New Address*">
       </div>
       <div class="col-sm-12 col-md-2  col-auto">
         <button type="button" id="checkzips1" class="btn btn-small">Check</button>
@@ -426,7 +428,7 @@ get_header();
         <p>Reusable Boxes On Wheels (ReBow™), is our stackable move system designed to securely facilitate your move by its ease of use, eliminating heavy lifting, and providing a more efficient way of transportation.</p>
         <div class="clearfix"></div>
         <a  class="get_started_pricing btn btn-secondary mt-5">Get Started</a> </div>
-      <div class="col-sm-12 col-md-6 "> <img class="img-fluid" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/boxes-2.png" alt="" title=""> </div>
+      <div class="col-sm-12 col-md-6 "> <img class="img-fluid" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/boxes.png" alt="" title=""> </div>
     </div>
   </div>
 </section>
@@ -640,6 +642,15 @@ get_header();
  jQuery(document).ready(function(){
     //alert('ready');
     //var hostname = location.hostname;
+    jQuery("#continue").click(function() {
+
+      //jQuery(location).attr('href', '#');
+      jQuery('#service_yes').modal('hide');
+       jQuery([document.documentElement, document.body]).animate({
+            scrollTop: jQuery("#pricing_area").offset().top
+      }, 1000);
+      
+    });
     jQuery( ".get_started_pricing" ).click(function() {
       jQuery([document.documentElement, document.body]).animate({
             scrollTop: jQuery("#pricing_area").offset().top

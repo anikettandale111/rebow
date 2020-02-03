@@ -52,12 +52,7 @@ jQuery(document).ready(function($) {
       jQuery(location).attr('href', '/rebow/contact/');
 
     });
-    jQuery("#continue").click(function() {
 
-      //jQuery(location).attr('href', '#');
-      jQuery('#service_yes').modal('hide');
-      
-    });
     jQuery("#cancel").click(function() {
       
       //jQuery(location).attr('href', '#');
@@ -65,6 +60,18 @@ jQuery(document).ready(function($) {
 
       
     });
+    jQuery("#current_address_zip").on("keypress keyup blur",function (event) {    
+   		jQuery(this).val(jQuery(this).val().replace(/[^\d].+/, ""));
+        if ((event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+	});
+	jQuery("#new_address_zip").on("keypress keyup blur",function (event) {    
+   		jQuery(this).val(jQuery(this).val().replace(/[^\d].+/, ""));
+        if ((event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+	});
     jQuery("#checkzips1").click(function(){
       //alert("Checking");
       var zip_current = jQuery('input[placeholder="Zipcode of Current Address*"]').val();

@@ -158,13 +158,16 @@
 					}else{
 						$packages_data = get_package_data($orders_data['product_id']);
 						echo "<li>".$packages_data['product_name']." Package -".$packages_data['box_count']." Boxes (".$packages_data['product_range'].")</li>";
+						if($orders_data['added_box_count']!=0){
+							echo "<li>".$orders_data['added_box_count']." Added Boxes</li>";
+						}
 						echo "<li>".$order_type." PERIOD : ".$orders_data['order_time_period']."</li>";
-						echo "<ul>Includes";
+						/*echo "<ul>Includes";
 						echo "<li>".$packages_data['box_count']." ReBow™ Boxes </li>";
 						echo "<li>".$packages_data['nestable_dollies_count']." Nestable ReBow™ Dollies</li>";
 						echo "<li>".$packages_data['labels_count']." Labels</li>";
 						echo "<li>".$packages_data['zipties_count']." Security Zip Ties</li>";
-						echo "</ul>";
+						echo "</ul>";*/
 
 
 					}

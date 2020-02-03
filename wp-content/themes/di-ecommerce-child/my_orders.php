@@ -86,7 +86,7 @@
 			                    <td><?php echo ucfirst(strtolower($row['order_type']));?></td>
 			                    <td><?php echo $row['payment_status'];?></td>
 			                    <td><?php echo $row['fullfillment_status'];?></td>
-			                    <td><?php echo $row['order_total'];?></td>
+			                    <td><?php echo '$'.$row['order_total'];?></td>
 		                  	</tr>
 		                  <?php }?>
 		                </thead>

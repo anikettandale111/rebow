@@ -1,19 +1,30 @@
 <?php /* Template Name: payment_information1*/ ?>
 <?php require_once("user_check_login.php");?>
-<?php require_once("db_config.php");?>
+<?php 
+ require_once("stripe_config.php");
+ require_once 'stripe-php/init.php';
+require_once("db_config.php");
+\Stripe\Stripe::setApiKey(STRIPE_API_KEY);
+ $intent = \Stripe\SetupIntent::create();
+?>
 <html lang="en">
 	<head>
 		<link rel='icon' href="/rebow/wp-content/themes/di-ecommerce-child/assets/images/favicon.ico" />
 	</head>
 	<body>
 		<?php get_header();
-		$user_id = wp_get_current_user()->id;?>
+		$user_id = wp_get_current_user()->id;
+		$display_name = wp_get_current_user()->display_name;
+		?>
 		<?php 
 			function get_payments_data1($user_id){
 				$query = "SELECT * FROM payments where user_id=$user_id and active=1";
 				$res = mysql_query($query);
-				$row = mysql_fetch_assoc($res);
-				return $row;
+				$res1= array();
+				while($row = mysql_fetch_assoc($res)){
+					$res1[] = $row;
+				}
+				return $res1;
 			}
 			$months_array = array(1=>'January',2=>'February',3=>'March',4=>'April',5=>'May',6=>'June',7=>'July',8=>'August',9=>'September',10=>'October',11=>'November',12=>'December');
 
@@ -73,31 +84,37 @@
 				          </div>
 				        </div>
 				        <div class="row">
+				          <?php 
+				          //print_r($payments_data);
+				          foreach($payments_data  as $payment){?>
 				          <div class="col-sm-12 col-md-5">
-				            <div class="grey-bg pay-inf">
+				            <div class="grey-bg pay-inf" id="pament_method_<?php echo $payment['payment_id']; ?>">
 				              <div class="row">
 				                <div class="col-sm-3">
 				                  <img class="m-c" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/mastercard-black.png" alt="">
 				                </div>
 				                <div class="col-sm-9">
 				                  <div class="crd-hld">
-				                    <label for=""><?php echo $payments_data['First_Name']." ".$payments_data['Last_Name'];?></label><br/>
-				                    <label for="">Ending in <?php echo substr($payments_data['Card_Number'],-4);?></label>
-				                    <label for=""><strong>Ex</strong> : <?php echo $payments_data['Expiry_month']."/".$payments_data['Expiry_year'];?></label>
+				                    <label for=""><?php echo $payment['First_Name']." ".$payment['Last_Name'];?></label><br/>
+				                    <label for="">Ending in <?php echo substr($payment['Card_Number'],-4);?></label>
+				                    <label for=""><strong>Ex</strong> : <?php echo $payment['Expiry_month']."/".$payment['Expiry_year'];?></label>
 				                  </div>
 				                  <div class="blng-adr">
 				                    <strong>Billing Address :</strong>
-				                    <label for=""><?php echo $payments_data['billing_address'];?></label>
-				                    <label for="">Austin, TX 78749</label>
+				                    <label for=""><?php echo $payment['billing_address'];?></label>
+				                    <label for=""></label>
 				                  </div>
 				                  <ul class="edit-removed">
 				                    <li><a href="#javascript;" data-toggle="modal" data-target="#myModal1">Edit</a></li>
-				                    <li><a id="remove_payments" href="javascript:;">Remove</a></li>
+				                    <?php if(count($payments_data)!=1):?>
+				                    <li><a id="remove_payments" onclick="delete_payment_method(<?php echo $payment['payment_id']; ?>)" href="javascript:;">Remove</a></li>
+				                    <?php endif ?>
 				                  </ul>
 				                </div>
 				              </div>
 				            </div>
 				          </div>
+				      	<?php }?>
 				        </div>
 				      </div>
 			    	
@@ -175,60 +192,70 @@
 		        <h4 class="modal-title">Add New Payment:</h4><button type="button" class="close" data-dismiss="modal">&times;</button>
 		      </div>
 		      <div class="modal-body">
-		      	<label>Payment Type: *</label><br/>
-		      	<select id="payment_type">
-					<option value="">Select</option>
-					<option value="Mastercard">Mastercard</option>
-					<option value="Visa">Visa</option>
-					<option value="American_Express">American Express</option>
-				</select>
-				<br/>
-				<label>First Name: *</label>
-				<input id="firstName" type="text"/>
-				<br/>
-				<label>Last Name: *</label>
-				<input id="lasttName" type="text"/>
-				<br/>
-		       	<label>Card Number*</label>
-		       	<input id="select_card_number" type="text" value=""/>
-		       	<br/>
-		       	<label>CCV*</label>
-				<input id="select_ccv" type="text" value=""/>
-				<br/>
-				<label>Expiration Date*</label>
-				<br/>
-				<select id="selectmonth">
-					<option selected value="">Select</option>
-					<?php foreach($months_array as $key=>$value){
-						
-						echo "<option value=$key>$value</option>";
-						
-				 	}?>	
-				</select>
-				<select id="selectYear">
-					<option selected value="">Select</option>
-					<?php foreach($years_array as $key=>$value){
-					
-						echo "<option value=$key>$value</option>";
-						
-				 	}?>	
-					
-				</select>
-				<br/>
-				<label>Billing Address*</label><br/>
-				<select id="BillingAddress">
-					<option selected value="">Select</option>
-					<option value="addnewbilling">Add New Billing Address</option>
-					<option value="<?php $payments_data['billing_address'];?>"><?php echo $payments_data['billing_address'];?> </option>
-				</select>
-				<br/>
-				<div id="add_new_billing_address" class="hide">
-					<label>Add Billing Address*</label><br/>
-					<input id="new_billing_address" type="text" placeholder="Add Biillng Address"></input>
-				</div>
-		      </div>
-		      <div class="modal-footer justify-content-md-center">
-		        <button id="add_payment_info" type="submit" class="btn btn-secondary">SUBMIT</button>
+		      	<form class="checkout-form form" id="add_new_payment_form">
+                <?php //if($user_status!=1){?>
+                <div id="new_user_checkout">
+                  
+                  
+                  	<div class="form-row">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputAddress">Payment Type :</label>
+	                    </div>
+                  	</div>
+                  	<div class="form-row">
+                    	<div class="form-group col-md-5">
+                      		<div class="selectholder">
+	                      		<label>Payment Type</label>
+	                     		<select id="payment_type" required>
+									<option value="">Select</option>
+									<option value="Mastercard">Mastercard</option>
+									<option value="Visa">Visa</option>
+									<option value="American_Express">American Express</option>
+									
+								</select>
+                      		</div>
+                    	</div>
+                  	</div>
+                  	<div class="form-row">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">First Name:</label>
+	                    </div>
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">Last Name:</label>
+	                    </div>
+	                  </div>
+                  	<div class="form-row">
+	                    <div class="form-group col-md-6">
+	                      
+	                      <input type="text" class="form-control" id="firstName" value="<?php echo $firstName;?>" placeholder="First Name" required>
+	                    </div>
+	                    <div class="form-group col-md-6">
+	                      <input type="text" class="form-control" id="lastName" required value="<?php echo $lastName;?>" placeholder="Last Name">
+	                    </div>
+	                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-8">
+                      <div id="card-element"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group col-md-12 mb-0">
+                    <label for="inputEmail4">Billing Address :</label>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-8">
+                    <div class="location-pin">
+                      <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
+                    </div>
+                    <input class="addrs" type="text" placeholder="Address*" name="billingaddress" id="billingaddress" value="<?php //echo $billing_address;?>" required>
+                  </div>
+                </div>
+               
+                <button type="button" id="add_new_payment_method" data-secret="<?= $intent->client_secret ?>" onclick="add_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
+              </form>
 		      </div>
 		    </div>
 
@@ -243,6 +270,24 @@
 		<?php get_footer();?>	
 		<script>
 			var stripe = Stripe('pk_test_jtWtIVtWDtzfftY59MQaNGJQ00ZZy89Axo');
+	        // cardButton.addEventListener('click', function(ev) {
+	        var elements = stripe.elements();
+	        // Set up Stripe.js and Elements to use in checkout form
+	          var style = {
+	            base: {
+	              color: "#32325d",
+	            }
+	          };
+
+	        var cardElement = elements.create('card',{ style: style });
+	        cardElement.mount('#card-element');
+
+	        var cardholderName = document.getElementById('firstName');
+	        console.log(cardholderName);
+	        var cardButton = document.getElementById('add_new_payment_method');
+	        console.log(cardButton);  
+
+	        var clientSecret = cardButton.dataset.secret;
 			
 			jQuery(document).ready(function() {
 				jQuery('#update_payment_info').click(function() {
@@ -340,7 +385,96 @@
 				    window.location.reload();
 				}
 			});
+			function add_payment_info(){
 
+				if(jQuery('#payment_type').val()==''){
+		            setTimeout(function(){
+		              jQuery('#payment_type').focus();
+		            },1000);
+		            return false;
+		        }
+	          	if(jQuery('#billingaddress').val()==''){
+		            setTimeout(function(){
+		              jQuery('#billingaddress').focus();
+		            },1000);
+		            return false;
+		        }
+          
+		        if(jQuery('#firstName').val()==''){
+		            setTimeout(function(){
+		              jQuery('#firstName').focus();
+		            },1000);
+		            return false;
+		        }
+
+		        if(jQuery('#lastName').val()==''){
+		            setTimeout(function(){
+		              jQuery('#lastName').focus();
+		            },1000);
+		            return false;
+		        }
+
+		        var billingaddress = jQuery('#billingaddress').val();
+
+		        var zipcode = jQuery('input[name="postal"]').val();
+
+		        stripe.confirmCardSetup(
+                clientSecret,
+                {
+                  payment_method: {
+                    card: cardElement,
+                    billing_details: {
+                    	name: cardholderName.value,
+                    	address: {
+                    		line1: billingaddress,
+                    		postal_code: zipcode
+                    	}
+                    }
+                  }
+                }
+              	).then(function(result) {
+	                if (result.error) {
+	                  
+	                  console.log(result);
+	                  //alert("unsuccessful");
+	                } else {
+	                  
+	                  //var user_status = jQuery('#user_status').val();
+	                  	var payment_type = jQuery('#payment_type').val();
+	                  	var firstName = jQuery('#firstName').val();
+	                  	var lastName = jQuery('#lastName').val();
+	                  	var billingaddress = jQuery('#billingaddress').val();
+
+	                    var data = JSON.stringify(result);
+	                    
+	                    var datastring = "ajax_request=add_new_payment_method&firstName="+firstName+"&lastName="+lastName+"&billingaddress="+billingaddress+"&payment_type="+payment_type+"&result="+data;
+	                    
+	                    jQuery.ajax({
+	                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+	                      	method : "POST",
+	                      	data : datastring,
+	                      	success: function(result){
+	                          	console.log(result);
+	                      	}
+	                    });
+	                  
+	                }
+	            });
+			}
+			function delete_payment_method(rowid){
+				if(confirm('Are you sure to delete this ?')){
+		                jQuery.ajax({
+	                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+	                      	method : "POST",
+	                      	data : {ajax_request:'remove_payment_method',rowid:rowid,},
+	                      	success: function(result){
+	                          	alert(result);
+	                          	//$('#pament_method_'+rowid).remove();
+	                          	window.location.reload();
+	                      	}
+	                    });
+				}
+			}
 		</script>
 	</body>
 </html>

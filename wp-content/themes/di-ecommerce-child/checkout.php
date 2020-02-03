@@ -212,12 +212,12 @@
                     <div class="location-pin">
                       <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
                     </div>
-                    <input class="addrs" type="text" placeholder="Address*" name="billingaddress" id="billingaddress" value="<?php echo $billing_address;?>" required>
+                    <input class="addrs" type="text" placeholder="Address*" name="billingaddress" id="billingaddress" value="<?php //echo $billing_address;?>" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="city" required placeholder="City*" value="<?php echo $city;?>" >
+                    <input type="text" class="form-control" id="city" required placeholder="City*" value="<?php //echo $city;?>" >
                   </div>
                   <div class="form-group col-md-3">
                     <div class="selectholder">
@@ -253,7 +253,7 @@
                     </label>
                   </div>
                 </div>
-                <button type="submit" id="submit_order" data-secret="<?= $intent->client_secret ?>" class="btn btn-secondary">Submit Order</button>
+                <button type="button" id="submit_order" data-secret="<?= $intent->client_secret ?>" class="submit_order_new btn btn-secondary" onclick="test_card()">Submit Order</button>
               </form>
               <div class="row my-3">
                 <div class="col-sm-12">
@@ -276,7 +276,7 @@
       <div class="col-sm-12 col-md-4">
         <div class="row justify-content-end">
           <div class="col-sm-12 text-right pr-0">
-            <button class="btn btn-secondary mb-3" id="submit_order1" data-secret="<?= $intent->client_secret ?>">Submit Order</button>
+            <button class="submit_order_new btn btn-secondary mb-3" id="submit_order1" data-secret="<?= $intent->client_secret ?>" onclick="test_card()">Submit Order</button>
             <p>Your card will be charged $<?php echo $total_price;?></p>
           </div>
         </div>
@@ -631,6 +631,22 @@
         //var user_status = document.getElementById('user_status').value;
         //alert(user_status);
       var stripe = Stripe('pk_test_jtWtIVtWDtzfftY59MQaNGJQ00ZZy89Axo');
+      // cardButton.addEventListener('click', function(ev) {
+            var elements = stripe.elements();
+          // Set up Stripe.js and Elements to use in checkout form
+          var style = {
+            base: {
+              color: "#32325d",
+            }
+          };
+
+          var cardElement = elements.create('card',{ style: style });
+          cardElement.mount('#card-element');
+
+          var cardholderName = document.getElementById('firstName');
+          var cardButton = document.getElementById('submit_order');
+          
+          var clientSecret = cardButton.dataset.secret;
 
       jQuery(document).ready(function() {
 
@@ -653,10 +669,10 @@
         var user_status = document.getElementById('user_status').value;
         //alert(user_status);
         if(user_status==0){
-          set_up_stripe_for_first_user();
+          //set_up_stripe_for_first_user();
         }else{
 
-          set_up_stripe_for_existing_user();
+          //set_up_stripe_for_existing_user();
             //var submit_screct = jQuery('#submit_order').attr('data-secret');
             /*var submit_secret = document.getElementById("submit_order").getAttribute("data-secret");
             if(submit_secret!=""){
@@ -670,7 +686,7 @@
           //alert("new_user");
           var elements = stripe.elements();
           // Set up Stripe.js and Elements to use in checkout form
-          
+        alert(1);
         var style = {
             base: {
               color: "#32325d",
@@ -698,101 +714,12 @@
             }, 3000);*/
             
             //alert(clientSecret);
-            cardButton.addEventListener('click', function(ev) {
-
-              ev.preventDefault();
-              
-              stripe.confirmCardSetup(
-                clientSecret,
-                {
-                  payment_method: {
-                    card: cardElement,
-                    billing_details: {name: cardholderName.value}
-                  }
-                }
-              ).then(function(result) {
-                if (result.error) {
-                  // Display error.message in your UI.
-                  console.log(result);
-                  //alert("unsuccessful");
-                } else {
-                  //console.log(result);
-                  //alert("successful");
-                  var data = JSON.stringify(result);
-                  var user_status = jQuery('#user_status').val();
-                  var datastring = "ajax_request=send_card_intent&user_status="+user_status+"&result="+data;
-                  //var result = <?php //echo json_encode($data) ?>;
-                  jQuery.ajax({
-                    url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-                    method : "POST",
-                    data : datastring,
-                    //contentType: "application/json; charset=utf-8",
-
-                    success: function(result){
-
-                        console.log(result);
-                        var jsonObj = JSON.parse(result);
-                        console.log(jsonObj);
-                        if(jsonObj.subscription_status=="active" || jsonObj.payment_status=="succeeded"){
-
-                          var period = jQuery('#period').val(); 
-
-                          var period_data_field = jQuery('#period_data_field').val();
-                          
-                          var firstName = jQuery('#firstName').val();
-                          //alert(firstName);
-                          var lastName = jQuery('#lastName').val();
-
-                          var account_holder_name = firstName+" "+lastName;
-
-                          var payment_type = jQuery('#payment_type').val();
-
-                          //var cardNumber = jQuery('#cardNumber').val();
-                          //alert(cardNumber);
-
-                          //var ccv = jQuery('#CCV').val();
-                          //alert(ccv);
-                          //var exp_month = jQuery('#month').val();
-                          //alert(exp_month);
-                          //var exp_year = jQuery('#Year').val();
-                          //alert(exp_year);
-
-                          var payment_method_id = jsonObj.payment_method_id;
-
-                          var billingaddress = jQuery('#billingaddress').val();
-
-                          var city = jQuery('#city').val();
-
-                          //var zipcode = jQuery('#zipcode').val();
-
-                          var state = jQuery('#state').val();
-                          var address_country ='US';
-                          var currency ='USD';  
-                          
-                          datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status;
-                          
-                          //alert(datastring);
-                          
-                          jQuery.ajax({
-                            url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-                            method : "POST",
-                            data : datastring,
-                            success: function(result){
-                                console.log(result);
-                                var jsonobj = JSON.parse(result);
-                                var user_id = jsonobj.user_id;
-                                jQuery(location).attr('href', '/rebow/order-confirmation/?user_id='+user_id);
-                            }
-                          });
-                        }
-                    }
-                  });
-                }
-              });
-            });
+            
         }
+
         function set_up_stripe_for_existing_user (){
           //alert(123);
+           alert(2);
           //alert("new_user");
           //11var intent = "<?php //echo $intent = \Stripe\SetupIntent::create();?>";
           var elements = stripe.elements();
@@ -850,7 +777,7 @@
                         console.log(result);
 
                         var jsonOBJ = JSON.parse(result);
-                        if(jsonOBJ.payment_status=="succeeded"){
+                        if(jsonOBJ.subscription_status=="active" || jsonOBJ.payment_status=="succeeded"){
                           jQuery(location).attr('href', '/rebow/order-confirmation/');
                         }
                         //jQuery(location).attr('href', '/rebow/order-confirmation/');
@@ -931,95 +858,273 @@
 					});*/
           
 				});
-        jQuery('#paymentFrm').submit(function(event){
-            //alert("clicked");
-            event.preventDefault();
-            var period_data_field = jQuery('#period_data_field').val();
-            var selected_card = jQuery('#select_card').val();
-            if(user_status!=0&&selected_card!='add_new_card'){
-              var datastring = "ajax_request=charge_using_existing_card&user_status="+user_status+"&period_data_field="+period_data_field;
+        // jQuery('#paymentFrm').submit(function(event){
+        //     //alert("clicked");
+        //     event.preventDefault();
+        //     var period_data_field = jQuery('#period_data_field').val();
+        //     var selected_card = jQuery('#select_card').val();
+        //     if(user_status!=0&&selected_card!='add_new_card'){
+        //       var datastring = "ajax_request=charge_using_existing_card&user_status="+user_status+"&period_data_field="+period_data_field;
 
-              jQuery.ajax({
-                url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-                method : "POST",
-                data : datastring,
-                success: function(result){
+        //       jQuery.ajax({
+        //         url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+        //         method : "POST",
+        //         data : datastring,
+        //         success: function(result){
+        //           console.log(result);
+        //           var jsonOBJ = JSON.parse(result);
+        //           if(jsonOBJ.subscription_status=="active" || jsonOBJ.payment_status=="succeeded"){
+        //             jQuery(location).attr('href', '/rebow/order-confirmation/');
+        //           }
+                  
+        //         }
+        //       });
+        //     }
+            
+        //     //alert(1);
+        // })
+				// jQuery("#paymentFrm1").submit(function(event){
+		  //       	// Disable the submit button to prevent repeated clicks
+    //           //alert("Clicked");
+		  //       	event.preventDefault();
+		  //       	//jQuery('#submit_order').attr("disabled", "disabled");
+
+		  //       	var datastring = "";
+    // 					var period = jQuery('#period').val(); 
+
+    // 					var period_data_field = jQuery('#period_data_field').val();
+    					
+    // 					var firstName = jQuery('#firstName').val();
+    // 					//alert(firstName);
+    // 					var lastName = jQuery('#lastName').val();
+
+    // 					var account_holder_name = firstName+" "+lastName;
+
+    // 					var payment_type = jQuery('#payment_type').val();
+
+    // 					var cardNumber = jQuery('#cardNumber').val();
+    // 					//alert(cardNumber);
+
+    // 					var ccv = jQuery('#CCV').val();
+    // 					//alert(ccv);
+    // 					var exp_month = jQuery('#month').val();
+    // 					//alert(exp_month);
+    // 					var exp_year = jQuery('#Year').val();
+    // 					//alert(exp_year);
+    // 					var billingaddress = jQuery('#billingaddress').val();
+
+    // 					var city = jQuery('#city').val();
+
+    // 					var zipcode = jQuery('#zipcode').val();
+
+    // 					var state = jQuery('#state').val();
+    // 					var address_country ='US';
+    // 					var currency ='USD';
+    // 					//var promocode = jQuery('#promocode').val();
+
+    //           //payment_checkout();
+    // 					//var result = create_token(currency,cardNumber,account_holder_name,city,state,zipcode,address_country,exp_month,exp_year,ccv);
+    // 					//console.log(result);
+
+    // 					//console.log(result.id);
+
+    // 					/*datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
+    					
+    // 					//alert(datastring);
+    					
+    // 					jQuery.ajax({
+    // 						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+    // 						method : "POST",
+    // 						data : datastring,
+    // 						success: function(result){
+    						    
+    						    
+    // 						    console.log(result);
+
+    						    
+    // 						}
+    // 					});*/
+		  //       });
+			});
+    function test_card(){
+
+          if(jQuery('#payment_type').val()==''){
+            alert('Fill all required field');
+            jQuery([document.documentElement, document.body]).animate({
+                scrollTop: jQuery("#new_user_checkout").offset().top
+            }, 1000);
+            setTimeout(function(){
+              jQuery('#payment_type').focus();
+            },1000);
+            return false;
+          }
+          if(jQuery('#billingaddress').val()==''){
+            alert('Fill all required field');
+            jQuery([document.documentElement, document.body]).animate({
+                scrollTop: jQuery("#new_user_checkout").offset().top
+            }, 1000);
+            setTimeout(function(){
+              jQuery('#billingaddress').focus();
+            },1000);
+            return false;
+          }
+          
+          if(jQuery('#city').val()==''){
+            alert('Fill all  required field');
+            jQuery([document.documentElement, document.body]).animate({
+                scrollTop: jQuery("#new_user_checkout").offset().top
+            }, 1000);
+            setTimeout(function(){
+              jQuery('#city').focus();
+            },1000);
+            return false;
+          }
+
+          if(jQuery('#state').val()==''){
+            alert('Fill all required field');
+            jQuery([document.documentElement, document.body]).animate({
+                scrollTop: jQuery("#new_user_checkout").offset().top
+            }, 1000);
+            setTimeout(function(){
+              jQuery('#state').focus();
+            },1000);
+            return false;
+          }
+
+          if(!jQuery('#terms_conditions').is(":checked")){
+            alert('Please select the checkbox');
+            jQuery([document.documentElement, document.body]).animate({
+                scrollTop: jQuery("#new_user_checkout").offset().top
+            }, 1000);
+            setTimeout(function(){
+              jQuery('#terms_conditions').focus();
+            },1000);
+            return false;
+          }
+
+              //ev.preventDefault();
+              
+              stripe.confirmCardSetup(
+                clientSecret,
+                {
+                  payment_method: {
+                    card: cardElement,
+                    billing_details: {name: cardholderName.value}
+                  }
+                }
+              ).then(function(result) {
+                if (result.error) {
+                  // Display error.message in your UI.
                   console.log(result);
-                  var jsonOBJ = JSON.parse(result);
-                  if(jsonOBJ.payment_status=="succeeded"){
-                    jQuery(location).attr('href', '/rebow/order-confirmation/');
+                  //alert("unsuccessful");
+                } else {
+                  //console.log(result);
+                  //alert("successful");
+                  var user_status = jQuery('#user_status').val();
+                  if(user_status==0){
+                    var data = JSON.stringify(result);
+                    //var user_status = jQuery('#user_status').val();
+                    var datastring = "ajax_request=send_card_intent&user_status="+user_status+"&result="+data;
+                    //var result = <?php //echo json_encode($data) ?>;
+                    jQuery.ajax({
+                      url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                      method : "POST",
+                      data : datastring,
+                      //contentType: "application/json; charset=utf-8",
+
+                      success: function(result){
+
+                          console.log(result);
+                          var jsonObj = JSON.parse(result);
+                          console.log(jsonObj);
+                          if(jsonObj.subscription_status=="active" || jsonObj.payment_status=="succeeded"){
+
+                            var period = jQuery('#period').val(); 
+
+                            var period_data_field = jQuery('#period_data_field').val();
+                            
+                            var firstName = jQuery('#firstName').val();
+                            //alert(firstName);
+                            var lastName = jQuery('#lastName').val();
+
+                            var account_holder_name = firstName+" "+lastName;
+
+                            var payment_type = jQuery('#payment_type').val();
+
+                            //var cardNumber = jQuery('#cardNumber').val();
+                            //alert(cardNumber);
+
+                            //var ccv = jQuery('#CCV').val();
+                            //alert(ccv);
+                            //var exp_month = jQuery('#month').val();
+                            //alert(exp_month);
+                            //var exp_year = jQuery('#Year').val();
+                            //alert(exp_year);
+
+                            var payment_method_id = jsonObj.payment_method_id;
+
+                            var billingaddress = jQuery('#billingaddress').val();
+
+                            var city = jQuery('#city').val();
+
+                            //var zipcode = jQuery('#zipcode').val();
+
+                            var state = jQuery('#state').val();
+                            var address_country ='US';
+                            var currency ='USD';  
+                            
+                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status;
+                            
+                            //alert(datastring);
+                            
+                            jQuery.ajax({
+                              url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                              method : "POST",
+                              data : datastring,
+                              success: function(result){
+                                  console.log(result);
+                                  var jsonobj = JSON.parse(result);
+                                  var user_id = jsonobj.user_id;
+                                  jQuery(location).attr('href', '/rebow/order-confirmation/?user_id='+user_id);
+                              }
+                            });
+                          }
+                      }
+                    });
+                  }else{
+                      var data = JSON.stringify(result);
+                      //var user_status = jQuery('#user_status').val();
+                      var billing_address = jQuery('#billing_address').val();
+                      var period_data_field = jQuery('#period_data_field').val();
+                      var city = jQuery('#city').val();
+                      var state = jQuery('#state').val();
+                      
+                      var datastring = "ajax_request=send_card_intent2&user_status="+user_status+"&result="+data+"&state="+state+"&billing_address="+billing_address+"&city="+city+"&period_data_field="+period_data_field;
+                      
+                      //var result = <?php //echo json_encode($data) ?>;
+                      jQuery.ajax({
+                        url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                        method : "POST",
+                        data : datastring,
+                        //contentType: "application/json; charset=utf-8",
+
+                        success: function(result){
+                            //alert(1);
+                            console.log(result);
+
+                            var jsonOBJ = JSON.parse(result);
+                            if(jsonOBJ.subscription_status=="active" || jsonOBJ.payment_status=="succeeded"){
+                              jQuery(location).attr('href', '/rebow/order-confirmation/');
+                            }
+                            //jQuery(location).attr('href', '/rebow/order-confirmation/');
+                        }
+                      });
                   }
                   
                 }
               });
-            }
-            
-            //alert(1);
-        })
-				jQuery("#paymentFrm1").submit(function(event){
-		        	// Disable the submit button to prevent repeated clicks
-              //alert("Clicked");
-		        	event.preventDefault();
-		        	//jQuery('#submit_order').attr("disabled", "disabled");
-
-		        	var datastring = "";
-    					var period = jQuery('#period').val(); 
-
-    					var period_data_field = jQuery('#period_data_field').val();
-    					
-    					var firstName = jQuery('#firstName').val();
-    					//alert(firstName);
-    					var lastName = jQuery('#lastName').val();
-
-    					var account_holder_name = firstName+" "+lastName;
-
-    					var payment_type = jQuery('#payment_type').val();
-
-    					var cardNumber = jQuery('#cardNumber').val();
-    					//alert(cardNumber);
-
-    					var ccv = jQuery('#CCV').val();
-    					//alert(ccv);
-    					var exp_month = jQuery('#month').val();
-    					//alert(exp_month);
-    					var exp_year = jQuery('#Year').val();
-    					//alert(exp_year);
-    					var billingaddress = jQuery('#billingaddress').val();
-
-    					var city = jQuery('#city').val();
-
-    					var zipcode = jQuery('#zipcode').val();
-
-    					var state = jQuery('#state').val();
-    					var address_country ='US';
-    					var currency ='USD';
-    					//var promocode = jQuery('#promocode').val();
-
-              //payment_checkout();
-    					//var result = create_token(currency,cardNumber,account_holder_name,city,state,zipcode,address_country,exp_month,exp_year,ccv);
-    					//console.log(result);
-
-    					//console.log(result.id);
-
-    					/*datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
-    					
-    					//alert(datastring);
-    					
-    					jQuery.ajax({
-    						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-    						method : "POST",
-    						data : datastring,
-    						success: function(result){
-    						    
-    						    
-    						    console.log(result);
-
-    						    
-    						}
-    					});*/
-		        });
-			});
-
+            // });
+        }
 
 		</script>
 	</body>

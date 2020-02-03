@@ -65,7 +65,7 @@
 		            <div class="row">
 		              <div class="col-sm-12 o-summary">
 		                <div class="edit float-right pr-3">
-		                  <em><a class="white-color">Edit</a></em>
+		                  <em><a href="#">Edit</a></em>
 		                </div>
 		              </div>
 		            </div>

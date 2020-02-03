@@ -54,7 +54,8 @@
 				            <label class="col-sm-12 col-md-2 mt-3" for="">Delivery Date* : </label>
 				            <div class="col-sm-12 col-md-3">
 				            	<input id="delivery_date_field" type="hidden" value="<?php echo $delivery_date;?>">
-				              	<input id="delivery_date" class="global_date" type="text" placeholder="Choosedate" name="delivery_date" <?php echo (get_custom_formatted_date($delivery_date)) ? 'value="'.get_custom_formatted_date($delivery_date).'"' : 'placeholder="Choosedate"' ?> required readonly>
+
+				              	<input id="delivery_date" required class="global_date" type="text" placeholder="Choose Date" name="delivery_date" <?php echo (($delivery_date)) ? 'value="'.get_custom_formatted_date($delivery_date).'"' : 'value ="" placeholder="Choose  Date"' ?>  readonly>
 				              	<input type="hidden" id="delivery_address_loc_lat" value="<?php echo $delivery_address_loc_lat;?>"/>
 			    				<input type="hidden" id="delivery_address_loc_long" value="<?php echo $delivery_address_loc_long;?>"/>
 				            </div>
@@ -144,13 +145,13 @@
 				    <div class="row">
 				      <div class="col-sm-12 mb-4 form-header">
 				        <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
-				        <p>Pick up your Packed ReBow™ Boxes For Storage: </p>
+				        <p>Pick Up your Packed ReBow™ Boxes For Storage: </p>
 				      </div>
 				    </div>
 				    <div class="row justify-content-start">
 				      <form id="pick_up_packed_boxes_submit" action="" class="checkout-form">
 				        <div class="row">
-				            <label class="col-sm-12 col-md-2 mt-3" for="">Pick up Date* : </label>
+				            <label class="col-sm-12 col-md-2 mt-3" for="">Pick Up Date* : </label>
 				            <div class="col-sm-12 col-md-3">
 				            	<input id="pickup_date_packed_field" type="hidden" value="<?php echo $pickup_date_packed;?>">
 				             	<label id="pickup_date_packed" class="date-print" for="" ><?php echo get_custom_formatted_date($pickup_date_packed);?></label>
@@ -161,7 +162,7 @@
 							<br/>Want to keep your ReBow boxes longer ? <b>Call Us!</b></label>
 				        </div>
 				        <div class="row pt-4">
-				          <label class="col-sm-12 col-md-2">Preferred<br>Pick up Time* : </label>
+				          <label class="col-sm-12 col-md-2">Preferred<br>Pick Up Time* : </label>
 				          <div class="col-sm-12 col-md-2">
 				            <!--<div class="selectholder">
 				              <label>Choose Time</label>-->
@@ -179,7 +180,7 @@
 							</select>
 				            <!--</div>-->
 				          </div>
-				          <label class="col-sm-12 col-md-2">Alternate<br>Pick up Time* : </label>
+				          <label class="col-sm-12 col-md-2">Alternate<br>Pick Up Time* : </label>
 				          <div class="col-sm-12 col-md-2 pb-4">
 				            <!--<div class="selectholder">
 				            <label>Choose Time</label>-->
@@ -200,14 +201,14 @@
 				        </div>
 				        <div class="row">
 				          <div class="col-sm-12">
-				            <label class="control control-checkbox">Same as delivery address of your stored items
+				            <label class="control control-checkbox">Same as delivery address
 				              <input id="checkbox1" type="checkbox"/>
 				              <div class="control-indicator"></div>
 				            </label>
 				          </div>
 				        </div>
 				        <div class="row pt-4">
-				          	<label for="" class="col-sm-12 col-md-2 mt-3">Pick up Address*:</label>
+				          	<label for="" class="col-sm-12 col-md-2 mt-3">Pick Up Address*:</label>
 				          	<div class="col-sm-12 col-md-5">
 				              	<div class="location-pin">
 				                	<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
@@ -217,7 +218,7 @@
 			    				<input type="hidden" id="pickup_address_packed_loc_long" value="<?php echo $pickup_address_packed_loc_long;?>" />
 				          	</div>
 				          <div class="col-sm-12 col-md-3">
-				            <input id="apt_unit_pickup_packed" type="text" placeholder="Apt # / Unit" value="<?php echo $apt_unit_pickup_packed;?>" required>
+				            <input id="apt_unit_pickup_packed" type="text" placeholder="Apt # / Unit" value="<?php echo $apt_unit_pickup_packed;?>" >
 				          </div>
 				        </div>
 				        <div class="row pt-4 pb-2">
@@ -316,7 +317,7 @@
 			          </div>
 			        </div>-->
 			        <div class="row pt-4">
-			          <label for="" class="col-sm-12 col-md-2 mt-3">Pick up Address*:</label>
+			          <label for="" class="col-sm-12 col-md-2 mt-3">Pick Up Address*:</label>
 			          <div class="col-sm-12 col-md-5">
 				            <div class="location-pin">
 				               <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
@@ -326,7 +327,7 @@
 			    			<input type="hidden" id="delivery_address_packed_loc_long" value="<?php echo $delivery_address_packed_loc_long;?>"/>
 			          </div>
 			          <div class="col-sm-12 col-md-3">
-			            <input id="apt_unit_delivery_packed" type="text" placeholder="Apt # / Unit" value="<?php echo $apt_unit_delivery_packed;?>" required>
+			            <input id="apt_unit_delivery_packed" type="text" placeholder="Apt # / Unit" value="<?php echo $apt_unit_delivery_packed;?>">
 			          </div>
 			        </div>
 			        <div class="row pt-4">
@@ -337,7 +338,7 @@
 			            <!--<div class="selectholder">
 			              <label>Choose Time</label>-->
 			              <select id="apartment_level_packed_delivery" class="apartment_level" required>
-							<option value="Select">Select</option>
+							<option value="">Select</option>
 							<?php 
 							foreach($elevator_bulding_array as $key=>$value){
 								if($key==$apartment_level_packed){
@@ -364,20 +365,20 @@
 			    <div class="row">
 			      <div class="col-sm-12 mb-4 form-header">
 			        <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
-			        <p>Pick up your Empty Boxes: </p>
+			        <p>Pick Up your Empty Boxes: </p>
 			      </div>
 			    </div>
 			    <div class="row justify-content-start">
 			      <form id="pick_up_boxes_submit" action="" class="checkout-form">
 			        <div class="row">
-			            <label class="col-sm-12 col-md-2 mt-3" for="">Pick up Date* : </label>
+			            <label class="col-sm-12 col-md-2 mt-3" for="">Pick Up Date* : </label>
 			            <div class="col-sm-12 col-md-3">
 			            	<input type="hidden" id="pickup_date_field" value="<?php echo $pickup_date;?>" />
 			             	<label id="pickup_date" class="date-print" for="" ><?php echo get_custom_formatted_date($pickup_date);?></label>
 			            </div>
 			        </div>
 			        <div class="row pt-4">
-			          <label class="col-sm-12 col-md-2">Preferred<br>Pick up Time* : </label>
+			          <label class="col-sm-12 col-md-2">Preferred<br>Pick Up Time* : </label>
 			          <div class="col-sm-12 col-md-2">
 			            <!--<div class="selectholder">
 			              <label>Choose Time</label>-->
@@ -395,7 +396,7 @@
 							</select>
 			            <!--</div>-->
 			          </div>
-			          <label class="col-sm-12 col-md-2">Alternate<br>Pick up Time* : </label>
+			          <label class="col-sm-12 col-md-2">Alternate<br>Pick Up Time* : </label>
 			          <div class="col-sm-12 col-md-2">
 			            <!--<div class="selectholder">
 			            <label>Choose Time</label>-->
@@ -416,14 +417,21 @@
 			        </div>
 			        <div class="row">
 			          <div class="col-sm-12">
-			            <label class="control control-checkbox">Same as delivery address
+			          	<?php if($period_data==0){
+			          		$checkbox_label_text = "Same as delivery address";
+			          	}else{
+
+			          		$checkbox_label_text = "Same as delivery address of your stored items";
+			          	}
+			          	?>
+			            <label class="control control-checkbox"><?php echo $checkbox_label_text;?>
 			              <input id="checkbox2" type="checkbox"/>
 			              <div class="control-indicator"></div>
 			            </label>
 			          </div>
 			        </div>
 			        <div class="row pt-4">
-			          	<label for="" class="col-sm-12 col-md-2 mt-3">Pick up Address*:</label>
+			          	<label for="" class="col-sm-12 col-md-2 mt-3">Pick Up Address*:</label>
 			          	<div class="col-sm-12 col-md-5">
 			              <div class="location-pin">
 			                <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
@@ -433,7 +441,7 @@
 			    			<input type="hidden" id="pickup_address_loc_long" value="<?php echo $pickup_address_loc_long;?>" />
 			          	</div>
 			          <div class="col-sm-12 col-md-3">
-			            <input id="apt_unit_pickup" type="text" placeholder="Apt # / Unit" value="<?php echo $apt_unit_pickup;?>" required>
+			            <input id="apt_unit_pickup" type="text" placeholder="Apt # / Unit" value="<?php echo $apt_unit_pickup;?>">
 			          </div>
 			        </div>
 			        <div class="row pt-4">
@@ -532,12 +540,24 @@
 						                  	<?php echo $zipties_count;?> Security Zip Ties
 						                  </span>
 						              	</li>
+						                <?php if($period_data==0){?>
 						                <li>
 						                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
 						                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
 						                  </svg>
 						                  Free Delivery &amp; Pickup 
 						             	</li>
+						             	<?php }else{?>
+						             	<li>
+						                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 18 13">
+						                    <path id="tick3" data-name="Shape Copy" d="M5.727,10.284l-4.3-4.075L0,7.567,5.727,13,18,1.358,16.568,0Z" fill="#b2d235"/>
+						                  </svg>
+						                  2 Day Complimentary
+						             	</li>
+						             	<li>
+						             		Packing / Unpacking Window &nbsp;<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" title="" data-toggle="modal" data-target="#exampleModalCenter"/>
+						             	</li>
+						             	<?php }?>
 					              	</ul>
 					              	<label>Rental Time Period:</label>
 						            <div class="md-selectholder">
@@ -756,10 +776,13 @@
 			</section>
 				
 		<?php get_footer(); ?>
+		<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="/rebow/wp-content/themes/di-ecommerce-child/assets/js/order_summary_js.js"></script>
 		<script src="/rebow/wp-content/themes/di-ecommerce-child/assets/js/delievery_pickup.js"></script>
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBtVumWdkvUED3b_Ct75wcYXsJQmKQWuXM"></script>
 		<script>
 			//var searchInput = 'delivery_address';

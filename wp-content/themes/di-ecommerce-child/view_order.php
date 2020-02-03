@@ -126,14 +126,19 @@
 		            <?php if($data['product_id']!=0){?>
 						<?php if($product_data['product_name']!='Custom Order'){?>
 							<p><?php echo ucwords(strtolower($product_data['product_name']))." Package - ".$product_data['box_count']." Boxes"."<br/>(".$product_data['product_range'].")";?></p>
+							<?php 
+								if($data['added_box_count']!=0){
+									echo "<p>".$data['added_box_count'] ." Added Boxes";
+								}
+							?>
 							<p><?php echo ucfirst(strtolower($data['order_type']));?> Period : <?php echo $data['order_time_period'];?></p>
 							<ul class="pkg-info">
 								<em>Includes:</em>
-								<li><em><?php echo $product_data['box_count'];?> ReBow™ Boxes</em></li>
-								<li><em><?php echo $product_data['nestable_dollies_count'];?> Nestable ReBow™ Dollies</em></li>
+								<li><em><?php echo ($product_data['box_count']+$data['added_box_count']);?> ReBow™ Boxes</em></li>
+								<li><em><?php echo $product_data['nestable_dollies_count']+($data['added_box_count']/4);?> Nestable ReBow™ Dollies</em></li>
 								
-								<li><em><?php echo $product_data['zipties_count'];?> Security Zip Ties</em></li>
-								<li><em><?php echo $product_data['box_count'];?> Labels</em></li>
+								<li><em><?php echo ($product_data['zipties_count']+$data['added_box_count']);?> Security Zip Ties</em></li>
+								<li><em><?php echo ($product_data['box_count']+$data['added_box_count']);?> Labels</em></li>
 
 							</ul>
 						<?php }else{?>
@@ -149,6 +154,7 @@
 					<?php }else{?>
 						<p><?php echo $data['added_box_count']." Boxes";?></p>
 						<p><?php echo $data['order_type']." Period: ";?><?php echo $data['order_time_period'];?></p>
+
 						<ul class="pkg-info">
 							Includes:
 							<li><em><?php echo ($data['added_box_count']);?> ReBow™ Boxes</em></em></li>
@@ -159,6 +165,7 @@
 						</ul>
 					<?php }?>
 		          </div>
+
 		        </div>
 		        <div class="storage-details mt-5 mb-3">
 		          <div class="row">
@@ -241,7 +248,7 @@
 		          </div>
 		        </div>
 		        <div class="storage-details">
-		          <div class="col-sm-12">
+		          	<div class="col-sm-12">
 		              <div class="grey-bg py-3 dt">
 		                <div class="row">
 		                  <div class="col-sm-10 dtc">
@@ -254,6 +261,7 @@
 		                </div>
 		              </div>
 		            </div>
+		            <div class="clearfix"></div>
 		            <?php if($data['order_type']=="STORAGE"){?>
 		            <!-- Itesm going to storage -->
 		            <div class="row justify-content-center">
@@ -280,7 +288,7 @@
 		                    </div>
 		                    <div class="st-details">
 		                      <p>Delivery Window :</p>
-		                      <label for=""><?php echo str_replace("_"," ",$deliver_empty_boxes_data['preferred_time']);?></label>
+		                      <label for=""><?php echo str_replace("_"," ",$deliver_empty_boxes_data['preferred_time']);?> PST</label>
 		                    </div>
 		                    <div class="st-details">
 		                        <p>Delivery Address  :</p>
@@ -300,7 +308,7 @@
 		                <h6>PICK UP REBOW BOXES FOR STORAGE :</h6>
 		               <div class="grey-bg p-4">
 		                 <div class="st-details">
-		                      <p>Scheduled Delivery* :</p>
+		                      <p>Scheduled Pick up* :</p>
 		                      <label for="">
 		                      	<?php 
 		                      	$date=date_create($pickup_packed_boxes_data['date']);
@@ -308,11 +316,11 @@
 		                      	//echo $pickup_packed_boxes_data['date'];?></label>
 		                    </div>
 		                    <div class="st-details">
-		                      <p>Delivery Window :</p>
-		                      <label for=""><?php echo str_replace("_"," ",$pickup_packed_boxes_data['preferred_time']);?></label>
+		                      <p>Pick Up Window :</p>
+		                      <label for=""><?php echo str_replace("_"," ",$pickup_packed_boxes_data['preferred_time']);?> PST</label>
 		                    </div>
 		                    <div class="st-details">
-		                        <p>Delivery Address  :</p>
+		                        <p>Pick Up Address  :</p>
 		                        <div class="clearfix"></div>
 		                        <address>
 		                          <?php echo $pickup_packed_boxes_data['address'];?> <br>
@@ -320,7 +328,7 @@
 		                        </address>
 		                    </div>
 		                    <div class="st-details">
-		                      <p>Delivery Notes :</p>
+		                      <p>Pick Up Notes :</p>
 		                      <label for=""><?php echo $pickup_packed_boxes_data['floor_level'];?></label>
 		                    </div>
 		               </div>
@@ -352,7 +360,7 @@
 		                    </div>
 		                    <div class="st-details">
 		                      <p>Delivery Window :</p>
-		                      <label for=""><?php echo str_replace("_"," ",$delivery_packed_boxes_data['preferred_time']);?></label>
+		                      <label for=""><?php echo str_replace("_"," ",$delivery_packed_boxes_data['preferred_time']);?> PST</label>
 		                    </div>
 		                    <div class="st-details">
 		                        <p>Delivery Address  :</p>
@@ -372,18 +380,18 @@
 		                <h6>PICK UP EMPTY REBOW BOXES :</h6>
 		               <div class="grey-bg p-4">
 		                 <div class="st-details">
-		                      <p>Scheduled Delivery* :</p>
+		                      <p>Pick up Delivery* :</p>
 		                      <label for=""><?php 
 		                      $date=date_create($pickup_empty_boxes_data['date']);
 								echo date_format($date,"M d, Y");
 		                      //echo $pickup_empty_boxes_data['date'];?></label>
 		                    </div>
 		                    <div class="st-details">
-		                      <p>Delivery Window :</p>
-		                      <label for=""><?php echo str_replace("_"," ",$pickup_empty_boxes_data['preferred_time']);?></label>
+		                      <p>Pick Up Window :</p>
+		                      <label for=""><?php echo str_replace("_"," ",$pickup_empty_boxes_data['preferred_time']);?> PST</label>
 		                    </div>
 		                    <div class="st-details">
-		                        <p>Delivery Address  :</p>
+		                        <p>Pick Up Address  :</p>
 		                        <div class="clearfix"></div>
 		                        <address>
 		                          <?php echo $pickup_empty_boxes_data['address'];?> <br>
@@ -391,7 +399,7 @@
 		                        </address>
 		                    </div>
 		                    <div class="st-details">
-		                      <p>Delivery Notes :</p>
+		                      <p>Pick Up Notes :</p>
 		                      <label for=""><?php echo $pickup_empty_boxes_data['floor_level'];?></label>
 		                    </div>
 		               </div>
@@ -420,7 +428,7 @@
 		                    </div>
 		                    <div class="st-details">
 		                      <p>Delivery Window :</p>
-		                      <label for=""><?php echo str_replace("_"," ",$deliver_empty_boxes_data['preferred_time']);?></label>
+		                      <label for=""><?php echo str_replace("_"," ",$deliver_empty_boxes_data['preferred_time']);?> PST</label>
 		                    </div>
 		                    <div class="st-details">
 		                        <p>Delivery Address  :</p>
@@ -448,7 +456,7 @@
 		                    </div>
 		                    <div class="st-details">
 		                      <p>Delivery Window :</p>
-		                      <label for=""><?php echo str_replace("_"," ",$pickup_empty_boxes_data['preferred_time']);?></label>
+		                      <label for=""><?php echo str_replace("_"," ",$pickup_empty_boxes_data['preferred_time']);?> PST</label>
 		                    </div>
 		                    <div class="st-details">
 		                        <p>Delivery Address  :</p>
@@ -487,11 +495,27 @@
 		              </div>
 		              <div class="col-sm-12 st-details pl-5 pb-0">
 		                <p>Delivery:</p>
-		                <label for="">$<?php echo $data['delivery_cost'];?></label>
+		                <label for="">
+		                	<?php 
+		                	if($data['delivery_cost']==0){
+		                		echo "-";
+		                	}else{
+								echo "$".$data['delivery_cost'];
+		                	}
+		                	
+		                	?></label>
 		              </div>
 		              <div class="col-sm-12 st-details pl-5">
 		                <p>Pick Up :</p>
-		                <label for="">$<?php echo $data['pickup_cost'];?></label>
+		                <label for="">
+		                	<?php 
+		                	if($data['pickup_cost']==0){
+		                		echo "-";
+		                	}else{
+								echo "$".$data['pickup_cost'];
+		                	}
+		                	?>
+		                </label>
 		              </div>
 		              <div class="col-sm-12 st-details pl-5 pb-0">
 		                <p>Sales Tax :</p>
@@ -501,6 +525,15 @@
 		                <p>Total :</p>
 		                <label for="">$<?php echo $data['total_price'];?></label>
 		              </div>
+		              <div class="col-sm-12 st-details pl-5">
+		                <p>Your card ending in <?php echo substr($payments_data['Card_Number'],-4)?> was charged $<?php echo $data['total_price'];?></p>
+		                <?php 
+		                if($data['order_time_period']=="Month to Month"){
+		                	echo "<p>You will be charged $".$data['subtotal']." each month consequtively while your items are in storage.</p>";
+		                }
+		                ?>
+		              </div>
+		              
 		            </div>
 
 		        </div>

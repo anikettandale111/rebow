@@ -8,6 +8,11 @@ a{
 	text-decoration: none;
 }
 
+section{
+	float: left;
+	width: 100%;
+}
+
 .underline{
 	text-decoration: underline;
 }
@@ -232,25 +237,25 @@ input, input.form-control{
 	margin-bottom: 10px;
 }
 
-::-webkit-input-placeholder, .form-group ::-webkit-input-placeholder {
+::-webkit-input-placeholder, .form-group ::-webkit-input-placeholder, .zipcod input::-webkit-input-placeholder {
   color: #D1D1D1;
   font-size: 0.8em;
   letter-spacing: 1px;
   font-family: 'axiformalight';
 }
-::-moz-placeholder, .form-group ::-moz-placeholder { 
+::-moz-placeholder, .form-group ::-moz-placeholder, .zipcod input::-moz-placeholder { 
   color: #D1D1D1;
   font-size: 0.8em;
   letter-spacing: 1px;
 	font-family: 'axiformalight';
 }
-:-ms-input-placeholder, .form-group :-ms-input-placeholder{ 
+:-ms-input-placeholder, .form-group :-ms-input-placeholder, .zipcod input:-ms-input-placeholder{ 
   color: #D1D1D1;
   font-size: 0.8em;
   letter-spacing: 1px;
 	font-family: 'axiformalight';
 }
-:-moz-placeholder, .form-group :-moz-placeholder { 
+:-moz-placeholder, .form-group :-moz-placeholder, .zipcod input:-moz-placeholder { 
   color: #D1D1D1;
   font-size: 0.8em;
   letter-spacing: 1px;

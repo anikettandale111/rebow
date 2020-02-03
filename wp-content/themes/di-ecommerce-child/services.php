@@ -129,7 +129,7 @@
 					<div class="col-sm-12 col-md-6 rental-service text-center">
 						<h2>Storage Solutions</h2>
 						<div class="rental-wrap">
-							<p>Store your ReBow<sup>TM</sup>Boxes!*<br>How it Works&nbsp;<img data-toggle="modal" data-target="#how_it_work"src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" title=""/> </p>
+							<p>Store your ReBow<sup>TM</sup>Boxes!*<br>How it Works&nbsp;<img data-toggle="modal" data-target="#how_it_works"src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/question-mark.png" alt="" title=""/> </p>
 							<h3>Starting at  $<?php echo get_loweset_price_storage_package();?> / month*</h3>
 							<button type="submit" id="get_storage" class="btn btn-secondary mb-3">GET STORAGE</button>
 							<div class="clearfix"></div>
@@ -182,41 +182,54 @@
 		</section>
 			 <!-- Start micro Storage -->
 			  <section class="micro-strg mt-5">
-			  	<div class="container">
-					<div class="row">
-						<div class="col-sm-12 text-center msh">
-							<h3>Micro Storage Benefits</h3>
-							<p>Storage that is <span>safe and easy</span></p>
-						</div>
-					</div>
-					<div class="row justify-content-center text-center">
-						<div class="col-6 col-sm-2">
-							<img class="mb-4" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/security.png" alt="" title=""/>
-							<p>24 HR MONITORED SECURITY</p>
-						</div>
-						<div class="col-6 col-sm-2">
-							<img class="mb-4" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/eye-icon.png" alt="" title=""/>
-							<p>VIDEO SURVELLIANCE</p>
-						</div>
-						<div class="col-6 col-sm-2">
-							<img class="mb-4" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/govt-icon.png" alt="" title=""/>
-							<p>GOVERNMENT APPROVED FACILITY</p>
-						</div>
-						<div class="col-6 col-sm-2">
-							<img class="mb-4" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/calender-icon.png" alt="" title=""/>
-							<p>SCHEDULED STORAGE ACCESS</p>
-						</div>
-						<div class="col-6 col-sm-2">
-							<img class="mb-4" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/climate-control-icon.png" alt="" title=""/>
-							<p>INDOOR CLIMATE CONTROL</p>
-						</div>
-						<div class="col-6 col-sm-2">
-							<img class="mb-4" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/paking-unpaking-icon.png" alt="" title=""/>
-							<p>2 DAY PACKING / UNPACKING WINDOW</p>
-						</div>
-					</div>
+	  	<div class="container">
+			<div class="row">
+				<div class="col-sm-12 text-center msh">
+					<h3>Micro Storage Benefits</h3>
+					<p>Storage that is <span>safe and easy</span></p>
 				</div>
-			  </section>
+			</div>
+			<div class="row justify-content-center text-center ms-b">
+				<div class="col-6 col-sm-2">
+					<div class="r-benifits">
+            <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images//security.png" alt="" title=""/>
+          </div>
+					<p>24 HR MONITORED SECURITY</p>
+				</div>
+				<div class="col-6 col-sm-2">
+					<div class="r-benifits">
+            <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images//eye-icon.png" alt="" title=""/>
+          </div>
+					<p>VIDEO SURVELLIANCE</p>
+				</div>
+				<div class="col-6 col-sm-2">
+					<div class="r-benifits">
+            <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images//govt-icon.png" alt="" title=""/>
+          </div>
+					<p>GOVERNMENT APPROVED FACILITY</p>
+				</div>
+				<div class="col-6 col-sm-2">
+					<div class="r-benifits">
+            <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images//calender-icon.png" alt="" title=""/>
+          </div>
+					<p>SCHEDULED STORAGE ACCESS</p>
+				</div>
+				<div class="col-6 col-sm-2">
+					<div class="r-benifits">
+            <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images//climate-control-icon.png" alt="" title=""/>
+          </div>
+					<p>INDOOR CLIMATE CONTROL</p>
+				</div>
+				<div class="col-6 col-sm-2">
+					<div class="r-benifits">
+            <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images//paking-unpaking-icon.png" alt="" title=""/>
+          </div>
+					<p>2 DAY PACKING / UNPACKING WINDOW</p>
+				</div>
+				
+			</div>  
+		</div>
+	  </section>
 			  
 			  <!-- start our service blue bg -->
 			  

@@ -43,7 +43,7 @@
 		                </ul>
 		              </div>
 		              <div class="col-sm-12 col-md-3">
-		                <button type="" class="btn btn-small blue-bg float-right txt-white">Submit</button>
+		                <button type="button" class="submit_order3 btn btn-small blue-bg float-right txt-white">Submit</button>
 		              </div>
 		            </div>
 		          </div>
@@ -263,15 +263,15 @@
 			            <div class="grey-bg py-4 px-5">
 			              	<div class="row">
 				                <div class="col-sm-12">
-				                  	<label for=""><b><?php echo $added_box_no;?> ReBow™ Boxes</b></label>
+				                  	<label class="ax-md" for=""><?php echo $added_box_no;?> ReBow™ Boxes</label>
 				                </div>
 				                <div class="col-sm-12">
 				                  	<div class="row-form">
 					                    <div class="col-from-field">
-					                       <p><b><?php echo $breadcrumb2;?> :</b></p>
+					                       <p><?php echo ucwords(strtolower($breadcrumb2));?> :</p>
 					                    </div>
 					                    <div class="col-from-field">
-					                       <label for=""><?php echo $product_display_period;?></label>
+					                       <label class="ax-md" for=""><?php echo $product_display_period;?></label>
 					                    </div>
 				                  	</div>
 				                </div>
@@ -299,27 +299,27 @@
 			            <div class="grey-bg py-4 px-5">
 			              	<div class="row">
 				                <div class="col-sm-12">
-				                  	<label for=""><b><?php echo "Storage Start Date: ".get_custom_formatted_date($storage_start_date);?></b></label>
+				                  	<label class="ax-md" for=""><?php echo "Storage Start Date: ".get_custom_formatted_date($storage_start_date);?></label>
 				                </div>
 				                <div class="col-sm-12">
-				                  	<label for=""><b><?php echo "Storage End Date: ".get_custom_formatted_date($storage_end_date);?></b></label>
+				                  	<label class="ax-md" for=""><?php echo "Storage End Date: ".get_custom_formatted_date($storage_end_date);?></label>
 				                </div>
 				                <div class="col-sm-12">
 				                  	<div class="row-form">
 					                    <div class="col-from-field">
-					                       <p><b><?php echo $breadcrumb2;?> :</b></p>
+					                       <p><?php echo $breadcrumb2;?> :</p>
 					                    </div>
 					                    <div class="col-from-field">
-					                       <label for=""><?php echo $storage_period;?></label>
+					                       <label class="ax-li" for=""><?php echo $storage_period;?></label>
 					                    </div>
 				                  	</div>
 				                </div>
 				                <div class="col-sm-12">
-				                  	<label for=""><b><?php echo "Storage Facility Location :  ".$storage_facility_location;?></b></label>
+				                  	<label class="ax-md" for=""><?php echo "Storage Facility Location :  ".$storage_facility_location;?></label>
 				                </div>
 
 				                <div class="col-sm-12">
-				                  	<label for=""><b><?php echo "Number of Boxes in Storage :  ".$product_name." - ".$box_count;?></b></label>
+				                  	<label class="ax-md" for=""><?php echo "Number of Boxes in Storage :  ".$product_name." - ".$box_count;?></label>
 				                </div>
 			              	</div>
 			            </div>
@@ -487,7 +487,17 @@
 		                  <p>Delivery: </p>
 		                </div>
 		                <div class="col-from-field p-0">
-		                  <label>$<?php echo $delivery_cost;?></label>
+		                  <label><?php 
+		                  	if($delivery_cost==0){
+		                  		$delivery_cost_text= "Free";
+		                  	}else if($delivery_cost==25){
+		                  		$delivery_cost_text= "Elevator";
+		                  	}else if($delivery_cost==50){
+		                  		$delivery_cost_text= "Stairs";
+		                  	}
+		                  	echo $delivery_cost_text;?>
+		                  	
+		                </label>
 		                </div>
 		              </div>
 		              <div class="row-form">
@@ -495,7 +505,17 @@
 		                  <p>Pick Up : </p>
 		                </div>
 		                <div class="col-from-field p-0">
-		                  <label>$<?php echo $pickup_cost;?></label>
+		                <label><?php 
+		                  	if($pickup_cost==0){
+		                  		$pickup_cost_text= "Free";
+		                  	}else if($pickup_cost==25){
+		                  		$pickup_cost_text= "Elevator";
+		                  	}else if($pickup_cost==50){
+		                  		$pickup_cost_text= "Stairs";
+		                  	}
+		                  	echo $pickup_cost_text;?>
+		                  	
+		                </label>
 		                </div>
 		              </div>
 		              <div class="row-form">
@@ -516,13 +536,13 @@
 		                <div class="clearfix"></div>
 		                <div class="col-from-field">
 		                  <label class="control control-checkbox">You confirm that the changes above are correct and you agree to let<br> ReBow charge the card ending in <?php echo substr($payments_data['Card_Number'],-4);?> for : $<?php echo $total_price;?>
-		                    <input type="checkbox"/>
+		                    <input id="confirm_order" type="checkbox"/>
 		                    <div class="control-indicator"></div>
 		                  </label>
 		                </div>
 		                <div class="clearfix"></div>
 		                <div class="col-from-field">
-		                  <button id="submit_order3" type="" class="btn btn-secondary">Submit Order</button>
+		                  <button type="button" class="submit_order3 btn btn-secondary">Submit Order</button>
 		                </div>
 		              </div>
 		            </div>
@@ -539,7 +559,17 @@
 		
 		<script>
 			
-			jQuery('#submit_order3').click(function(){
+			jQuery('.submit_order3').click(function(){
+
+				if(!jQuery('#confirm_order').is(":checked")){
+		            alert('Please select the checkbox');
+		            
+		            setTimeout(function(){
+		              jQuery('#confirm_order').focus();
+		            },1000);
+		            return false;
+		        }
+
 				var datastring = "ajax_request=order_confirmation_added_boxes";
 				jQuery.ajax({
 					url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",

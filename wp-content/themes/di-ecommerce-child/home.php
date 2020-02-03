@@ -232,7 +232,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>-->
 
 <script>
-  
+  jQuery("#continue").click(function() {
+
+      //jQuery(location).attr('href', '#');
+      jQuery('#service_yes').modal('hide');
+      jQuery(location).attr('href', '/rebow/pricing/');
+      
+    });
 </script>
 </body>
 </html>

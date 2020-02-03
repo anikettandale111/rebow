@@ -112,46 +112,26 @@ jQuery(document).ready(function() {
 		jQuery('.addedboxfield').show();
 
 	});
-	jQuery('.selectholder .selectdropdown span').click(function () {
-		    jQuery(this).siblings().removeClass('active');
-		    jQuery(this).addClass('active');
-		    var value = jQuery(this).attr('data-value');
-		    if(value=="MM"){
-				jQuery('#display_period').val(1);
-			}else{
-				jQuery('#display_period').val(value);
-			}
-		    var textval = jQuery(this).text();
-			jQuery('#period_data_value').val(textval);
-		    // jQuery(this).parent().siblings('select').val(value);
-		    jQuery(this).parent().siblings('.desc').fadeOut(100, function () {
-		      jQuery('#selectperiod1 option').each(function(){
-		            jQuery(this).attr('selected', false);
-		            if(jQuery(this).val()==value){
-		              	jQuery(this).attr('selected', 'selected');
-		            }
-		        });
-		      jQuery(this).text(textval);
-		      jQuery(this).fadeIn(100);
-		    });
-		// var selectperiod1 = jQuery('#selectperiod1').val();
-		// var period_text=  jQuery("#selectperiod1 option:selected").text();
-		// //alert(selectperiod1);
+	jQuery("#selectperiod1").change(function() {
 
-		// //alert(period_text);
+		var selectperiod1 = jQuery('#selectperiod1').val();
+		var period_text=  jQuery("#selectperiod1 option:selected").text();
+		//alert(selectperiod1);
 
-		// if(selectperiod1=="MM"){
-		// 	jQuery('#display_period').val(1);
-		// }else{
-		// 	jQuery('#display_period').val(selectperiod1);
-		// }
-		// jQuery('#period_data_value').val(period_text);
+		//alert(period_text);
+
+		if(selectperiod1=="MM"){
+			jQuery('#display_period').val(1);
+		}else{
+			jQuery('#display_period').val(selectperiod1);
+		}
+		jQuery('#period_data_value').val(period_text);
 		calculation();
 	});
 	jQuery("#selectpackage").change(function() {
 		var selectpackage = jQuery('#selectpackage').val();
 
-		alert(selectpackage);
+		//alert(selectpackage);
 		var selectpackage_array = selectpackage.split("/");
 
 		var product_id = selectpackage_array[0];
@@ -191,7 +171,7 @@ jQuery(document).ready(function() {
 		//alert('function get called');
 		/*GET VALUES*/
 		var display_period = jQuery('#display_period').val();
-		
+
 		var dp_period = jQuery('#dp_period').val();
 
 		var product_name_field = jQuery('#product_name_field').val();
@@ -333,7 +313,7 @@ jQuery(document).ready(function() {
 
 	});
 	jQuery('.apartment_level').change(function(){
-
+		//alert(1);
 		var apartment_level_delivery = jQuery('#apartment_level_delivery').val();
 					
 		var apartment_level_packed = jQuery('#apartment_level_packed').val();
@@ -357,9 +337,9 @@ jQuery(document).ready(function() {
 		var apartment_level_pickup_cost = get_pickup_delivery_cost(apartment_level_pickup,box_count);
 		//alert(apartment_level_pickup_cost);
 		var delivery_cost = apartment_level_delivery_cost+apartment_level_packed_delivery_cost;
-		//alert("delievry cost : "+delivery_cost);
+		console.log("delievry cost : "+delivery_cost);
 		var pickup_cost = apartment_level_packed_cost+apartment_level_pickup_cost;
-		//1alert("pickup cost : "+pickup_cost);
+		console.log("pickup cost : "+pickup_cost);
 		jQuery('#delivery_cost_field').val(delivery_cost);
 
 		jQuery('#pickup_cost_field').val(pickup_cost);

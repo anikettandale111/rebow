@@ -70,12 +70,12 @@ $db = mysql_select_db("rebow");*/
 
 		<tr class="start_date-wrap">
 			<th><label for="startdate"><?php _e( 'Start Date' ); ?></label></th>
-			<td><input class="datepicker" id="promotion_start_date" type="text" value="" required/></td>
+			<td><input id="promotion_start_date" type="date" value="" required/></td>
 		</tr>
 	
 		<tr class="end_date-wrap">
 			<th><label for="promotionenddate"><?php _e( 'End Date' ); ?></label></th>
-			<td><input class="datepicker" id="promotion_end_date" type="text" value="" required/></td>
+			<td><input id="promotion_end_date" type="date" value="" required/></td>
 		</tr>
 		<tr class="end_date-wrap">
 			<th><label for="usage_limit_per_user"><?php _e( 'Usage Limit Per User' ); ?></label></th>
@@ -168,12 +168,7 @@ $db = mysql_select_db("rebow");*/
 			});
 			
 		});
-		$('#promotion_start_date').datepicker({
-	    	daysOfWeekDisabled: [0,6]
-		});
-		$('#promotion_end_date').datepicker({
-	    	daysOfWeekDisabled: [0,6]
-		});
+
 		</script>
 		<script type="text/javascript" href="http://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/js/jquery.multi-select.min.js"/></script>
 

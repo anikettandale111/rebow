@@ -171,7 +171,7 @@
         <div class="row justify-content-md-center">
         <div class="col-sm-12">
           <button type="button" class="close float-right p-3" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true" style="height: 22px; width: 22px;">&times;</span>
+              <span aria-hidden="true">&times;</span>
           </button>
         </div>  
         <h3 class="txt-grey"><b>How It Works</b></h3>
