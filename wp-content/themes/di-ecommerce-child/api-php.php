@@ -7,7 +7,7 @@ require_once("session_handler.php");
 require_once("db_config.php");
 
 require_once("stripe_config.php");
-
+//Include simple 
 // Include Stripe PHP library 
 require_once 'stripe-php/init.php';
 
