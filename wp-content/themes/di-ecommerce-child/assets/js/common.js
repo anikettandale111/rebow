@@ -3,7 +3,6 @@
 jQuery(document).ready(function ($) {
   // body...
   //$('.selectpicker').selectpicker();
-  jQuery('.testexample').DataTable();
   $("ul.price-tabs li").click(function () {
     var priceTab = $(this).index();
     $(".price-pkg").eq(priceTab).show().siblings(".price-pkg").hide();

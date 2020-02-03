@@ -10,12 +10,16 @@ jQuery(document).ready(function() {
 	jQuery("#delivery_packed_boxes").hide();
 	jQuery("#pick_up_boxes").hide();
 
-	jQuery( "#delivery_date").datepicker({
-		dateFormat: 'M dd , yy',
-		beforeShowDay: noWeekendsOrHolidays,
-		minDate: 0
+	// jQuery( "#delivery_date").datepicker({
+	// 	dateFormat: 'M dd , yy',
+	// 	beforeShowDay: noWeekendsOrHolidays,
+	// 	minDate: 0
+	// });
+	$('.global_date').datepicker({
+		startDate: "today",
+		daysOfWeekDisabled: [0,6],
+		format: "M dd, yyyy ",
 	});
-	
 	/*jQuery('#delivery_address').focusout(function()
 	{
 	    if( jQuery('#delivery_address_loc_lat').val().length === 0 ) {

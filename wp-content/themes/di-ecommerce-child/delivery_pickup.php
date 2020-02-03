@@ -54,7 +54,7 @@
 				            <label class="col-sm-12 col-md-2 mt-3" for="">Delivery Date* : </label>
 				            <div class="col-sm-12 col-md-3">
 				            	<input id="delivery_date_field" type="hidden" value="<?php echo $delivery_date;?>">
-				              <input id="delivery_date" type="text" name="" placeholder="Date" value="<?php echo get_custom_formatted_date($delivery_date);?>" required>
+				              	<input id="delivery_date" class="global_date" type="text" placeholder="Choosedate" name="delivery_date" <?php echo (get_custom_formatted_date($delivery_date)) ? 'value="'.get_custom_formatted_date($delivery_date).'"' : 'placeholder="Choosedate"' ?> required readonly>
 				              	<input type="hidden" id="delivery_address_loc_lat" value="<?php echo $delivery_address_loc_lat;?>"/>
 			    				<input type="hidden" id="delivery_address_loc_long" value="<?php echo $delivery_address_loc_long;?>"/>
 				            </div>
@@ -757,13 +757,9 @@
 				
 		<?php get_footer(); ?>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="/rebow/wp-content/themes/di-ecommerce-child/assets/js/order_summary_js.js"></script>
-		
 		<script src="/rebow/wp-content/themes/di-ecommerce-child/assets/js/delievery_pickup.js"></script>
-
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBtVumWdkvUED3b_Ct75wcYXsJQmKQWuXM"></script>
 		<script>
 			//var searchInput = 'delivery_address';

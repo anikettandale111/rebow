@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.css" >
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
 <head>
 	
 	<?php do_action( 'di_ecommerce_the_head' ); ?>
