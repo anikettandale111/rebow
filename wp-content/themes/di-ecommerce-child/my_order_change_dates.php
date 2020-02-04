@@ -180,13 +180,14 @@
 		              <div class="row">
 		                <div class="col-sm-12 col-md-6 st-details pl-5">
 		                  <p>Rental Start Date : </p>
+		                  <input type="hidden" id="start_date" value="<?php echo $deliver_empty_boxes_data['date'];?>"/>
 		                  <label for=""><?php 
-		                  	$date=date_create($deliver_empty_boxes_data['date']);
-							echo date_format($date,"M d, Y");
+		                  	echo get_custom_formatted_date($deliver_empty_boxes_data['date']);
 		                  //echo $deliver_empty_boxes_data['date'];?></label>
 		                </div>
 		                <div class="col-sm-12 col-md-6 st-details pl-5">
-							<p><?php echo $data['order_type']." End Date";?></p>: <input id="end_date" type="date" value="<?php echo $pickup_date;?>"></input>
+		                	<input type="hidden" id="end_date_field" value="<?php echo $pickup_date;?>"/>
+							<p><?php echo $data['order_type']." End Date";?></p>: <input id="end_date" type="text" class="global_date" value="<?php echo $pickup_date;?>"></input>
 		                </div>
 		              </div>
 		             
@@ -258,16 +259,26 @@
 		  </div>
 		</div>
 		<?php get_footer();?>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script>
 			jQuery("#back_btn").click(function (){
 			  window.history.back();
 			});
-			jQuery( "#end_date" ).change(function() {
-
+			$('#end_date').datepicker({
+				startDate: "today",
+				daysOfWeekDisabled: [0,6],
+				format: "M dd, yyyy ",
+				autoclose:true,
+			});
+			$( "#end_date" ).change(function() {
+				//alert('changed');
+				console.log(1);
 			    var start_date = jQuery('#start_date').val();
 			    //alert(start_date);
-			    var end_date = jQuery('#end_date').val();
-
+			    console.log('start_date: '+start_date);
+			    console.log(start_date);
+			    var end_date = jQuery('#end_date_field').val();
+			     console.log(end_date);
 			    var dayDff = get_day_diffrence(start_date,end_date);
 			    //alert(dayDff);
 			    price_calculation(dayDff);
@@ -405,7 +416,7 @@
 
 			    var start_date = jQuery('#start_date').val();
 
-			    var end_date = jQuery('#end_date').val();
+			    var end_date = jQuery('#end_date_field').val();
 
 			    var datastring = "ajax_request=goto_order_summary3&display_period="+display_period+"&dp_period="+dp_period+"&box_count="+box_count+"&added_box_count="+added_box_count+"&added_box_price="+added_box_price+"&product_price="+product_price+"&subtotal="+subtotal+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&period_datas="+period_data+"&start_date="+start_date+"&end_date="+end_date;
 			    

@@ -77,7 +77,7 @@
 						            <label class="col-sm-12 col-md-2 mt-3" for="">Delivery Date* : </label>
 						            <div class="col-sm-12 col-md-3">
 						            	<input id="delivery_date_field" type="hidden" value="<?php echo $delivery_date;?>" >
-						              <input id="delivery_date" class="global_date" type="text" required name="" <?php echo (get_custom_formatted_date($delivery_date)) ? 'value="'.get_custom_formatted_date($delivery_date).'"' : 'value ="" placeholder="Choose Date"' ?>  readonly>
+						              <input id="delivery_date" class="global_date" type="text" required name="" <?php echo (($delivery_date)) ? 'value="'.get_custom_formatted_date($delivery_date).'"' : 'value ="" placeholder="Choose Date"' ?>  readonly>
 						            </div>
 					        	</div>
 			                  <div class="row-form">
@@ -253,7 +253,7 @@
 			                    <!--<div class="selectholder">
 			                      <label>Choose Time</label>-->
 			                      	<select id="apartment_level_packed" class="apartment_level" required>
-										<option value="Select">Select</option>
+										<option value="">Select</option>
 										<?php 
 										foreach($elevator_bulding_array as $key=>$value){
 											if($key==$apartment_level_packed){
@@ -358,7 +358,7 @@
 			                    <!--<div class="selectholder">
 			                      <label>Choose Time</label>-->
 			                      	<select id="apartment_level_packed_delivery" class="apartment_level" required>
-										<option value="Select">Select</option>
+										<option value="">Select</option>
 										<?php 
 										foreach($elevator_bulding_array as $key=>$value){
 											if($key==$apartment_level_packed){
@@ -465,7 +465,7 @@
 			                    <!--<div class="selectholder">
 			                      <label>Choose Time</label>-->
 			                     	<select id="apartment_level_pickup" class="apartment_level">
-										<option value="Select">Select</option>
+										<option value="">Select</option>
 										<?php 
 										foreach($elevator_bulding_array as $key=>$value){
 											if($key==$apartment_level_pickup){
@@ -539,6 +539,7 @@
 				startDate: "today",
 				daysOfWeekDisabled: [0,6],
 				format: "M dd, yyyy ",
+				autoclose:true,
 			});
 				
 			jQuery(document).ready(function() {
@@ -557,7 +558,7 @@
 				}
 				$('#delivery_date').change(function() {
 				    //var date = $(this).val();
-				    var delivery_date = jQuery('#delivery_date').val();
+				    /*var delivery_date = jQuery('#delivery_date').val();
 				    console.log(delivery_date);
 					var display_period = jQuery('#display_period').val();
 					var delivery_date_format = dateFormat2(delivery_date);
@@ -592,7 +593,7 @@
 						jQuery("#pickup_date_packed").text(next_pickup_date_pcaked);
 						jQuery("#pickup_date_packed_field").val(next_pickup_date_pcaked_formatted);
 
-						var next_pickup_date = get_date(delivery_date,days_to_add_pickup_empty);
+						var next_pickup_date = get_date(delivery_date,next_pickup_date_pcaked);
 						var next_pickup_date_formatted = dateFormat(next_pickup_date);
 
 						var next_delivery_date = get_date(delivery_date,days_to_add_delivery);
@@ -603,6 +604,67 @@
 
 						jQuery("#delivery_date_packed").text(next_delivery_date);
 						jQuery("#delivery_date_packed_field").val(next_delivery_date_formatted);
+					}*/
+
+					var delivery_date = jQuery('#delivery_date').val();
+				    console.log(delivery_date);
+					var display_period = jQuery('#display_period').val();
+					var delivery_date_format = dateFormat2(delivery_date);
+
+					console.log('delivery_date_format: '+delivery_date_format);
+					jQuery('#delivery_date_field').val(delivery_date_format);
+					var period_data_field = jQuery('#period_data_field').val();
+
+					//alert(delivery_date);
+					if(period_data_field=="RENTAL"){
+						var days_to_add = (display_period*7);
+					}else{
+						var days_to_add = 2;
+
+						var days_to_add_delivery = (display_period*30)-2;
+
+						var days_to_add_pickup_empty = (display_period*30);
+					}
+					
+					console.log('period_data_field: '+period_data_field);
+
+					if(period_data_field=="RENTAL"){
+
+						var days_to_add = (display_period*7);
+						//jQuery("#pick_up_boxes").show();
+						var next_pickup_date = get_date(delivery_date_format,days_to_add);
+						console.log('next_pickup_date: '+next_pickup_date);
+						//console.log(convertDate(next_pickup_date));
+						var next_pickup_date_formatted =  dateFormat(next_pickup_date);
+						//console.log(next_pickup_date);
+						jQuery("#pickup_date").text(next_pickup_date_formatted);
+						jQuery("#pickup_date_field").val(next_pickup_date);
+						
+					}else{
+						//jQuery("#pick_up_packed_boxes").show();
+						var days_to_add = 2;
+						var next_pickup_date_pcaked = get_date(delivery_date_format,days_to_add);
+						var next_pickup_date_pcaked_formatted = dateFormat(next_pickup_date_pcaked);
+						console.log('next_pickup_date_pcaked: '+next_pickup_date_pcaked);
+						console.log('next_pickup_date_pcaked_formatted: '+next_pickup_date_pcaked_formatted);
+
+						jQuery("#pickup_date_packed").text(next_pickup_date_pcaked_formatted);
+						jQuery("#pickup_date_packed_field").val(next_pickup_date_pcaked);
+
+						var next_pickup_date = get_date(delivery_date,days_to_add_pickup_empty);
+						var next_pickup_date_formatted = dateFormat(next_pickup_date);
+
+						var next_delivery_date = get_date(delivery_date,days_to_add_delivery);
+						console.log('next_delivery_date'+next_delivery_date);
+
+						var next_delivery_date_formatted = dateFormat(next_delivery_date);
+
+						jQuery("#pickup_date").text(next_pickup_date_formatted);
+						jQuery("#pickup_date_field").val(next_pickup_date);
+
+						jQuery("#delivery_date_packed").text(next_delivery_date_formatted);
+						jQuery("#delivery_date_packed_field").val(next_delivery_date);
+						
 					}
 
 				});
@@ -657,7 +719,7 @@
 				});
 				jQuery("#submit_delivery_pickup_info").click(function(event) {
 					event.preventDefault();
-					var period_data_field = jQuery('#period_data').val();
+					var period_data_field = jQuery('#period_data_field').val();
 					
 					if(jQuery('#delivery_daye').val()==''){
 			            alert('Fill all required field');
@@ -701,46 +763,9 @@
 			        }
 
 		          	
-			        if(jQuery('#preferred_pickup_time').val()==''){
-			            alert('Fill all required field');
-			            jQuery([document.documentElement, document.body]).animate({
-			                scrollTop: jQuery("#pick_up_boxes").offset().top
-			            }, 1000);
-			            setTimeout(function(){
-			              jQuery('#preferred_pickup_time').focus();
-			            },1000);
-			            return false;
-			        }	
-			        if(jQuery('#alternate_pickup_time').val()==''){
-			            alert('Fill all required field');
-			            jQuery([document.documentElement, document.body]).animate({
-			                scrollTop: jQuery("#pick_up_boxes").offset().top
-			            }, 1000);
-			            setTimeout(function(){
-			              jQuery('#alternate_pickup_time').focus();
-			            },1000);
-			            return false;
-			        } 
-			        if(jQuery('#pickup_address').val()==''){
-			            alert('Fill all required field');
-			            jQuery([document.documentElement, document.body]).animate({
-			                scrollTop: jQuery("#pick_up_boxes").offset().top
-			            }, 1000);
-			            setTimeout(function(){
-			              jQuery('#pickup_address').focus();
-			            },1000);
-			            return false;
-			        }
-			        if(jQuery('#apartment_level_pickup').val()==''){
-			            alert('Fill all required field');
-			            jQuery([document.documentElement, document.body]).animate({
-			                scrollTop: jQuery("#pick_up_boxes").offset().top
-			            }, 1000);
-			            setTimeout(function(){
-			              jQuery('#apartment_level_pickup').focus();
-			            },1000);
-			            return false;
-			        }
+			        
+			        //alert(period_data_field);
+
 					if(period_data_field=="STORAGE"){
 
 						if(jQuery('#preferred_pickup_time_packed').val()==''){
@@ -827,6 +852,46 @@
 				        }
 
 					}
+					if(jQuery('#preferred_pickup_time').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#preferred_pickup_time').focus();
+			            },1000);
+			            return false;
+			        }	
+			        if(jQuery('#alternate_pickup_time').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#alternate_pickup_time').focus();
+			            },1000);
+			            return false;
+			        } 
+			        if(jQuery('#pickup_address').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#pickup_address').focus();
+			            },1000);
+			            return false;
+			        }
+			        if(jQuery('#apartment_level_pickup').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#pick_up_boxes").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#apartment_level_pickup').focus();
+			            },1000);
+			            return false;
+			        }
 					//check_empty_fields();
 
 					var datastring = "";

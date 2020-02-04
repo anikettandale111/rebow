@@ -1,7 +1,9 @@
 .hide{
   display:none;  
 }
-
+.hidecm{
+  display:none !important;  
+}
 .rectangle {
 	height: 59px;
 	border:1px solid black;

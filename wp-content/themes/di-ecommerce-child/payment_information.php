@@ -133,48 +133,17 @@ require_once("db_config.php");
 		        <h4 class="modal-title">Update Payment Info</h4><button type="button" class="close" data-dismiss="modal">&times;</button>
 		      </div>
 		      <div class="modal-body">
-		      	<form id="FormUpdate">
-		      		<div class="form-group">
-				       	<label>Card Number*</label>
-				       	<input id="card_number" type="text" data-stripe="number" value="<?php echo "*******".substr($payments_data['Card_Number'],-4)?>"/>
-				       	<br/>
+		      	<form class="checkout-form form" id="add_new_payment_form">
+				   <div id="new_user_checkout">
+				    	
+				    <div class="form-row">
+				      <div class="form-group col-md-8">
+				        <div id="card-element"></div>
+				      </div>
 				    </div>
-				    <div class="form-group">
-				       	<label>CCV*</label>
-						<input id="ccv" type="text" value="***"/>
-						<br/>
-					</div>
-					<div class="form-group">
-						<label>Expiration Date*</label>
-						<br/>
-						<select id="month">
-							<?php foreach($months_array as $key=>$value){
-								if($key==$payments_data['Expiry_month']){
-									echo "<option selected value=$key>$value</option>";
-								}else{
-									echo "<option value=$key>$value</option>";
-								}
-						 	}?>	
-						</select>
-						<select id="Year">
-							<?php foreach($years_array as $key=>$value){
-								if($key==$payments_data['Expiry_year']){
-									echo "<option selected value=$key>$value</option>";
-								}else{
-									echo "<option value=$key>$value</option>";
-								}
-						 	}?>	
-							
-						</select>
-					</div>
-					<br/>
-					<div class="form-group">
-						<label>Billing Zip*</label><br/>
-						<input type="text" id="billingzip" value="<?php echo $payments_data['zipcode'];?>" required>
-					</div>
-					<div class="modal-footer justify-content-md-center">
-				    	<button id="update_payment_info" type="submit" class="btn btn-secondary">SUBMIT</button>
-				    </div>
+				  </div>
+				 
+				  <button type="button" id="update_payment_method" onclick="update_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
 				</form>
 		      </div>
 		      
@@ -285,14 +254,13 @@ require_once("db_config.php");
 	        var cardholderName = document.getElementById('firstName');
 	        console.log(cardholderName);
 	        var cardButton = document.getElementById('add_new_payment_method');
-	        console.log(cardButton);  
+	        console.log(cardButton);
 
 	        var clientSecret = cardButton.dataset.secret;
 			
 			jQuery(document).ready(function() {
 				jQuery('#update_payment_info').click(function() {
-					alert('clicked');
-
+					//alert('clicked');
 					var card_number = jQuery('#card_number').val();
 
 					var month = jQuery('#month').val();
@@ -455,24 +423,28 @@ require_once("db_config.php");
 	                      	data : datastring,
 	                      	success: function(result){
 	                          	console.log(result);
+	                          	//window.location.reload();
 	                      	}
 	                    });
 	                  
 	                }
 	            });
 			}
+			function update_payment_info(){
+
+			}
 			function delete_payment_method(rowid){
 				if(confirm('Are you sure to delete this ?')){
-		                jQuery.ajax({
-	                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-	                      	method : "POST",
-	                      	data : {ajax_request:'remove_payment_method',rowid:rowid,},
-	                      	success: function(result){
-	                          	alert(result);
-	                          	//$('#pament_method_'+rowid).remove();
-	                          	window.location.reload();
-	                      	}
-	                    });
+	                jQuery.ajax({
+                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                      	method : "POST",
+                      	data : {ajax_request:'remove_payment_method',rowid:rowid,},
+                      	success: function(result){
+                          	alert(result);
+                          	//$('#pament_method_'+rowid).remove();
+                          	window.location.reload();
+                      	}
+                    });
 				}
 			}
 		</script>

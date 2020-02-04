@@ -478,7 +478,7 @@
 		                  <p>Subtotal :</p>
 		                </div>
 		                <div class="col-from-field">
-		                  <label>$<?php echo $subtotal;?></label>
+		                  <label id="subtotal">$<?php echo $subtotal;?></label>
 		                </div>
 		              </div>
 		              <div class="row-form">
@@ -486,7 +486,7 @@
 		                  <p>Delivery: </p>
 		                </div>
 		                <div class="col-from-field p-0">
-		                  <label><?php echo $delivery_cost;?></label>
+		                  <label id="delivery_cost"><?php echo $delivery_cost;?></label>
 		                </div>
 		              </div>
 		              <div class="row-form">
@@ -494,7 +494,7 @@
 		                  <p>Pick Up : </p>
 		                </div>
 		                <div class="col-from-field p-0">
-		                  <label><?php echo $pickup_cost;?></label>
+		                  <label id="pickup_cost"><?php echo $pickup_cost;?></label>
 		                </div>
 		              </div>
 		              <div class="row-form">
@@ -502,7 +502,7 @@
 		                  <p>Sales Tax: </p>
 		                </div>
 		                <div class="col-from-field pb-0">
-		                  <label>$<?php echo $sales_tax;?></label>
+		                  <label id="sales_tax">$<?php echo $sales_tax;?></label>
 		                </div>
 		              </div>
 		              <div class="row-form total">
@@ -510,7 +510,7 @@
 		                  <p>Total :</p> 
 		                </div>
 		                <div class="col-from-field p-0">
-		                  <label>$<?php echo $total_price;?></label>
+		                  <label id="total_price">$<?php echo $total_price;?></label>
 		                </div>
 		                <div class="clearfix"></div>
 		                <div class="col-from-field">

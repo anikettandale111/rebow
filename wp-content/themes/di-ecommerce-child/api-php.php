@@ -7,7 +7,7 @@ require_once("session_handler.php");
 require_once("db_config.php");
 
 require_once("stripe_config.php");
-//Include simple 
+
 // Include Stripe PHP library 
 require_once 'stripe-php/init.php';
 
@@ -25,6 +25,41 @@ function check_if_user_already_exist(){
     $row = mysql_fetch_row($res);
 
     return $row[0];
+}
+if($ajax_resquest_type=="promocode_check"){
+
+    $promocode = $_REQUEST['promocode'];
+    $current_date = date('Y-m-d'); 
+
+    //echo "Query: ".
+    $query = "SELECT * from promotions where coupon_code='$promocode' and promotion_start_date < '$current_date' and promotion_end_date > '$current_date' and coupon_status=1";
+
+    //$res_array = array();
+    $res = mysql_query($query);
+    //print_r($res);
+    if (mysql_num_rows($res) == 0) {
+        $msg = "Invalid Coupon Code";
+    }else{
+        $row = mysql_fetch_assoc($res);
+
+        
+        $msg = "Valid Coupon";
+        $promotion_type = $row['promotion_type'];
+        $promotion_description = $row['promotion_description'];
+
+        $discount_amount = $row['discount_amount'];
+        $percentage_off = $row['percentage_off'];
+
+        $minimum_spend = $row['minimum_spend'];
+
+        
+    }
+    
+
+    $json_array= array('msg'=>$msg,'promotion_type'=>$promotion_type,'promotion_description'=>$promotion_description,'discount_amount'=>$discount_amount,'percentage_off'=>$percentage_off,'minimum_spend'=>$minimum_spend);
+    
+    echo $json_array1 = json_encode($json_array);
+
 }
 if($ajax_resquest_type=="get_modal_data"){
 
@@ -441,18 +476,19 @@ if($ajax_resquest_type=="add_new_payment_method"){
     $payment_type = $_REQUEST['payment_type'];
 
     //print_r($intent);
-    echo "payment_method_id: ".
+    //echo "payment_method_id: ".
     $payment_method_id = $intent->setupIntent->payment_method;
 
     $payment_method = \Stripe\PaymentMethod::retrieve(
       $payment_method_id
     );
-    print_r($payment_method);
-    $payment_method->attach([
+    //print_r($payment_method);
+    $paymethod_attach = $payment_method->attach([
       'customer' => $customer_stripe_id,
     ]);
-
-    insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+    $status=1;
+    $cuid = $paymethod_attach->customer;
+    insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$user_email,$status);
 
     $card_number = $payment_method->card->last4;
 
@@ -468,6 +504,7 @@ if($ajax_resquest_type=="add_new_payment_method"){
     
     insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billingaddress,$city,$zipcode,$promocode,$state,$user_id);
 
+    
 }
 if($ajax_resquest_type=="send_card_intent2"){
     //echo "in";
@@ -2175,7 +2212,7 @@ if($ajax_resquest_type=="goto_order_summary3"){
     $storesession->end_date=$end_date;
     $storesession->delivery_date=$start_date;
     $storesession->pickup_date=$end_date;
-
+    //print_r($storesession);
     set_rebow_session($storesession);
 }
 if($ajax_resquest_type=="submit_support_request"){

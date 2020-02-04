@@ -216,7 +216,7 @@
 			                    </div>
 			                  </div>
 			                  <div class="col-from-field">
-			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="">Whats This?</a></p>
+			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="#javascript;" data-toggle="modal" data-target=".bd-example-modal-lg" >Whats This?</a></p>
 			                  </div>
 			                  <div class="clearfix"></div>
 			                  <div class="col-from-field">
@@ -249,13 +249,13 @@
 			              	<div class="row">
 				                <div class="col-sm-12 mb-4 form-header p-0">
 				                  	<img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
-				                  <p class="txt-blue">Delivery of your ReBow™ Boxes :</p>
+				                  <p class="txt-blue">Pick Up of your ReBow™ Boxes :</p>
 				                </div>
 			              	</div>
 			              	<div class="row justify-content-start">
 			                  	<div class="row-form">
 				                    <div class="col-from-field">
-				                      <p>Delivery Date* :</p>
+				                      <p>Pick Up Date* :</p>
 				                    </div>
 			                    	<div class="col-from-field">
 			                      		<label id="pickup_date_packed" for=""><?php echo $pickup_date_packed;?></label>
@@ -263,7 +263,7 @@
 			                  	</div>
 			                  	<div class="row-form">
 				                    <div class="col-from-field custom-label">
-				                      <p>Delivery Time* :</p>
+				                      <p>Pick Up Time* :</p>
 				                    </div>
 				                    <div class="col-from-field">
 				                      <!--<div class="selectholder">
@@ -286,7 +286,7 @@
 			                    
 			                  	<div class="row-form">
 				                    <div class="col-from-field custom-label">
-				                      <p>Delivery Address*:</p>
+				                      <p>Pick Up Address*:</p>
 				                    </div>
 				                    <div class="col-from-field">
 				                      <div class="location-pin">
@@ -299,7 +299,7 @@
 				                    </div>
 			                  	</div>
 			                  <div class="col-from-field">
-			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="">Whats This?</a></p>
+			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="#javascript;" data-toggle="modal" data-target=".bd-example-modal-lg">Whats This?</a></p>
 			                  </div>
 			                  <div class="clearfix"></div>
 			                  <div class="col-from-field">
@@ -383,7 +383,7 @@
 			                    </div>
 			                  </div>
 			                  <div class="col-from-field">
-			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="">Whats This?</a></p>
+			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="#javascript;" data-toggle="modal" data-target=".bd-example-modal-lg">Whats This?</a></p>
 			                  </div>
 			                  <div class="clearfix"></div>
 			                  <div class="col-from-field">
@@ -423,7 +423,7 @@
 			                <form action="" class="checkout-form">
 			                  <div class="row-form">
 			                    <div class="col-from-field">
-			                      <p>Delivery Date* :</p>
+			                      <p>Pick Up Date* :</p>
 			                    </div>
 			                    <div class="col-from-field">
 			                      <label id="pickup_date" for=""><?php echo $pickup_date;?></label>
@@ -431,7 +431,7 @@
 			                  </div>
 			                  	<div class="row-form">
 				                    <div class="col-from-field custom-label">
-				                      <p>Delivery Time* :</p>
+				                      <p>Pick Up Time* :</p>
 				                    </div>
 				                    <div class="col-from-field">
 				                      <!--<div class="selectholder">
@@ -454,7 +454,7 @@
 			                  	
 			                  <div class="row-form">
 			                    <div class="col-from-field custom-label">
-			                      <p>Delivery Address*:</p>
+			                      <p>Pick Up Address*:</p>
 			                    </div>
 			                    <div class="col-from-field">
 			                      <div class="location-pin">
@@ -468,7 +468,7 @@
 			                    </div>
 			                  </div>
 			                  <div class="col-from-field">
-			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="">Whats This?</a></p>
+			                    <p>Do you live in a walk-up or elevator building?* <a class="wt-this" href="#javascript;" data-toggle="modal" data-target=".bd-example-modal-lg">Whats This?</a></p>
 			                  </div>
 			                  <div class="clearfix"></div>
 			                  <div class="col-from-field">

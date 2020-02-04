@@ -14,6 +14,8 @@ jQuery(document).ready(function() {
 		startDate: "today",
 		daysOfWeekDisabled: [0,6],
 		format: "M dd, yyyy ",
+		autoclose:true,
+
 	});
 	
 	/*jQuery('#delivery_address').focusout(function()
