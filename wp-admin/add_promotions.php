@@ -5,7 +5,6 @@
  * @package WordPress
  * @subpackage Administration
  */
-echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/css/multi-select.min.css" rel="stylesheet" />';
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 include( ABSPATH . 'wp-admin/admin-header.php' );
@@ -20,69 +19,51 @@ if (!$con) {
 mysql_set_charset('utf8');
 $db = mysql_select_db("rebow");*/
 ?>
-	<form id="promotionForm">
-	<table class="form-table">
-		<tr class="user-productname-wrap">
-			<th><label for="couponcode"><?php _e( 'Coupon Code' ); ?></label></th>
-			<td><input id="coupon_code" type="text" value="" required/></td>
-		</tr><br/>
 
-	
-		<tr class="user-promotiondescription-wrap">
-			<th><label for="promotiondescription"><?php _e( 'Promotion Description' ); ?></label></th>
-			<td><input id="promotion_description" type="text" value="" required/></td>
-		</tr><br/>
-
-		<tr class="user-promotiontype-wrap">
-			<th><label for="promotiontype"><?php _e( 'Promotion Type' ); ?></label></th>
-			<td>
-				<select id="promotion_type" name="promotion_type">
-					<option  value="select_promotion_type">Select Promotion Type</option>
-					<option  value="Fixed_Amount">Fixed Amount</option>
-					<option  value="Percentage_Off">Percentage Off</option>
-				</select>
-			</td>
-		</tr>
-		<tr class="user_discount_amount_count-wrap">
-			<th><label for="discountamount"><?php _e( 'Discount Amount' ); ?></label></th>
-	
-			<td><input id="discount_amount" type="text" value="" required /></td>
-		</tr>
-		<tr class="user-percentage_off_count-wrap">
-			<th><label for="percentageoff"><?php _e( 'Percentage Off' ); ?></label></th>
-	
-			<td><input id="percentage_off" type="text" value="" required/></td></tr>
-		</tr>
-		<tr class="user-minimum_spend-wrap">
-			<th><label for="minimumspend"><?php _e( 'Minimum Spend Amount' ); ?></label></th>
-	
-		<td><input id="minimum_spend" type="text" value=""/></td></tr>
-		<tr class="product_categories-wrap">
-			<th><label for="product_categories"><?php _e( 'Product Categories' ); ?></label></th>
-			<td>
-				<select id="product_categories" multiple>
-					<option value="Rental_Packages">Rental Packages</option>
-					<option value="Storage_Packages">Storage Packages</option>
-					<option value="Residential_Packages">Residential Packages</option>
-				</select>
-			</td>
-		</tr>
-
-		<tr class="start_date-wrap">
-			<th><label for="startdate"><?php _e( 'Start Date' ); ?></label></th>
-			<td><input id="promotion_start_date" type="date" value="" required/></td>
-		</tr>
-	
-		<tr class="end_date-wrap">
-			<th><label for="promotionenddate"><?php _e( 'End Date' ); ?></label></th>
-			<td><input id="promotion_end_date" type="date" value="" required/></td>
-		</tr>
-		<tr class="end_date-wrap">
-			<th><label for="usage_limit_per_user"><?php _e( 'Usage Limit Per User' ); ?></label></th>
-			<td><input id="usage_limit_per_user" type="text" value="" required/></td>
-		</tr>
-	</table>
-	<input id="add_promotions" type="Submit" value="Add Promotions"/>
+<center><h3>Add New Promo Code</h3></center>
+	<form class="form-group" id="promotionForm">
+		<div class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="couponcode"><?php _e( 'Coupon Code' ); ?></label>
+					<input class="form-control" id="coupon_code" type="text" value="" required/>
+					<label for="promotiondescription"><?php _e( 'Promotion Description' ); ?></label>
+					<input class="form-control" id="promotion_description" type="text" value="" required/>
+					<label for="promotiondescription">Promotion Type</label>
+					<select class="form-control" id="promotion_type" name="promotion_type" required>
+						<option  value="">Select Promotion Type</option>
+						<option  value="Fixed_Amount">Fixed Amount</option>
+						<option  value="Percentage_Off">Percentage Off</option>
+					</select>
+					<label for="discountamount"><?php _e( 'Discount Amount' ); ?></label>
+					<input class="form-control" id="discount_amount" type="text" value="" required />
+					<label for="percentageoff"><?php _e( 'Percentage Off' ); ?></label>
+					<input class="form-control" id="percentage_off" type="text" value="" required/>
+					<label for="minimumspend"><?php _e( 'Minimum Spend Amount' ); ?></label>
+					<input class="form-control" id="minimum_spend" type="text" value=""/>
+				</div>
+				<div class="col-sm-6">
+					<label for="product_categories"><?php _e( 'Product Categories' ); ?></label><br>
+<!-- 					<input type="checkbox" id="selectall"/>
+					<label><h3>Select All</h3></label> -->
+					<input type="checkbox" class="form-control case" name="product_cat" value="Rental_Packages"/>
+					<label><h3>Rental Packages</h3></label>
+					<input type="checkbox" class="form-control case" name="product_cat" value="Storage_Packages"/>
+					<label><h3>Storage Packages</h3></label>
+					<input type="checkbox" class="form-control case" name="product_cat" value="Residential_Packages"/>
+					<label><h3>Residential Packages</h3></label>
+					<input type="hidden" name="product_categories" id="product_categories" >
+					<br>
+					<label for="startdate"><?php _e( 'Start Date' ); ?></label>
+					<input id="promotion_start_date" class="form-control global_date" type="text" value="" required/>
+					<label for="promotionenddate"><?php _e( 'End Date' ); ?></label>
+					<input id="promotion_end_date" class="form-control global_date" type="text" value="" required/>
+					<label for="usage_limit_per_user"><?php _e( 'Usage Limit Per User' ); ?></label>
+					<input id="usage_limit_per_user" class="form-control" type="text" value="" required/>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-success" id="add_promotions" type="Submit" style="padding: 10px;margin: 20px;">Add Promotions</button>
 	</form >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script>
@@ -109,15 +90,17 @@ $db = mysql_select_db("rebow");*/
 				var promotion_type =jQuery("#promotion_type").val();
 				if(promotion_type=='Fixed_Amount'){
 					jQuery("#percentage_off").prop("readonly", true);
+					jQuery("#percentage_off").val('');
 					jQuery("#discount_amount").prop("readonly", false);
 				}else{
 					jQuery("#discount_amount").prop("readonly", true);
+					jQuery("#discount_amount").val('');
 					jQuery("#percentage_off").prop("readonly", false);
 				}
 			});
 			
 			jQuery( "#promotionForm" ).submit(function() {
-
+				alert($('.case').val());
 				//var promotion_id = jQuery("#promotion_id").val().trim();
 				//alert(promotion_id);
 
@@ -168,7 +151,39 @@ $db = mysql_select_db("rebow");*/
 			});
 			
 		});
+		$('.global_date').datepicker({
+			startDate: "today",
+			daysOfWeekDisabled: [0,6],
+			format: "M dd, yyyy ",
+			autoclose:true,
+		});
+		$(function(){
+
+	// add multiple select / deselect functionality
+	$("#selectall").click(function () {
+		  $('.case').attr('checked', this.checked);
+		    var val = [];
+		       	$(':checkbox:checked').each(function(i){
+		          val[i] = $(this).val();
+		        });
+		        $('#product_categories').val(val);
+	});
+
+	// if all checkbox are selected, check the selectall checkbox
+	// and viceversa
+		$(".case").change(function(){
+			if($(".case").length == $(".case:checked").length) {
+				$("#selectall").attr("checked", "checked");
+			} else {
+				$("#selectall").removeAttr("checked");
+				$("#selectall").removeAttr("checked");
+			}
+		        var val = [];
+		        $(':checkbox:checked').each(function(i){
+		          val[i] = $(this).val();
+		        });
+		        $('#product_categories').val(val);
+			});
+		});
 
 		</script>
-		<script type="text/javascript" href="http://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/js/jquery.multi-select.min.js"/></script>
-

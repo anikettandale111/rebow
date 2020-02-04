@@ -62,7 +62,7 @@ function show_products(){
 		echo '<td>'.$row['box_count'].'</td>';
 		echo '<td>$'.$price.'/2 week</td>';
 		echo '<td>$'.$storage_price.'/ month</td>';
-		echo '<td><a href="edit_packages.php?product=$product_id" class="button button-primary">Edit</a> <button  onClick="deletepacakge('.$product_id.')" class="button button-primary">Delete</button></td>';
+		echo '<td><a href="edit_packages.php?product='.$product_id.'" class="button button-primary">Edit</a> <button  onClick="deletepacakge('.$product_id.')" class="button button-primary">Delete</button></td>';
 		echo '</tr>';
 		echo '</form>';
 	}

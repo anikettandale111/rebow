@@ -19,12 +19,7 @@ jQuery(document).ready(function() {
 		startDate: "today",
 		daysOfWeekDisabled: [0,6],
 		format: "M dd, yyyy ",
-<<<<<<< HEAD
-		autoclose: true,
-=======
 		autoclose:true,
-
->>>>>>> cd81a6c042876dc22a89ebbd5f8a714ef1f964bb
 	});
 	/*jQuery('#delivery_address').focusout(function()
 	{

@@ -1,7 +1,10 @@
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
 <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.css" >
+
 <script src="<?php echo get_stylesheet_directory_uri().'/assets/js/common.js'?>"></script>
 <style type="text/css">
 	.testexample th,td{
