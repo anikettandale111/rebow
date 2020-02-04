@@ -273,7 +273,7 @@
         </div>
       </div>
       <!-- Right side -->
-      <div class="col-sm-12 col-md-4">
+      <div class="col-sm-12 col-md-4 checkout">
         <div class="row justify-content-end">
           <div class="col-sm-12 text-right pr-0">
             <button class="submit_order_new btn btn-secondary mb-3" id="submit_order1" data-secret="<?= $intent->client_secret ?>" onclick="test_card()">Submit Order</button>
@@ -297,9 +297,9 @@
                       </ul>
                     </div>
                     <div class="col-md-4 p-0 text-right align-self-end">
-                       <span id="price_text" class="text-muted">$<?php echo $display_data_price; ?></span>
+                       <span id="price_text">$<?php echo $display_data_price; ?></span>
                         <div class="clearfix"></div>
-                        <span id="addedboxprice" class="hide_added_boxes_data" class="text-muted">$<?php echo $added_box_price;?></span>
+                        <span id="addedboxprice" class="hide_added_boxes_data">$<?php echo $added_box_price;?></span>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -333,17 +333,26 @@
                     <span>Total</span>
                     <strong id="total_price">$<?php echo $total_price;?></strong>
                   </li>
+
+                  <li id="promo_price_div" class="list-group-item d-flex justify-content-between hidecm">
+                    <span>Promo Price</span>
+                    <span id="promo_price">$<?php echo $promo_price;?></span>
+                  </li>
+                  <li id="new_total_price_div" class="list-group-item d-flex justify-content-between hidecm">
+                    <span>New Total</span>
+                    <span id="new_total_price">$<?php echo $new_total_price;?></span>
+                  </li>
                 </ul>
               </div>
           </div>
         </div>
         <!-- information -->
         <div class="row mt-2">
-          <div class="col-sm-10 p-3 blue-bg">
+          <div class="col-sm-9 p-3 blue-bg">
             <p>YOUR INFORMATION </p>
           </div>
-          <div class="col-sm-2 p-3 blue-bg edit">
-            <em><a href="/rebow/personal-information/">EDIT</a></em>
+          <div class="col-sm-3 p-3 blue-bg edit">
+            <em class="text-right"><a href="/rebow/personal-information/">EDIT</a></em>
           </div>
           <div class="col-sm-12 p-0">
            <div class="grey-bg p-4 pt-4">
@@ -386,19 +395,23 @@
             <p>ORDER DETAILS </p>
           </div>
           <div class="col-sm-3 p-3 blue-bg edit">
-            <em><a href="/rebow/selectperiod/">EDIT</a></em>
+            <em class="text-right"><a href="/rebow/selectperiod/">EDIT</a></em>
           </div>
           <div class="col-sm-12 p-0">
            <div class="grey-bg p-4 pt-4">
+            <?php if($period_datas=='STORAGE'){?>
             <ul class="pkg-info">
-              <?php if($period_datas=='STORAGE'){?>
+              
                 <li class=""><?php echo $period_datas." - ".$product_name." - ".$box_count." Boxes"?></li>
-                <li>Storage Period : <?php echo $period_data_value;?></li>
-              <?php }else{?>
-                <li class=""><?php echo $product_name." Package (".$product_range.") "?></li>
-                <li>Rental Period: <?php echo $period_data_value;?></li>
-              <?php }?>
+              
             </ul>
+            <label class="time-period">Storage Period : <span><?php echo $period_data_value;?></span></label>
+            <?php }else{?>
+              <ul class="pkg-info">
+                <li class=""><?php echo $product_name." Package (".$product_range.") "?></li>
+              </ul>
+            <label class="time-period">Rental Period: <span><?php echo $period_data_value;?></span></label>
+            <?php }?>
             <small class="ml-3"><em>  Includes : </em></small>
             <ul class="includs">
               <li><?php echo $box_count?> Boxes</li>
@@ -421,11 +434,11 @@
         </div>
         <!-- Delivery and pickup details -->
         <div class="row">
-          <div class="col-sm-10 p-3 blue-bg">
+          <div class="col-sm-9 p-3 blue-bg">
             <p>DELIVERY & PICK UP DETAILS</p>
           </div>
-          <div class="col-sm-2 p-3 blue-bg edit">
-            <em><a href="/rebow/delivery_pickup/">EDIT</a></em>
+          <div class="col-sm-3 p-3 blue-bg edit">
+            <em class="text-right"><a href="/rebow/delivery_pickup/">EDIT</a></em>
           </div>
           <div class="col-sm-12 p-0">
           	<?php if($period_datas=="RENTAL"){?>
@@ -630,8 +643,9 @@
         // See your keys here: https://dashboard.stripe.com/account/apikeys
         //var user_status = document.getElementById('user_status').value;
         //alert(user_status);
-      var stripe = Stripe('pk_test_jtWtIVtWDtzfftY59MQaNGJQ00ZZy89Axo');
-      // cardButton.addEventListener('click', function(ev) {
+        
+        var stripe = Stripe('pk_test_jtWtIVtWDtzfftY59MQaNGJQ00ZZy89Axo');
+        // cardButton.addEventListener('click', function(ev) {
             var elements = stripe.elements();
           // Set up Stripe.js and Elements to use in checkout form
           var style = {
@@ -686,12 +700,12 @@
           //alert("new_user");
           var elements = stripe.elements();
           // Set up Stripe.js and Elements to use in checkout form
-        alert(1);
-        var style = {
-            base: {
-              color: "#32325d",
-            }
-          
+          alert(1);
+          var style = {
+              base: {
+                color: "#32325d",
+              }
+            
           };
 
           var cardElement = elements.create('card',{ style: style });
@@ -838,6 +852,51 @@
 				if(added_box_count_field>0){
 					jQuery('#addedboxesfield').show();
 				}
+        $( "#promocode" ).blur(function() {
+          alert('promocode check');
+          var promocode = $('#promocode').val();
+          if(promocode!=''){
+            datastring = "ajax_request=promocode_check&promocode="+promocode;
+            var total_price = $('#total_price_field').val();
+            jQuery.ajax({
+                url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                method : "POST",
+                data : datastring,
+                success: function(result){
+                    //alert(1);
+                  console.log(result);
+                  var jsonOBJ = JSON.parse(result);
+                  console.log(jsonOBJ);
+                  if(jsonOBJ.msg=="Invalid Coupon Code"){
+                    alert("Invalid Coupon Code");
+                  }else if(jsonOBJ.msg=="Valid Coupon"){
+                    jQuery('#promo_price_div').removeClass('hidecm');
+                    jQuery('#new_total_price_div').removeClass('hidecm');
+                    //alert("Valid Coupon Code");
+                    if(jsonOBJ.promotion_type=="Fixed_Amount"){
+                      var discount_amount = jsonOBJ.discount_amount;
+                      //console.log(discount_amount);
+                    }else if(jsonOBJ.promotion_type=="Percentage_Off"){
+                      var Percentage_Off = jsonOBJ.percentage_off;
+                      
+                      
+                      var discount_amount = (total_price*Percentage_Off)/100;
+                      
+                      
+
+                    } 
+                    console.log(discount_amount);
+                    jQuery('#promo_price').text('$'+discount_amount);
+                    console.log(total_price);
+                    var new_total_price = (total_price-discount_amount);
+                    console.log(new_total_price);
+                    jQuery('#new_total_price').text('$'+new_total_price);
+                  }
+                }
+              });
+
+          }
+        });
 				jQuery('#submit_order1').click(function() {
 					//datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
 					

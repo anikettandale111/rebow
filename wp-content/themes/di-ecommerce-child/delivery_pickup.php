@@ -141,7 +141,7 @@
 			<div class="clearfix"></div>
 			<section class="rp mt-4" id="pick_up_packed_boxes">
 			  <div class="container">
-			  	<div class="grey-bg p-5 mt-3">
+			  	<div class="grey-bg p-5">
 				    <div class="row">
 				      <div class="col-sm-12 mb-4 form-header">
 				        <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
@@ -251,7 +251,7 @@
 			  </div>
 			</section>
 			<div class="clearfix"></div>
-			<section class="rp mt-6" id="delivery_packed_boxes">
+			<section class="rp mt-4" id="delivery_packed_boxes">
 			  <div class="container">
 			  	<div class="grey-bg p-5">
 			    <div class="row">
@@ -474,7 +474,7 @@
 			  </div>
 			</section>
 			<div class="clearfix"></div>
-			<section id="order_summary" class="mt-4">
+			<section id="order_summary" class="mt-2">
 				<div class="container">
 					<div class="package-selection">
 				    	<div class="row justify-content-center my-5">

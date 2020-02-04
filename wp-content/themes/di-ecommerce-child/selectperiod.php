@@ -76,8 +76,12 @@
 					          	</div>
 					          	<button id="next_order_page" type="button" class="btn btn-secondary">Next</button>
 
-					          	<label class="p-3"> How Storage Works? Check out our <a href="/rebow/faq/"><u>FAQ</u></a></label>
+					          	
 
+				      		</div>
+				      		<div class="clearfix"></div>
+				      		<div class="col-sm-12 text-center">
+				      			<label class="p-3 how-storage"> How Storage Works? Check out our <a href="/rebow/faq/">FAQ</a></label>
 				      		</div>
 				    	</div>
 			    	</div>

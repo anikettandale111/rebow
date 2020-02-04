@@ -25,30 +25,7 @@ if( get_theme_mod( 'loading_icon', '0' ) == 1 ) {
 <?php
 }
 ?>
-<?php 
-//echo $_SERVER['DOCUMENT_ROOT'];
-require_once($_SERVER['DOCUMENT_ROOT'].'/rebow/db_config.php');
-/*$con = mysql_connect("localhost","root","");
-if (!$con) {
-    die('Could not connect: ' . mysql_error());
-}
 
-//mysql_query('SET names utf8');
-mysql_set_charset('utf8');
-$db = mysql_select_db("rebow");*/
-$cur_date=date('Y-m-d');
-$q= mysql_query("SELECT * from promotions where promotion_start_date < '$cur_date' and promotion_end_date > '$cur_date'");
-$res =mysql_fetch_assoc($q);
-if(!empty($res)){
-	$prom_text = $res['promotion_description'];
-}else{
-	
-}
-
-echo "<header class='masthead text-center'>
-      <p>$prom_text</p>
- </header>";
- ?>
 <!-- Loader icon Ends -->
 <?php get_template_part( 'template-parts/header', 'menu' ); ?>
 
