@@ -71,7 +71,7 @@ function show_order_details($order_id){
 	$order_status_array = array('Order_Received'=>'Order Received','Order_Confirmed'=>'Order Confirmed',
 		'Order_Completed'=>'Order Completed','Order_Cancelled'=>'Order Cancelled','Order_Refund'=>'Order Refund');
 	?>
-	<div class="inside">
+	<div class="inside" style="background:white">
 		<div class="panel-wrap">
 			<form action="" method="POST" id="order_edit_form"> 
 			<input id="ajax_request" name="ajax_request" type="hidden" value="order_update"/>

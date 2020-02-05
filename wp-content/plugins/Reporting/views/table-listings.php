@@ -38,7 +38,31 @@
 				}
 				$html .= "</tbody></table>";
 			}
-			$this->extra_tablenav('top'); 
+			// $this->extra_tablenav('top'); 
+			$cats = $this->get_order_type_data();
+			$order_status_array = $this->get_order_status_data();
+			?>
+			<select name="cat-filter" class="ewc-filter-cat">
+		    	<option value="">Order Type</option>
+		        <?php foreach( $cats as $cat ){ ?>
+		        <?php if($order_type==$cat){?>
+		               	<option value="<?php echo $cat; ?>" selected ><?php echo $cat; ?></option>
+		        <?php }else{?>
+		            	<option value="<?php echo $cat; ?>"><?php echo $cat; ?></option>
+		        <?php }?>
+		        <?php 	} ?>
+		    </select>
+		   	<select name="cat-filter1" class="ewc-filter-cat1">
+		    	<option value="">Order Status</option>
+		        <?php foreach( $order_status_array as $status ){ ?>
+		        <?php if($order_status==$status){?>
+		               	<option value="<?php echo $status; ?>" selected ><?php echo $status; ?></option>
+		        <?php }else{?>
+		            	<option value="<?php echo $status; ?>"><?php echo $status; ?></option>
+		        <?php }?>
+		        <?php 	} ?>
+		    </select>
+			<?php 
 			print_r($html);
 			// $per_page = 5;
 
@@ -206,74 +230,74 @@
 			}
 		}
 
-		public function extra_tablenav( $which ) {
-		   	//global $wpdb, $testiURL, $tablename, $tablet;
-		    //$move_on_url = '&cat-filter=';
-		    $order_type = isset($_REQUEST['order_type']) ? trim($_REQUEST['order_type']) : "";
+		// public function extra_tablenav( $which ) {
+		//    	//global $wpdb, $testiURL, $tablename, $tablet;
+		//     //$move_on_url = '&cat-filter=';
+		//     $order_type = isset($_REQUEST['order_type']) ? trim($_REQUEST['order_type']) : "";
 
-		    $order_status = isset($_REQUEST['order_status']) ? trim($_REQUEST['order_status']) : "";
-		    if ( $which == "top" ){
-		        ?>
-		        <div class="alignleft actions bulkactions">
-		        <?php
-		        $cats = $this->get_order_type_data();
+		//     $order_status = isset($_REQUEST['order_status']) ? trim($_REQUEST['order_status']) : "";
+		//     if ( $which == "top" ){
+		        /* ?>
+		//         <div class="alignleft actions bulkactions">
+		//         <?php
+		//         $cats = $this->get_order_type_data();
 
-		        $order_status_array = $this->get_order_status_data();
-		        //$cats = $wpdb->get_results('select * from '.$tablename.' order by title asc', ARRAY_A);
-		        if( $cats ){
-		            ?>
-		            <select name="cat-filter" class="ewc-filter-cat">
-		                <option value="">Order Type</option>
-		                <?php
-		                foreach( $cats as $cat ){
+		//         $order_status_array = $this->get_order_status_data();
+		//         //$cats = $wpdb->get_results('select * from '.$tablename.' order by title asc', ARRAY_A);
+		//         if( $cats ){
+		//             ?>
+		//             <select name="cat-filter" class="ewc-filter-cat">
+		//                 <option value="">Order Type</option>
+		//                 <?php
+		//                 foreach( $cats as $cat ){
 		                    
-		                ?>
-		                <?php 
-		                if($order_type==$cat){?>
-		                	<option value="<?php echo $cat; ?>" selected ><?php echo $cat; ?></option>
-		            	<?php }else{?>
-		            		 <option value="<?php echo $cat; ?>"><?php echo $cat; ?></option>
-		            	<?php }?>
+		//                 ?>
+		//                 <?php 
+		//                 if($order_type==$cat){?>
+		//                 	<option value="<?php echo $cat; ?>" selected ><?php echo $cat; ?></option>
+		//             	<?php }else{?>
+		//             		 <option value="<?php echo $cat; ?>"><?php echo $cat; ?></option>
+		//             	<?php }?>
 		               
-		                <?php   
+		//                 <?php   
 		                
-		                }
-		                ?>
-		            </select>
-		            <?php   
-		        }
+		//                 }
+		//                 ?>
+		//             </select>
+		//             <?php   
+		//         }
 
-		        if( $order_status_array ){
-		            ?>
-		            <select name="cat-filter1" class="ewc-filter-cat1">
-		                <option value="">Order Status</option>
-		                <?php
-		                foreach( $order_status_array as $status ){
+		//         if( $order_status_array ){
+		//             ?>
+		//             <select name="cat-filter1" class="ewc-filter-cat1">
+		//                 <option value="">Order Status</option>
+		//                 <?php
+		//                 foreach( $order_status_array as $status ){
 		                    
-		                ?>
-		                <?php 
-		                if($order_status==$status){?>
-		                	<option value="<?php echo $status; ?>" selected ><?php echo $status; ?></option>
-		            	<?php }else{?>
-		            		 <option value="<?php echo $status; ?>"><?php echo $status; ?></option>
-		            	<?php }?>
+		//                 ?>
+		//                 <?php 
+		//                 if($order_status==$status){?>
+		//                 	<option value="<?php echo $status; ?>" selected ><?php echo $status; ?></option>
+		//             	<?php }else{?>
+		//             		 <option value="<?php echo $status; ?>"><?php echo $status; ?></option>
+		//             	<?php }?>
 		               
-		                <?php   
+		//                 <?php   
 		                
-		                }
-		                ?>
-		            </select>
-		            <?php   
-		        }
-		        ?>  
-		        </div>
-		        <?php
-		    }
-		    if ( $which == "bottom" ){
-		        //The code that goes after the table is there
+		//                 }
+		//                 ?>
+		//             </select>
+		//             <?php   
+		//         }
+		//         ?>  
+		//         </div>
+		//         <?php
+		//     }
+		//     // if ( $which == "bottom" ){
+		//     //     //The code that goes after the table is there
 
-		    }
-		}
+		//     // }
+		// } */
 		public function get_order_type_data(){
 			$query = mysql_query("select order_type from order_type_master where status=1");
 

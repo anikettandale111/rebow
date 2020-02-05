@@ -47,76 +47,56 @@ function get_packages_data($product_id){
 	
 	$array_boxe_increments= array(8=>8,12=>12,16=>16,20=>20,24=>24,28=>28,32=>32,36=>36,40=>40,44=>44,48=>48,52=>52,56=>56,60=>60,64=>64,68=>68,72=>72,76=>76,80=>80,84=>84,88=>88,92=>92,96=>96,100=>100);
 	
-	echo '<input id="product_id" type="hidden" value="'.$product_id.'"/>';
 	?>
-	<table class="form-table">
-		<tr class="user-productname-wrap">
-			<th><label for="productname"><?php _e( 'Product Name' ); ?></label></th>
-	<?php
-
-	echo '<td><input id="product_name" type="text" value="'.$product_name.'"/></td></tr><br/>';
-
-	?>
-	<tr class="user-producttype-wrap">
-			<th><label for="producttype"><?php _e( 'Product Type' ); ?></label></th>
-	<?php
-	echo '<td><input id="product_type" type="text" value="'.$product_type.'"/></td></tr><br/>';
-	?>
-	<tr class="user-productrange-wrap">
-			<th><label for="productrange"><?php _e( 'Product Range' ); ?></label></th>
-	<?php
-	echo '<td><input id="product_range" type="text" value="'.$product_range.'"/></td></tr><br/>';
-	?>
-	<tr class="user-box_count-wrap">
-			<th><label for="boxcount"><?php _e( 'Box Count' ); ?></label></th>
-	<?php
-	echo '<td><select id="box_count" name="box_count">';
-	//echo '<td><selct id="box_count" value="'.$box_count.'"/></td></tr>';
-	foreach($array_boxe_increments as $key=>$value){
-		if($key==$box_count){
-			echo '<option selected="true" value="'.$value.'">'.$value.'</option>';
-		}else{
-			echo '<option value="'.$value.'">'.$value.'</option>';
-		}
-	}
-
-	echo '</td></select></tr>';
-	?>
-	<tr class="user-nestable_dollies_count-wrap">
-		<th><label for="nestabledolliescount"><?php _e( 'Nestable Dollies Count' ); ?></label></th>
-	<?php
-		echo '<td><input id="nestable_dollies_count" type="text" value="'.$nestable_dollies_count.'" readonly/></td></tr>';
-	?>
-	<tr class="user-nestable_dollies_count-wrap">
-		<th><label for="nestable_dollies_count"><?php _e( 'Labels Count' ); ?></label></th>
-	<?php
-		echo '<td><input id="labels_count" type="text" value="'.$labels_count.'" readonly/></td></tr>';
-	?>
-	<tr class="user-zipties_count-wrap">
-		<th><label for="ziptiescount"><?php _e( 'Zipties Count' ); ?></label></th>
-	<?php
-		echo '<td><input id="zipties_count" type="text" value="'.$zipties_count.'" readonly/></td></tr>';
-	?>
-	<tr class="price2weeks-wrap">
-			<th><label for="price2weeks"><?php _e( 'Price for first 2 weeks' ); ?></label></th>
-	<?php
-		echo '<td><input id="price2weeks" type="text" value="'.$price_for_first2weeks.'"/></td></tr>';
-	?>	
-	<tr class="priceafter2weeks-wrap">
-			<th><label for="priceafter2weeks"><?php _e( 'Price After 2 weeks' ); ?></label></th>
-	<?php
-		echo '<td><input id="priceafter2weeks" type="text" value="'.$price_for_after2weeks.'"/></td></tr>';
-	?>	
-	<tr class="price_for_1month-wrap">
-			<th><label for="ziptiescount"><?php _e( 'Monthly Stoage Cost' ); ?></label></th>
-	<?php
-		echo '<td><input id="price_for_1month" type="text" value="'.$price_for_1month.'"/></td></tr>';
-
-		echo '</table>';
-
-	
-		echo '<input id="update_packages" type="Submit" value="Update Packages"/>';
-	?>
+<div class="col-sm-12" style="background:white">
+	<center><h3>Edit Package</h3></center>
+	<form class="form-group" id="promotionForm">
+			<div class="row">
+				<input id="product_id" type="hidden" value="<?php echo $product_id ?>"/>
+				<div class="col-sm-6">
+					<label for="productname">Product Name</label>
+					<input class="form-control" id="product_name" type="text" value="<?php echo $product_name; ?>"/>
+					<label for="producttype">Product Type</label>
+					<select class="form-control" id="product_type" name="product_type">
+						<option selected value="">Select Package Type</option>
+						<option value="Residential" <?php echo ($product_type=="Residential")? 'selected': '' ?> >Residential</option>
+						<option value="Office" <?php echo ($product_type=="Office")? 'selected': '' ?> >Office</option>
+						<option value="Student" <?php echo ($product_type=="Student")? 'selected': '' ?> >Student</option>
+					</select>
+					<label for="productrange">Product Range</label>
+					<input class="form-control" id="product_range" type="text" value="<?php echo $product_range; ?>"/>
+					<label for="boxcount">Box Count</label>
+					<select class="form-control" id="box_count" name="box_count">
+						<option value="">Select Box Count </option>
+						<?php
+							foreach($array_boxe_increments as $key=>$value){
+								if($key == $box_count){
+									echo '<option selected="true" value="'.$value.'">'.$value.'</option>';
+								}else{
+									echo '<option value="'.$value.'">'.$value.'</option>';
+								}
+							}
+						?>
+					</select>
+					<label for="nestabledolliescount">Nestable Dollies Count</label>
+					<input class="form-control" id="nestable_dollies_count" type="text" readonly value="<?php echo $nestable_dollies_count ?>"/>
+				</div>
+				<div class="col-sm-6">
+					<label for="labelscount">Labels Count</label>
+					<input class="form-control" id="labels_count" type="text" readonly value="<?php echo $labels_count ?>"/>
+					<label for="ziptiescount">Zipties Count</label>
+					<input class="form-control" id="zipties_count" type="text" readonly value="<?php echo $zipties_count ?>"/>
+					<label for="price2weeks">Price for first 2 weeks</label>
+					<input class="form-control" id="price2weeks" type="text" value="<?php echo $price_for_first2weeks; ?>"/>
+					<label for="priceafter2weeks">Price After 2 weeks</label>
+					<input class="form-control" id="priceafter2weeks" type="text" value="<?php echo $price_for_after2weeks; ?>"/>		
+					<label for="price_for_1month">Monthly Stoage Cost</label>
+					<input class="form-control" id="price_for_1month" type="text" value="<?php echo $price_for_1month; ?>"/>
+				</div>
+			</div>
+		<button class="btn btn-success" id="update_packages" type="button" style="padding: 10px;margin: 20px;">Update Package</button>
+	</form>
+</div>
 <?php }
 /*function get_price($product_id,$period){
 	$con = mysql_connect("localhost","root","");
@@ -155,45 +135,88 @@ function get_packages_data($product_id){
 
 				var product_name = jQuery("#product_name").val().trim();
 				//alert(product_name);
+				if(product_name == null || product_name == '' ){
+					alert('Please Enter Product Name.');
+					jQuery("#product_name").focus();
+					return false;
+				}
 
 				var product_type = jQuery("#product_type").val().trim();
 				//alert(product_type);
+				if(product_type == null || product_type == '' ){
+					alert('Please Enter Product Type.');
+					jQuery("#product_type").focus();
+					return false;
+				}
 
 				var product_range = jQuery("#product_range").val().trim();
 				//alert(product_range);
+				if(product_range == null || product_range == '' ){
+					alert('Please Enter Product Range.');
+					jQuery("#product_range").focus();
+					return false;
+				}
 
 				var box_count =jQuery("#box_count").val();
 				//alert(box_count);
+				if(box_count == null || box_count == '' ){
+					alert('Please Enter Box Count.');
+					jQuery("#box_count").focus();
+					return false;
+				}
 
 				var nestable_dollies_count = jQuery("#nestable_dollies_count").val().trim();
 
 				var labels_count = jQuery("#labels_count").val().trim();
 				//alert(labels_count);
+				if(labels_count == null || labels_count == '' ){
+					alert('Please Enter Labels Count.');
+					jQuery("#nestable_dollies_count").focus();
+					return false;
+				}
 
 				var zipties_count = jQuery("#zipties_count").val().trim();
 				//alert(zipties_count);
+				if(zipties_count == null || zipties_count == '' ){
+					alert('Please Enter Zipties Count.');
+					jQuery("#zipties_count").focus();
+					return false;
+				}
 
 				var price2weeks = jQuery("#price2weeks").val().trim();
 				//alert(price2weeks);
+				if(price2weeks == null || price2weeks == '' ){
+					alert('Please Enter Price Two Weeks.');
+					jQuery("#price2weeks").focus();
+					return false;
+				}
 
 				var priceafter2weeks = jQuery("#priceafter2weeks").val().trim();
 				//alert(priceafter2weeks);
+				if(priceafter2weeks == null || priceafter2weeks == '' ){
+					alert('Please Enter Price After Two Weeks.');
+					jQuery("#priceafter2weeks").focus();
+					return false;
+				}
 
 				var price_for_1month = jQuery("#price_for_1month").val().trim();
 				//alert(price_for_1month);
+				if(price_for_1month == null || price_for_1month == '' ){
+					alert('Please Enter Price for One MOnth.');
+					jQuery("#price_for_1month").focus();
+					return false;
+				}
 				
 				var datastring ="ajax_request=packages_update&product_id="+product_id+"&product_name="+product_name+"&product_type="+product_type+"&product_range="+product_range+"&box_count="+box_count+"&nestable_dollies_count="+nestable_dollies_count+"&labels_count="+labels_count+"&zipties_count="+zipties_count+"&price2weeks="+price2weeks+"&priceafter2weeks="+priceafter2weeks+"&price_for_1month="+price_for_1month;
 				
-				alert(datastring);
-				console.log(datastring);
-
 				jQuery.ajax({
 					url: "test-plugin-api.php",
 					method : "POST",
 					data : datastring,
 					success: function(result){
 					    alert(result);
-					    alert("Prices Updated");
+						var site = '<?php echo site_url() ?>';
+					    window.location.href= site+"/wp-admin/admin.php?page=test-plugin";
 					}
 				});
 

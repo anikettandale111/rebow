@@ -56,7 +56,7 @@ function show_coupons(){
 		
 		echo '<td > '.$row['promotion_end_date'].'</td>';
 
-		echo '<td><a href="edit_promotions.php?promotions='.$promotion_id.'" class="button button-primary">Edit</a> <button  onClick="deletecoupon('.$promotion_id.')" class="button button-primary">Delete</button></td>';
+		echo '<td><a href="add_promotions.php?promotions='.$promotion_id.'" class="button button-primary">Edit</a> <button  onClick="deletecoupon('.$promotion_id.')" class="button button-primary">Delete</button></td>';
 		echo '</tr>';
 		echo '</form>';
 	}

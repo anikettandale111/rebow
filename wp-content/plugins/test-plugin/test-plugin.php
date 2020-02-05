@@ -458,48 +458,38 @@ function get_packages_datas($product_type){
 		$result = mysql_query($sql);
 		//echo "<pre>";
 		//print_r(mysql_fetch_array($result));
-		echo "<table  class='wp-list-table widefat fixed striped posts'>";
-		echo "<tr><th ><h3>Base Formula</h3></th><th><h3>Base Price</h3></th></tr>";
+		echo '<div class="col-sm-12">';
+		echo '<div class="row">';
+		echo '<div class="col-sm-6" style="background:white">';
+		echo '<center><h3>Base Formula</h3></center>';
 		while($row = mysql_fetch_array($result)){
-			//echo "product_id: ".
-			//$product_id = $row['product_id'];
-			//$price = get_price($product_id,'2w');
-			//$storage_price = get_price($product_id,'1m');
-			$cname = str_replace("_"," ",$row['component_name']);
-			//echo '<';
-			echo '<tr>';
-			echo '<td id='.$row['component_name'].' ><h3> '.$cname.'</h3></td>';
+			$cname = str_replace("_"," ",$row['component_name']);			
+			echo '<label >'.$cname.'</label>';
 			$con_price = $row['component_name']."_price";
-			echo '<td contenteditable="true" id='.$con_price.' ><h3> $'.$row['componet_per_box_price'].'</h3></td>';
-			
-			//echo '<td><input type="submit" value="UPDATE"/></td>';
-			//echo '<td ><h3> '.$row['box_count'].'</h3></td>';
-			//echo '<td ><h3> $'.$price.'/2 week</h3></td>';
-			//echo '<td ><h3> $'.$storage_price.'/ month</h3></td>';
-			//echo "<td ><a href='edit_prices.php'>Edit Package</a></td>";
-			echo '</tr>';
-			//echo '</form>';
+			echo '<input type="text" class="form-control" contenteditable="true" id='.$con_price.' value="$'.$row['componet_per_box_price'].'"';			
 		}
-		echo "</table><br/>";
-		echo '<td><input id="base_values_update" type="Submit" value="UPDATE"/></td>';
+		echo '</div>';
+		echo '<button class="btn btn-success float-right" style="padding: 10px;margin: 20px;" id="base_values_update" type="Submit" />UPDATE</button>';
+		echo '</div>';
+		echo '</div>';
 		//echo '<script>';
 		echo '<script>
 		jQuery(document).ready(function(){
 
 			jQuery( "#base_values_update" ).click(function() {
-				var Moving_dollies_per_box_price = jQuery("#Moving_dollies_per_box_price").text().trim();
+				var Moving_dollies_per_box_price = jQuery("#Moving_dollies_per_box_price").val().trim();
 				//alert(Moving_dollies_per_box_price);
 
-				var Labels_per_box_price = jQuery("#Labels_per_box_price").text().trim();
+				var Labels_per_box_price = jQuery("#Labels_per_box_price").val().trim();
 				//alert(Labels_per_box_price);
 
-				var Zipties_per_box_price = jQuery("#Zipties_per_box_price").text().trim();
+				var Zipties_per_box_price = jQuery("#Zipties_per_box_price").val().trim();
 				//alert(Zipties_per_box_price);
 
-				var Rental_cost_per_1_box_per_1_week_price = jQuery("#Rental_cost_per_1_box_per_1_week_price").text().trim();
+				var Rental_cost_per_1_box_per_1_week_price = jQuery("#Rental_cost_per_1_box_per_1_week_price").val().trim();
 				//alert(Rental_cost_per_1_box_per_1_week_price);
 
-				var Monthly_storage_cost_per_box_price = jQuery("#Monthly_storage_cost_per_box_price").text().trim();
+				var Monthly_storage_cost_per_box_price = jQuery("#Monthly_storage_cost_per_box_price").val().trim();
 				//alert(Monthly_storage_cost_per_box_price);
 				
 				var datastring ="ajax_request=base_values_update&Moving_dollies_per_box_price="+Moving_dollies_per_box_price+"&Labels_per_box_price="+Labels_per_box_price+"&Zipties_per_box_price="+Zipties_per_box_price+"&Rental_cost_per_1_box_per_1_week_price="+Rental_cost_per_1_box_per_1_week_price+"&Monthly_storage_cost_per_box_price="+Monthly_storage_cost_per_box_price;
@@ -512,7 +502,8 @@ function get_packages_datas($product_type){
 					method : "POST",
 					data : datastring,
 					success: function(result){
-					    alert(datastring);
+					    alert("Data Upadted Successfully.");
+					    location.reload();
 					}
 				});
 			});

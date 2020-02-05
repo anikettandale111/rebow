@@ -81,12 +81,11 @@ if($ajax_request=='packages_update'){
 	foreach($res_array1 as $key=>$value){
 		$query="UPDATE products SET $key='$value' where product_id=$product_id";
 		//die;
-		$res = mysql_query($query,$con);
-		
+		$res = mysql_query($query,$con);		
 		if($res==1){
-			echo 'Packages Updated Successfully';
+			$message = 'Packages Updated Successfully';
 		}else{
-			echo 'Packages updation unsuccessful';
+			$message = 'Packages updation unsuccessful';
 		}
 	}
 
@@ -95,10 +94,11 @@ if($ajax_request=='packages_update'){
 		$res = mysql_query($query,$con);
 		
 		if($res==1){
-			echo 'Pricing Updated Successfully';
+			$message = 'Pricing Updated Successfully';
 		}else{
-			echo 'Pricing updation unsuccessful';
+			$message = 'Pricing updation unsuccessful';
 		}
+		echo $message;
 	/*foreach($res_array2 as $key=>$value){
 
 		echo $query="UPDATE pricing SET price=$value where period='$key' and product_id=$product_id";
@@ -122,6 +122,16 @@ if($ajax_request=='delete_pacakge'){
 		echo 'Package Deleted Successfully';
 	}else{
 		echo 'Sorry, Please try again.';
+	}
+}
+if($ajax_request=='check_new_promo'){
+	$query="SELECT count('promotion_id') as 'count' FROM promotions where coupon_code = '".$_POST['newpromo']."' AND coupon_status=1";
+	$res = mysql_query($query,$con);	
+	$row = mysql_fetch_row($res);
+	if($row[0]){
+		echo json_encode(array('status'=>'exits','message'=>'Sorry, Promo Code Already Exists.'));
+	}else{
+		echo json_encode(array('status'=>'not_exits'));
 	}
 }
 
@@ -184,6 +194,7 @@ if($ajax_request=='promotions_update'){
 	$promotion_id = $_REQUEST['promotion_id'];
 
 	$coupon_code = $_REQUEST['coupon_code'];
+	$promotion_description = $_REQUEST['promotion_description'];
 
 	$promotion_type = $_REQUEST['promotion_type'];
 
@@ -202,6 +213,7 @@ if($ajax_request=='promotions_update'){
 	$usage_limit_per_user = $_REQUEST['usage_limit_per_user'];
 
 	$query ="UPDATE promotions SET coupon_code='$coupon_code',
+				promotion_description='$promotion_description',
 				promotion_type='$promotion_type',
 				discount_amount = '$discount_amount',
 				percentage_off= '$percentage_off',

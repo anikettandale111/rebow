@@ -220,7 +220,7 @@ switch ( $action ) {
 		?>
 </h1>
 
-		<?php
+		<?php /* 
 		if ( ! IS_PROFILE_PAGE ) {
 			if ( current_user_can( 'create_users' ) ) {
 				?>
@@ -229,7 +229,7 @@ switch ( $action ) {
 		<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
 				<?php
 	}
-		}
+		} */
 		?>
 
 <hr class="wp-header-end">
@@ -389,12 +389,12 @@ endif;
 <table class="form-table">
 	<tr class="user-user-login-wrap">
 		<th><label for="user_login"><?php _e( 'Username' ); ?></label></th>
-		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr( $profileuser->user_login ); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e( 'Usernames cannot be changed.' ); ?></span></td>
+		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr( $profileuser->user_login ); ?>" disabled="disabled" class="form-control regular-text" /> <span class="description"><?php _e( 'Usernames cannot be changed.' ); ?></span></td>
 	</tr>
 
 		<?php if ( ! IS_PROFILE_PAGE && ! is_network_admin() && current_user_can( 'promote_user', $profileuser->ID ) ) : ?>
 <tr class="user-role-wrap"><th><label for="role"><?php _e( 'Role' ); ?></label></th>
-<td><select name="role" id="role">
+<td><select class="form-control col-sm-4" name="role" id="role">
 			<?php
 			// Compare user role against currently editable roles
 			$user_roles = array_intersect( array_values( $profileuser->roles ), array_keys( get_editable_roles() ) );
@@ -428,23 +428,23 @@ endif; //!IS_PROFILE_PAGE
 
 <tr class="user-first-name-wrap">
 	<th><label for="first_name"><?php _e( 'First Name' ); ?></label></th>
-	<td><input type="text" name="first_name" id="first_name" value="<?php echo esc_attr( $profileuser->first_name ); ?>" class="regular-text" /></td>
+	<td><input type="text" name="first_name" id="first_name" value="<?php echo esc_attr( $profileuser->first_name ); ?>" class="form-control regular-text" /></td>
 </tr>
 
 <tr class="user-last-name-wrap">
 	<th><label for="last_name"><?php _e( 'Last Name' ); ?></label></th>
-	<td><input type="text" name="last_name" id="last_name" value="<?php echo esc_attr( $profileuser->last_name ); ?>" class="regular-text" /></td>
+	<td><input type="text" name="last_name" id="last_name" value="<?php echo esc_attr( $profileuser->last_name ); ?>" class="form-control regular-text" /></td>
 </tr>
 
 <tr class="user-nickname-wrap">
 	<th><label for="nickname"><?php _e( 'Nickname' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
-	<td><input type="text" name="nickname" id="nickname" value="<?php echo esc_attr( $profileuser->nickname ); ?>" class="regular-text" /></td>
+	<td><input type="text" name="nickname" id="nickname" value="<?php echo esc_attr( $profileuser->nickname ); ?>" class="form-control regular-text" /></td>
 </tr>
 
 <tr class="user-display-name-wrap">
 	<th><label for="display_name"><?php _e( 'Display name publicly as' ); ?></label></th>
 	<td>
-		<select name="display_name" id="display_name">
+		<select class="form-control" name="display_name" id="display_name">
 		<?php
 			$public_display                     = array();
 			$public_display['display_nickname'] = $profileuser->nickname;
@@ -486,7 +486,7 @@ endif; //!IS_PROFILE_PAGE
 	<table class="form-table">
 	<tr class="user-email-wrap">
 		<th><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
-		<td><input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profileuser->user_email ); ?>" class="regular-text ltr" />
+		<td><input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profileuser->user_email ); ?>" class="form-control regular-text ltr" />
 		<?php
 		if ( $profileuser->ID == $current_user->ID ) :
 			?>
@@ -521,7 +521,7 @@ endif; //!IS_PROFILE_PAGE
 
 	<tr class="user-url-wrap">
 	<th><label for="url"><?php _e( 'Website' ); ?></label></th>
-	<td><input type="url" name="url" id="url" value="<?php echo esc_attr( $profileuser->user_url ); ?>" class="regular-text code" /></td>
+	<td><input type="url" name="url" id="url" value="<?php echo esc_attr( $profileuser->user_url ); ?>" class="form-control regular-text code" /></td>
 	</tr>
 
 		<?php
@@ -543,7 +543,7 @@ endif; //!IS_PROFILE_PAGE
 			echo apply_filters( "user_{$name}_label", $desc );
 			?>
 	</label></th>
-	<td><input type="text" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo esc_attr( $profileuser->$name ); ?>" class="regular-text" /></td>
+	<td><input type="text" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo esc_attr( $profileuser->$name ); ?>" class="form-control regular-text" /></td>
 	</tr>
 			<?php
 		}
@@ -555,7 +555,7 @@ endif; //!IS_PROFILE_PAGE
 <table class="form-table">
 <tr class="user-description-wrap">
 	<th><label for="description"><?php _e( 'Biographical Info' ); ?></label></th>
-	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description; // textarea_escaped ?></textarea>
+	<td><textarea class="form-control" name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description; // textarea_escaped ?></textarea>
 	<p class="description"><?php _e( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ); ?></p></td>
 </tr>
 
@@ -616,7 +616,7 @@ endif; //!IS_PROFILE_PAGE
 		<button type="button" class="button wp-generate-pw hide-if-no-js"><?php _e( 'Generate Password' ); ?></button>
 		<div class="wp-pwd hide-if-js">
 			<span class="password-input-wrapper">
-				<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="off" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
+				<input type="password" name="pass1" id="pass1" class="form-control regular-text" value="" autocomplete="off" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
 			</span>
 			<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 				<span class="dashicons dashicons-hidden"></span>
@@ -632,7 +632,7 @@ endif; //!IS_PROFILE_PAGE
 <tr class="user-pass2-wrap hide-if-js">
 	<th scope="row"><label for="pass2"><?php _e( 'Repeat New Password' ); ?></label></th>
 	<td>
-	<input name="pass2" type="password" id="pass2" class="regular-text" value="" autocomplete="off" />
+	<input name="pass2" type="password" id="pass2" class="form-control regular-text" value="" autocomplete="off" />
 	<p class="description"><?php _e( 'Type your new password again.' ); ?></p>
 	</td>
 </tr>

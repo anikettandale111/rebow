@@ -20,94 +20,68 @@ echo '<input id="week_rental_id" type="hidden" value="'.$week_rental.'"/>';
 echo '<input id="monthly_storage_id" type="hidden" value="'.$monthly_storage.'"/>';
 
 ?>
-
-<table class="form-table">
-	<tr class="user-productname-wrap">
-		<th><label for="productname">Product Name</label></th>
-		<td><input id="product_name" type="text" value=""/></td>
-	</tr>
-	
-	<tr class="user-producttype-wrap">
-		<th><label for="producttype">Product Type</label></th>
-		<td>
-			<select id="product_type" name="product_type">
-				<option selected="true" value="Select Product Type">Select Package Type</option>
-				<option value="Residential">Residential</option>
-				<option value="Office">Office</option>
-				<option value="Student">Student</option>
-			</select>
-		</td>
-	</tr>
-	
-	<tr class="user-productrange-wrap">
-		<th><label for="productrange">Product Range</label></th>
-		<td><input id="product_range" type="text" value=""/></td>
-	</tr>
-	
-	<tr class="user-box_count-wrap">
-		<th><label for="boxcount">Box Count</label></th>
-		<td>
-			<select id="box_count" name="box_count">
-				<option selected="true" value="8">8</option>
-				<option value="12">12</option>
-				<option value="16">16</option>
-				<option value="20">20</option>
-				<option value="24">24</option>
-				<option value="28">28</option>
-				<option value="32">32</option>
-				<option value="36">36</option>
-				<option value="40">40</option>
-				<option value="44">44</option>
-				<option value="48">48</option>
-				<option value="52">52</option>
-				<option value="56">56</option>
-				<option value="60">60</option>
-				<option value="64">64</option>
-				<option value="68">68</option>
-				<option value="72">72</option>
-				<option value="76">76</option>
-				<option value="80">80</option>
-				<option value="84">84</option>
-				<option value="88">88</option>
-				<option value="92">92</option>
-				<option value="96">96</option>
-				<option value="100">100</option>
-			</select>
-		</td>
-	</tr>
-	
-	<tr class="user-nestable_dollies_count-wrap">
-		<th><label for="nestabledolliescount">Nestable Dollies Count</label></th>
-		<td><input id="nestable_dollies_count" type="text" readonly value=""/></td>
-	</tr>
-	
-	<tr class="user-labels_count-wrap">
-		<th><label for="labelscount">Labels Count</label></th>
-		<td><input id="labels_count" type="text" readonly value=""/></td>
-	</tr>
-	
-	<tr class="user-zipties_count-wrap">
-		<th><label for="ziptiescount">Zipties Count</label></th>
-		<td><input id="zipties_count" type="text" readonly value=""/></td>
-	</tr>
-	
-	<tr class="user-price2weeks-wrap">
-		<th><label for="price2weeks">Price for first 2 weeks</label></th>
-		<td><input id="price2weeks" type="text" value=""/></td>
-	</tr>
-	
-	<tr class="user-priceafter2weeks-wrap">
-		<th><label for="priceafter2weeks">Price After 2 weeks</label></th>
-		<td><input id="priceafter2weeks" type="text" value=""/></td>
-	</tr>
-	
-	<tr class="user-price_for_1month-wrap">
-		<th><label for="price_for_1month">Monthly Stoage Cost</label></th>
-		<td><input id="price_for_1month" type="text" value=""/></td>
-	</tr>
-	
-</table>
-<input type="submit" id="add_package" value="Add Package"/>
+<div class="col-sm-12" style="background:white">
+	<center><h3>Add New Package</h3></center>
+		<form class="form-group" id="promotionForm">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="productname">Product Name</label>
+					<input class="form-control" id="product_name" type="text" value=""/>
+					<label for="producttype">Product Type</label>
+					<select class="form-control" id="product_type" name="product_type">
+						<option selected value="">Select Package Type</option>
+						<option value="Residential">Residential</option>
+						<option value="Office">Office</option>
+						<option value="Student">Student</option>
+					</select>
+					<label for="productrange">Product Range</label>
+					<input class="form-control" id="product_range" type="text" value=""/>
+					<label for="boxcount">Box Count</label>
+					<select class="form-control" id="box_count" name="box_count">
+						<option selected="true" value="8">8</option>
+						<option value="12">12</option>
+						<option value="16">16</option>
+						<option value="20">20</option>
+						<option value="24">24</option>
+						<option value="28">28</option>
+						<option value="32">32</option>
+						<option value="36">36</option>
+						<option value="40">40</option>
+						<option value="44">44</option>
+						<option value="48">48</option>
+						<option value="52">52</option>
+						<option value="56">56</option>
+						<option value="60">60</option>
+						<option value="64">64</option>
+						<option value="68">68</option>
+						<option value="72">72</option>
+						<option value="76">76</option>
+						<option value="80">80</option>
+						<option value="84">84</option>
+						<option value="88">88</option>
+						<option value="92">92</option>
+						<option value="96">96</option>
+						<option value="100">100</option>
+					</select>
+					<label for="nestabledolliescount">Nestable Dollies Count</label>
+					<input class="form-control" id="nestable_dollies_count" type="text" readonly value="2"/>
+				</div>
+				<div class="col-sm-6">
+					<label for="labelscount">Labels Count</label>
+					<input class="form-control" id="labels_count" type="text" readonly value="8"/>
+					<label for="ziptiescount">Zipties Count</label>
+					<input class="form-control" id="zipties_count" type="text" readonly value="8"/>
+					<label for="price2weeks">Price for first 2 weeks</label>
+					<input class="form-control" id="price2weeks" type="text" value=""/>
+					<label for="priceafter2weeks">Price After 2 weeks</label>
+					<input class="form-control" id="priceafter2weeks" type="text" value=""/>		
+					<label for="price_for_1month">Monthly Stoage Cost</label>
+					<input class="form-control" id="price_for_1month" type="text" value=""/>
+				</div>
+			</div>
+		<button class="btn btn-success" id="add_package" type="button" style="padding: 10px;margin: 20px;">Add Package</button>
+	</form>
+</div>
 <script>
 		jQuery(document).ready(function(){
 			
@@ -138,32 +112,77 @@ echo '<input id="monthly_storage_id" type="hidden" value="'.$monthly_storage.'"/
 
 		    	var product_name = jQuery("#product_name").val().trim();
 				//alert(product_name);
+				if(product_name == null || product_name == '' ){
+					alert('Please Enter Product Name.');
+					jQuery("#product_name").focus();
+					return false;
+				}
 
 				var product_type = jQuery("#product_type").val().trim();
 				//alert(product_type);
+				if(product_type == null || product_type == '' ){
+					alert('Please Enter Product Type.');
+					jQuery("#product_type").focus();
+					return false;
+				}
 
 				var product_range = jQuery("#product_range").val().trim();
 				//alert(product_range);
+				if(product_range == null || product_range == '' ){
+					alert('Please Enter Product Range.');
+					jQuery("#product_range").focus();
+					return false;
+				}
 
 				var box_count =jQuery("#box_count").val();
 				//alert(box_count);
+				if(box_count == null || box_count == '' ){
+					alert('Please Enter Box Count.');
+					jQuery("#box_count").focus();
+					return false;
+				}
 
 				var nestable_dollies_count = jQuery("#nestable_dollies_count").val().trim();
 
 				var labels_count = jQuery("#labels_count").val().trim();
 				//alert(labels_count);
+				if(labels_count == null || labels_count == '' ){
+					alert('Please Enter Labels Count.');
+					jQuery("#nestable_dollies_count").focus();
+					return false;
+				}
 
 				var zipties_count = jQuery("#zipties_count").val().trim();
 				//alert(zipties_count);
+				if(zipties_count == null || zipties_count == '' ){
+					alert('Please Enter Zipties Count.');
+					jQuery("#zipties_count").focus();
+					return false;
+				}
 
 				var price2weeks = jQuery("#price2weeks").val().trim();
 				//alert(price2weeks);
+				if(price2weeks == null || price2weeks == '' ){
+					alert('Please Enter Price Two Weeks.');
+					jQuery("#price2weeks").focus();
+					return false;
+				}
 
 				var priceafter2weeks = jQuery("#priceafter2weeks").val().trim();
 				//alert(priceafter2weeks);
+				if(priceafter2weeks == null || priceafter2weeks == '' ){
+					alert('Please Enter Price After Two Weeks.');
+					jQuery("#priceafter2weeks").focus();
+					return false;
+				}
 
 				var price_for_1month = jQuery("#price_for_1month").val().trim();
 				//alert(price_for_1month);
+				if(price_for_1month == null || price_for_1month == '' ){
+					alert('Please Enter Price for One MOnth.');
+					jQuery("#price_for_1month").focus();
+					return false;
+				}
 				
 				var datastring ="ajax_request=add_package&product_name="+product_name+"&product_type="+product_type+"&product_range="+product_range+"&box_count="+box_count+"&nestable_dollies_count="+nestable_dollies_count+"&labels_count="+labels_count+"&zipties_count="+zipties_count+"&price2weeks="+price2weeks+"&priceafter2weeks="+priceafter2weeks+"&price_for_1month="+price_for_1month;
 				
@@ -176,8 +195,8 @@ echo '<input id="monthly_storage_id" type="hidden" value="'.$monthly_storage.'"/
 					data : datastring,
 					success: function(result){
 					    alert(result);
-					    console.log(result);
-					    alert("New Package Added");
+					    var site = '<?php echo site_url() ?>';
+					    window.location.href= site+"/wp-admin/admin.php?page=test-plugin";
 					}
 				});
 		    });
