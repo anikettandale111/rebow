@@ -214,6 +214,7 @@ if($ajax_request=='promotions_update'){
 
 	$query ="UPDATE promotions SET coupon_code='$coupon_code',
 				promotion_description='$promotion_description',
+				product_categories='$product_categories',
 				promotion_type='$promotion_type',
 				discount_amount = '$discount_amount',
 				percentage_off= '$percentage_off',

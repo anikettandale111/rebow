@@ -85,22 +85,22 @@ $db = mysql_select_db("rebow");*/
 					<label for="discountamount"><?php _e( "Discount Amount" ); ?></label>
 					<?php
 						if($promotion_type=='Fixed_Amount'){
-							echo '<input id="discount_amount" class="form-control" type="text" required value="'.$discount_amount.'" />';
+							echo '<input id="discount_amount" class="form-control" type="number" required value="'.$discount_amount.'" />';
 						}else{
-							echo '<input id="discount_amount" class="form-control" type="text" value="'.$discount_amount.'" readonly/>';
+							echo '<input id="discount_amount" class="form-control" type="number" value="'.$discount_amount.'" readonly/>';
 						}
 					?>
 					<label for="percentageoff"><?php _e( 'Percentage Off' ); ?></label>
 					<?php
 						echo '<label for="percentageoff"><?php _e( "Percentage Off" ); ?></label>';
 						if($promotion_type=='Percentage_Off'){
-							echo '<input id="percentage_off" class="form-control" type="text" required value="'.$percentage_off.'" />';
+							echo '<input id="percentage_off" class="form-control" type="number" required value="'.$percentage_off.'" />';
 						}else{
-							echo '<input id="percentage_off" class="form-control" type="text" value="'.$percentage_off.'" readonly/>';
+							echo '<input id="percentage_off" class="form-control" type="number" value="'.$percentage_off.'" readonly/>';
 						}
 					?>
 					<label for="minimumspend"><?php _e( 'Minimum Spend Amount' ); ?></label>
-					<input class="form-control" autocomplete="off" id="minimum_spend" type="text" value="<?php echo $minimum_spend ?>" />
+					<input class="form-control" autocomplete="off" id="minimum_spend" type="number" value="<?php echo $minimum_spend ?>" />
 				</div>
 				<div class="col-sm-6">
 					<label for="product_categories"><?php _e( 'Product Categories' ); ?></label><br>

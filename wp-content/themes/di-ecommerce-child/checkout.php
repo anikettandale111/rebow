@@ -35,7 +35,7 @@
 
       $cards_data = get_cards_data($user_id,$email);
 
-
+// https://stripe.com/docs/payments/checkout/collecting#retrieve-setupintent
       $intent = \Stripe\SetupIntent::create();
       //print_r($cards_data);
       //exit;
