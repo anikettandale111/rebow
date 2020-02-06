@@ -85,22 +85,22 @@ $db = mysql_select_db("rebow");*/
 					<label for="discountamount"><?php _e( "Discount Amount" ); ?></label>
 					<?php
 						if($promotion_type=='Fixed_Amount'){
-							echo '<input id="discount_amount" class="form-control" type="number" required value="'.$discount_amount.'" />';
+							echo '<input id="discount_amount" class="form-control" min="0" type="number" required value="'.$discount_amount.'" />';
 						}else{
-							echo '<input id="discount_amount" class="form-control" type="number" value="'.$discount_amount.'" readonly/>';
+							echo '<input id="discount_amount" class="form-control" min="0" type="number" value="'.$discount_amount.'" readonly/>';
 						}
 					?>
 					<label for="percentageoff"><?php _e( 'Percentage Off' ); ?></label>
 					<?php
 						echo '<label for="percentageoff"><?php _e( "Percentage Off" ); ?></label>';
 						if($promotion_type=='Percentage_Off'){
-							echo '<input id="percentage_off" class="form-control" type="number" required value="'.$percentage_off.'" />';
+							echo '<input id="percentage_off" class="form-control" min="0" max="100" type="number" required value="'.$percentage_off.'" />';
 						}else{
-							echo '<input id="percentage_off" class="form-control" type="number" value="'.$percentage_off.'" readonly/>';
+							echo '<input id="percentage_off" class="form-control" min="0" max="100" type="number" value="'.$percentage_off.'" readonly/>';
 						}
 					?>
 					<label for="minimumspend"><?php _e( 'Minimum Spend Amount' ); ?></label>
-					<input class="form-control" autocomplete="off" id="minimum_spend" type="number" value="<?php echo $minimum_spend ?>" />
+					<input class="form-control" autocomplete="off" id="minimum_spend" min="0" type="number" value="<?php echo $minimum_spend ?>" />
 				</div>
 				<div class="col-sm-6">
 					<label for="product_categories"><?php _e( 'Product Categories' ); ?></label><br>
@@ -121,7 +121,7 @@ $db = mysql_select_db("rebow");*/
 					<label for="promotionenddate"><?php _e( 'End Date' ); ?></label>
 					<input id="promotion_end_date" class="form-control" type="date" value="<?php echo $promotion_end_date; ?>" required/>
 					<label for="usage_limit_per_user"><?php _e( 'Usage Limit Per User' ); ?></label>
-					<input id="usage_limit_per_user" class="form-control" autocomplete="off" type="number" value="<?php echo $usage_limit_per_user ?>" required/>
+					<input id="usage_limit_per_user" class="form-control" autocomplete="off" min="0" type="number" value="<?php echo $usage_limit_per_user ?>" required/>
 				</div>
 			</div>
 		<button class="btn btn-success" id="add_promotions" type="button" style="padding: 10px;margin: 20px;"><?php echo $button_name?></button>
@@ -160,6 +160,15 @@ $db = mysql_select_db("rebow");*/
 					jQuery("#percentage_off").prop("readonly", false);
 				}
 			});
+			jQuery('#discount_amount').change(function(){
+				var disc_amt = $(this).val();
+				var mini_spend =jQuery("#minimum_spend").val();
+				if(disc_amt >= mini_spend){
+					alert('Discount amount not greater than Minimum Spend Amount');
+					$(this).val('0');
+					$(this).focus();
+				}
+			});
 			
 			$( "#add_promotions" ).click(function() {
 				//var promotion_id = jQuery("#promotion_id").val().trim();
@@ -187,7 +196,7 @@ $db = mysql_select_db("rebow");*/
 				if(promotion_type == 'Fixed_Amount'){
 					var discount_amount = jQuery("#discount_amount").val().trim();
 					//alert(discount_amount);
-					if(discount_amount == null || discount_amount == '' ){
+					if(discount_amount == null || discount_amount == '' || discount_amount <= 0){
 						alert('Please Enter Promotion Discount Amount.');
 						jQuery("#discount_amount").focus();
 						return false;
@@ -195,7 +204,7 @@ $db = mysql_select_db("rebow");*/
 				}else{
 					var percentage_off = jQuery("#percentage_off").val().trim();
 					//alert(percentage_off);
-					if(percentage_off == null || percentage_off == '' ){
+					if(percentage_off == null || percentage_off == '' || percentage_off <= 0){
 						alert('Please Enter Discount Amount.');
 						jQuery("#percentage_off").focus();
 						return false;
@@ -205,7 +214,7 @@ $db = mysql_select_db("rebow");*/
 
 				var minimum_spend =jQuery("#minimum_spend").val();
 				//alert(minimum_spend);
-				if(minimum_spend == null || minimum_spend == '' ){
+				if(minimum_spend == null || minimum_spend == '' || minimum_spend <= 0){
 					alert('Please Enter minium Bill Amount.');
 					jQuery("#minimum_spend").focus();
 					return false;
@@ -230,7 +239,7 @@ $db = mysql_select_db("rebow");*/
 
 				var usage_limit_per_user = jQuery("#usage_limit_per_user").val().trim();
 				//alert(usage_limit_per_user);
-				if(usage_limit_per_user == null || usage_limit_per_user == '' ){
+				if(usage_limit_per_user == null || usage_limit_per_user == '' || usage_limit_per_user <= 0){
 					alert('Promotion Uses limit Per user .');
 					jQuery("#usage_limit_per_user").focus();
 					return false;

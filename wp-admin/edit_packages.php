@@ -54,14 +54,14 @@ function get_packages_data($product_id){
 			<div class="row">
 				<input id="product_id" type="hidden" value="<?php echo $product_id ?>"/>
 				<div class="col-sm-6">
-					<label for="productname">Product Name</label>
+					<label for="productname">Product Name (15 letters Only)</label>
 					<input class="form-control" id="product_name" type="text" value="<?php echo $product_name; ?>"/>
 					<label for="producttype">Product Type</label>
 					<select class="form-control" id="product_type" name="product_type">
 						<option selected value="">Select Package Type</option>
-						<option value="Residential" <?php echo ($product_type=="Residential")? 'selected': '' ?> >Residential</option>
-						<option value="Office" <?php echo ($product_type=="Office")? 'selected': '' ?> >Office</option>
-						<option value="Student" <?php echo ($product_type=="Student")? 'selected': '' ?> >Student</option>
+						<option value="Residential" <?php echo (ucfirst(strtolower($product_type))=="Residential")? 'selected': '' ?> >Residential</option>
+						<option value="Office" <?php echo (ucfirst(strtolower($product_type))=="Office")? 'selected': '' ?> >Office</option>
+						<option value="Student" <?php echo (ucfirst(strtolower($product_type))=="Student")? 'selected': '' ?> >Student</option>
 					</select>
 					<label for="productrange">Product Range</label>
 					<input class="form-control" id="product_range" type="text" value="<?php echo $product_range; ?>"/>
@@ -135,7 +135,7 @@ function get_packages_data($product_id){
 
 				var product_name = jQuery("#product_name").val().trim();
 				//alert(product_name);
-				if(product_name == null || product_name == '' ){
+				if(product_name == null || product_name == '' || product_name.length >= 15){
 					alert('Please Enter Product Name.');
 					jQuery("#product_name").focus();
 					return false;
@@ -144,7 +144,7 @@ function get_packages_data($product_id){
 				var product_type = jQuery("#product_type").val().trim();
 				//alert(product_type);
 				if(product_type == null || product_type == '' ){
-					alert('Please Enter Product Type.');
+					alert('Please Enter valid Product Type.');
 					jQuery("#product_type").focus();
 					return false;
 				}

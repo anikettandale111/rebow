@@ -25,7 +25,7 @@ echo '<input id="monthly_storage_id" type="hidden" value="'.$monthly_storage.'"/
 		<form class="form-group" id="promotionForm">
 			<div class="row">
 				<div class="col-sm-6">
-					<label for="productname">Product Name</label>
+					<label for="productname">Product Name (15 letters Only)</label>
 					<input class="form-control" id="product_name" type="text" value=""/>
 					<label for="producttype">Product Type</label>
 					<select class="form-control" id="product_type" name="product_type">
@@ -112,8 +112,8 @@ echo '<input id="monthly_storage_id" type="hidden" value="'.$monthly_storage.'"/
 
 		    	var product_name = jQuery("#product_name").val().trim();
 				//alert(product_name);
-				if(product_name == null || product_name == '' ){
-					alert('Please Enter Product Name.');
+				if(product_name == null || product_name == '' || product_name.length >= 15){
+					alert('Please Enter valid Product Name.');
 					jQuery("#product_name").focus();
 					return false;
 				}

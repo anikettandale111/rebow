@@ -165,7 +165,6 @@ function handle_custom_login(){
             }
             echo json_encode(array("status"=>0,'error'=>$error_msg));
         }else{
-            
             if($user_signon->id== 1 && $user_signon->user_nicename == "admin"){
                 $redirect_url = site_url()."/wp-admin/"; 
             }

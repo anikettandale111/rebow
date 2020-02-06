@@ -44,7 +44,7 @@ function show_coupons(){
 		echo '<tr id="row_id_'.$promotion_id.'">';
 		echo '<td>'.$count++.'</td>';
 		echo '<td>'.$row['coupon_code'].'</td>';
-		echo '<td> '.$row['promotion_type'].'</td>';
+		echo '<td> '.ucfirst(str_replace("_"," ",$row['promotion_type'])).'</td>';
 		if($row['promotion_type']=='Fixed_Amount'){
 			echo '<td >'.$row['discount_amount'].'</td>';
 		}else{
