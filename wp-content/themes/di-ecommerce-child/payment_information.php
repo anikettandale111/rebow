@@ -142,7 +142,7 @@ require_once("db_config.php");
 				      </div>
 				    </div>
 				  </div>
-				 /* test comment */ 
+				 <!-- /* test comment */  -->
 				  <button type="button" id="update_payment_method" onclick="update_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
 				</form>
 		      </div>
