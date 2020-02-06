@@ -6,8 +6,9 @@
 	</head>
 	<body>
 		<?php require_once('session_values.php');
-		//print_r($session_data);
+		
 		get_header();
+		print_r($session_data);
 		//print_r($session_data);?>
 		<!-- FAQ heading -->
 		<section class="faq-header">
@@ -42,7 +43,7 @@
 		                </ul>
 		              </div>
 		              <div class="col-sm-12 col-md-3">
-		                <button type="" class="btn btn-small blue-bg float-right txt-white">Submit</button>
+		                <button type="" class="submit_order_new btn btn-small blue-bg float-right txt-white">Submit</button>
 		              </div>
 		            </div>
 		          </div>
@@ -516,13 +517,13 @@
 		                <div class="clearfix"></div>
 		                <div class="col-from-field">
 		                  <label class="control control-checkbox">You confirm that the changes above are correct and you agree to let<br> ReBow charge the card ending in <?php echo substr($payments_data['Card_Number'],-4);?> for : $<?php echo $total_price;?>
-		                    <input type="checkbox"/>
+		                    <input id="confirm_order_change" type="checkbox"/>
 		                    <div class="control-indicator"></div>
 		                  </label>
 		                </div>
 		                <div class="clearfix"></div>
 		                <div class="col-from-field">
-		                  <button id="submit_order2" type="" class="btn btn-secondary">Submit Order</button>
+		                  <button id="submit_order2" type="" class="submit_order_new btn btn-secondary">Submit Order</button>
 		                </div>
 		              </div>
 		            </div>
@@ -538,7 +539,17 @@
 		<?php get_footer();?>
 		<script>
 			jQuery(document).ready(function() {
-				jQuery('#submit_order2').click(function(){
+				jQuery('.submit_order_new').click(function(){
+
+					if(!jQuery('#confirm_order_change').is(":checked")){
+			            alert('Please select the checkbox');
+			            
+			            setTimeout(function(){
+			              jQuery('#confirm_order_change').focus();
+			            },1000);
+			            return false;
+			        }
+			        var period_data_field = jQuery('#period_data_field').val();
 
 					var display_period = jQuery('#display_period').val();
 
@@ -568,18 +579,99 @@
 
 					var product_id = jQuery('#product_id').val();
 
-					var datastring = "ajax_request=order_submit&display_period="+display_period+"&dp_period="+dp_period+"&product_name="+product_name+"&box_count="+box_count+"&added_box_count="+added_box_count+"&added_box_price="+added_box_price+"&product_price="+product_price+"&subtotal="+subtotal+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&period_data="+period_data+"&product_id="+product_id+"&subtotal="+subtotal;
+					/*Form 1*/
+					var delivery_date = "<?php echo $delivery_date;?>";
 
-					alert(datastring);
+					var preferred_delivery_time = "<?php echo $preferred_delivery_time;?>";
 
+					var alternate_delivery_time = "<?php echo $alternate_delivery_time;?>";
+
+					var delivery_address = "<?php echo $delivery_address;?>";
+
+					var apt_unit_delivery = "<?php echo $apt_unit_delivery;?>";
+
+					var apartment_level_delivery = "<?php echo $apartment_level_delivery;?>";
+					//jQuery('#apartment_level_delivery').val();
+
+					var delivery_address_loc_lat = "<?php echo $delivery_address_loc_lat;?>";
+
+					var delivery_address_loc_long = "<?php echo $delivery_address_loc_long;?>";
+					/*END Form 1*/
+
+					/*Form 4*/
+
+					var pickup_date = "<?php echo $pickup_date;?>";
+
+					var preferred_pickup_time = "<?php echo $preferred_pickup_time;?>";
+
+					var alternate_pickup_time = "<?php echo $alternate_pickup_time;?>";
+
+					var pickup_address = "<?php echo $pickup_address;?>";
+
+					var apt_unit_pickup = "<?php echo $apt_unit_pickup;?>";
+
+					var apartment_level_pickup = "<?php echo $apartment_level_pickup;?>";
+
+					var pickup_address_loc_lat = "<?php echo $pickup_address_loc_lat;?>";
+
+					var pickup_address_loc_long = "<?php echo $pickup_address_loc_long;?>";
+
+					if(period_data_field=="STORAGE"){
+
+						/*Form 2*/
+						var pickup_date_packed = "<?php echo $pickup_date_packed;?>";
+
+						var preferred_pickup_time_packed = "<?php echo $preferred_pickup_time_packed;?>";
+						
+						var alternate_pickup_time_packed = "<?php echo $alternate_pickup_time_packed;?>";
+
+						var pickup_address_packed = "<?php echo $pickup_address_packed;?>";
+
+						var apt_unit_pickup_packed = "<?php echo $apt_unit_pickup_packed;?>";
+
+						var apartment_level_packed = "<?php echo $apartment_level_packed;?>";
+
+						var pickup_address_packed_loc_lat = "<?php echo $pickup_address_packed_loc_lat;?>";
+						var pickup_address_packed_loc_long = "<?php echo $pickup_address_packed_loc_long;?>";
+
+						/*END Form 2*/
+						
+						/*Form 3*/
+						//var selectaddress = jQuery('#selectaddress').val();
+						var delivery_date_packed = "<?php echo $pickup_address_packed_loc_long;?>";;
+
+						var preferred_delivery_time_packed = "<?php echo $preferred_delivery_time_packed;?>";
+						
+						var alternate_delivery_time_packed = "<?php echo $alternate_delivery_time_packed;?>";
+
+						var delivery_address_packed = "<?php echo $delivery_address_packed;?>";
+
+						var apt_unit_delivery_packed = "<?php echo $apt_unit_delivery_packed;?>";
+
+						var apartment_level_packed_delivery = "<?php echo $apartment_level_packed_delivery;?>";
+						var delivery_address_packed_loc_lat = "<?php echo $delivery_address_packed_loc_lat;?>";
+
+						var delivery_address_packed_loc_long = "<?php echo $delivery_address_packed_loc_long;?>";
+						/*END Form 3*/
+						var datastring = "ajax_request=order_submit&display_period="+display_period+"&dp_period="+dp_period+"&product_name="+product_name+"&box_count="+box_count+"&added_box_count="+added_box_count+"&added_box_price="+added_box_price+"&product_price="+product_price+"&subtotal="+subtotal+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&period_data="+period_data+"&product_id="+product_id+"&subtotal="+subtotal+"&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&pickup_date_packed="+pickup_date_packed+"&preferred_pickup_time_packed="+preferred_pickup_time_packed+"&alternate_pickup_time_packed="+alternate_pickup_time_packed+"&pickup_address_packed="+pickup_address_packed+"&apt_unit_pickup_packed="+apt_unit_pickup_packed+"&apartment_level_packed="+apartment_level_packed+"&delivery_date_packed="+delivery_date_packed+"&delivery_address_packed="+delivery_address_packed+"&apt_unit_delivery_packed="+apt_unit_delivery_packed+"&apartment_level_packed_delivery="+apartment_level_packed_delivery+"&preferred_delivery_time_packed="+preferred_delivery_time_packed+"&alternate_delivery_time_packed="+alternate_delivery_time_packed+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&delivery_address_loc_lat="+delivery_address_loc_lat+"&delivery_address_loc_long="+delivery_address_loc_long+"&pickup_address_loc_lat="+pickup_address_loc_lat+"&pickup_address_loc_long="+pickup_address_loc_long+"&delivery_address_packed_loc_lat="+delivery_address_packed_loc_lat+"&delivery_address_packed_loc_long="+delivery_address_packed_loc_long+"&pickup_address_packed_loc_lat="+pickup_address_packed_loc_lat+"&pickup_address_packed_loc_long="+pickup_address_packed_loc_long+"&period_data_field="+period_data_field;
+					}else{
+						var datastring = "ajax_request=order_submit&display_period="+display_period+"&dp_period="+dp_period+"&product_name="+product_name+"&box_count="+box_count+"&added_box_count="+added_box_count+"&added_box_price="+added_box_price+"&product_price="+product_price+"&subtotal="+subtotal+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&period_data="+period_data+"&product_id="+product_id+"&subtotal="+subtotal+"&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&delivery_address_loc_lat="+delivery_address_loc_lat+"&delivery_address_loc_long="+delivery_address_loc_long+"&pickup_address_loc_lat="+pickup_address_loc_lat+"&pickup_address_loc_long="+pickup_address_loc_long+"&period_data_field="+period_data_field;
+					}
+
+					//alert(datastring);
+					
 					jQuery.ajax({
 						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
 						method : "POST",
 						data : datastring,
 						success: function(result){
 						    
-						    //var JSONobj = JSON.parse(result);
 						    console.log(result);
+						    var JSONobj = JSON.parse(result);
+						    console.log(JSONobj);
+						    if(JSONobj.payment_status=="succeeded"){
+						    	jQuery(location).attr('href', '/rebow/order-confirmation2/');
+						    }
 						    //jQuery(location).attr('href', '/rebow/order-confirmation');
 						    //alert(result);
 						}

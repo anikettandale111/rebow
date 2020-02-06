@@ -26,7 +26,7 @@
 				</div>
 				<div class="vl"></div>
 				<?php 
-					$query = "select * from orders_data where order_id=".$current_order_id;
+					/*$query = "select * from orders_data where order_id=".$current_order_id;
 					$res = mysql_query($query);
 					//echo "in query";
 					$data = mysql_fetch_assoc($res);
@@ -58,8 +58,205 @@
 						$pickup_empty_boxes_data = get_storage_shipping_data($current_order_id,$shipping_type);
 					}
 
-					$product_data = get_package_data($data['product_id']);
+					$product_data = get_package_data($data['product_id']);*/
 					//print_r($product_data);
+
+				?>
+				<?php 
+
+					$query = "select * from orders_data where order_id=".$current_order_id;
+					$res = mysql_query($query);
+
+					$data = mysql_fetch_assoc($res);
+					//echo $data['parent_order_id'];
+					if($data['parent_order_id']!=0){
+						$payments_data = get_payments_data_user($user_id);
+					}else{
+						$payments_data = get_payments_data($current_order_id);
+					}
+					//print_r($payments_data);
+
+					$payee_name = $payments_data['First_Name']." ".$payments_data['Last_Name'];
+
+					$Card_Number = substr($payments_data['Card_Number'],-4);
+
+					$card_expiry = $payments_data['Expiry_month']."/".$payments_data['Expiry_year'];
+
+					$billing_address = $payments_data['billing_address'];
+
+					//$payments_data = get_payments_data($current_order_id);
+
+					$subtotal = (isset($session_data->subtotal))?$session_data->subtotal:$subtotal_price;
+
+					$salestax = (isset($session_data->sales_tax))?$session_data->sales_tax:$sales_tax;
+					//$salestax = round($salestax,2);
+					$totalprice = (isset($session_data->total_price))?$session_data->total_price:$total_price;
+					//$totalprice = round($totalprice 
+					$delivery_cost_price = $delivery_cost - $data['delivery_cost'];
+
+					$pickup_cost_price = $pickup_cost - $data['pickup_cost'];
+
+					if($data['order_type']=="RENTAL"){
+						$shipping_type = 'Delivery Empty Boxes';
+						$deliver_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Pickup Empty Boxes';
+						$pickup_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						/*Delivery Date*/
+						$delivery_date =(isset($session_data->delivery_date)) ? $session_data->delivery_date : $deliver_empty_boxes_data['date'];
+
+						$preferred_delivery_time =(isset($session_data->preferred_delivery_time)) ? $session_data->preferred_delivery_time : $deliver_empty_boxes_data['preferred_time'];
+
+						$alternate_delivery_time =(isset($session_data->alternate_delivery_time)) ? $session_data->alternate_delivery_time : $deliver_empty_boxes_data['alternative_time'];
+
+						$delivery_address =(isset($session_data->delivery_address)) ? $session_data->delivery_address : $deliver_empty_boxes_data['address'];
+
+						$apt_unit_delivery =(isset($session_data->apt_unit_delivery)) ? $session_data->apt_unit_delivery : $deliver_empty_boxes_data['apartment_unit_info'];
+
+						$apartment_level_delivery =(isset($session_data->apartment_level_delivery)) ? $session_data->apartment_level_delivery : $deliver_empty_boxes_data['floor_level'];
+
+						/*Pickup Date*/
+
+						$pickup_date =(isset($session_data->pickup_date)) ? $session_data->pickup_date : $pickup_empty_boxes_data['date'];
+
+						$preferred_pickup_time =(isset($session_data->preferred_pickup_time)) ? $session_data->preferred_pickup_time : $deliver_empty_boxes_data['preferred_time'];
+
+						$alternate_pickup_time =(isset($session_data->alternate_pickup_time)) ? $session_data->alternate_pickup_time : $deliver_empty_boxes_data['alternative_time'];
+
+						$pickup_address =(isset($session_data->pickup_address)) ? $session_data->pickup_address : $deliver_empty_boxes_data['address'];
+
+						$apt_unit_pickup =(isset($session_data->apt_unit_pickup)) ? $session_data->apt_unit_pickup : $deliver_empty_boxes_data['apartment_unit_info'];
+
+						$apartment_level_pickup =(isset($session_data->apartment_level_pickup)) ? $session_data->apartment_level_pickup : $deliver_empty_boxes_data['floor_level'];
+
+					}else{
+
+						$shipping_type = 'Delivery Empty Boxes';
+						$deliver_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Pickup Packed Boxes';
+						$pickup_packed_boxes_data = get_storage_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Delivery Packed Boxes';
+						$delivery_packed_boxes_data = get_storage_shipping_data($current_order_id,$shipping_type);
+
+						$shipping_type = 'Pickup Empty Boxes';
+						$pickup_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
+
+						/*Delivery Date*/
+						$delivery_date =(isset($session_data->delivery_date)) ? $session_data->delivery_date : $deliver_empty_boxes_data['date'];
+
+						$preferred_delivery_time =(isset($session_data->preferred_delivery_time)) ? $session_data->preferred_delivery_time : $deliver_empty_boxes_data['preferred_time'];
+
+						$alternate_delivery_time =(isset($session_data->alternate_delivery_time)) ? $session_data->alternate_delivery_time : $deliver_empty_boxes_data['alternative_time'];
+
+						$delivery_address =(isset($session_data->delivery_address)) ? $session_data->delivery_address : $deliver_empty_boxes_data['address'];
+
+						$apt_unit_delivery =(isset($session_data->apt_unit_delivery)) ? $session_data->apt_unit_delivery : $deliver_empty_boxes_data['apartment_unit_info'];
+
+						$apartment_level_delivery =(isset($session_data->apartment_level_delivery)) ? $session_data->apartment_level_delivery : $deliver_empty_boxes_data['floor_level'];
+
+						/*Pickup Packed Boxes Data*/
+
+						$pickup_date_packed =(isset($session_data->pickup_date_packed)) ? $session_data->pickup_date_packed : $pickup_packed_boxes_data['date'];
+						
+						$preferred_pickup_time_packed =(isset($session_data->preferred_pickup_time_packed)) ? $session_data->preferred_pickup_time_packed : $pickup_packed_boxes_data['preferred_time'];
+
+						$alternate_pickup_time_packed =(isset($session_data->alternate_pickup_time_packed)) ? $session_data->alternate_pickup_time_packed : $pickup_packed_boxes_data['alternative_time'];
+
+						$pickup_address_packed =(isset($session_data->pickup_address_packed)) ? $session_data->pickup_address_packed : $pickup_packed_boxes_data['address'];
+
+						$apt_unit_pickup_packed =(isset($session_data->apt_unit_pickup_packed)) ? $session_data->apt_unit_pickup_packed : $pickup_packed_boxes_data['apartment_unit_info'];
+
+						$apartment_level_packed =(isset($session_data->apartment_level_packed)) ? $session_data->apartment_level_packed : $pickup_packed_boxes_data['floor_level'];
+
+
+						/*Delivery of Packed Boxes */
+						$delivery_date_packed =(isset($session_data->delivery_date_packed)) ? $session_data->delivery_date_packed : $deliver_empty_boxes_data['date'];
+
+						$preferred_delivery_time_packed =(isset($session_data->preferred_delivery_time_packed)) ? $session_data->preferred_delivery_time_packed : $deliver_empty_boxes_data['preferred_time'];
+
+						$alternate_delivery_time_packed =(isset($session_data->alternate_delivery_time_packed)) ? $session_data->alternate_delivery_time_packed : $deliver_empty_boxes_data['alternative_time'];
+
+						$delivery_address_packed =(isset($session_data->delivery_address_packed)) ? $session_data->delivery_address_packed : $deliver_empty_boxes_data['address'];
+
+						$apt_unit_delivery_packed =(isset($session_data->apt_unit_delivery_packed)) ? $session_data->apt_unit_delivery_packed : $deliver_empty_boxes_data['apartment_unit_info'];
+
+						$apartment_level_delivery =(isset($session_data->apartment_level_delivery)) ? $session_data->apartment_level_delivery : $deliver_empty_boxes_data['floor_level'];
+
+						/*Pickup Empty Boxes Data*/
+
+						$pickup_date =(isset($session_data->pickup_date)) ? $session_data->pickup_date : $pickup_empty_boxes_data['date'];
+						
+						$preferred_pickup_time =(isset($session_data->preferred_pickup_time)) ? $session_data->preferred_pickup_time : $pickup_empty_boxes_data['preferred_time'];
+
+						$alternate_pickup_time =(isset($session_data->alternate_pickup_time)) ? $session_data->alternate_pickup_time : $pickup_empty_boxes_data['alternative_time'];
+
+						$pickup_address =(isset($session_data->pickup_address)) ? $session_data->pickup_address : $pickup_empty_boxes_data['address'];
+
+						$apt_unit_pickup =(isset($session_data->apt_unit_pickup)) ? $session_data->apt_unit_pickup : $pickup_empty_boxes_data['apartment_unit_info'];
+
+						$apartment_level_pickup =(isset($session_data->apartment_level_pickup)) ? $session_data->apartment_level_pickup : $pickup_empty_boxes_data['floor_level'];
+
+
+					}
+
+					//$deliver_empty_boxes_data['address']
+
+					//$order_type =  $data['order_type'];
+					$product_data = get_package_data($data['product_id']);
+
+					if($data['order_type']=="RENTAL"){
+						/*if($data['product_id']!=0){
+							//echo "in else";
+							$product_display_name = $product_data['product_name']." Package - ".$product_data['box_count']." Boxes (".$product_data['product_range'].")";
+
+							$product_display_period = $display_period." ".$dp_period;
+
+							$product_box_count = $product_data['box_count']." ReBow™ Boxes";
+
+							$product_nestable_dollies_count = $product_data['nestable_dollies_count']." Nestable ReBow™ Dollies";
+
+							$product_labels_count = $product_data['zipties_count']." Labels";
+
+							$product_zipties_count = $product_data['zipties_count']." Security Zip Ties";
+
+						}else{
+
+							$product_display_name = $data['added_box_count']." Boxes";
+
+							$product_display_period = $dp_period." ".$display_period;
+
+							$product_box_count = $data['added_box_count']." ReBow™ Boxes";
+
+							$product_nestable_dollies_count = ($data['added_box_count']/4)." Nestable ReBow™ Dollies";
+
+							$product_labels_count = $data['added_box_count']." Labels";
+
+							$product_zipties_count = $data['added_box_count']." Security Zip Ties";
+						}*/
+					}else{
+
+						$storage_start_date = $delivery_date;
+
+						$storage_end_date = $pickup_date;
+
+						$storage_period = $period_data_value;
+
+						$storage_facility_location ="141 W Avenue 34, Los Angeles, CA 90031";
+
+						$box_count = $added_box_no;
+						/*if($data['product_id']!=0){
+							$product_name = $product_data['product_name'];
+
+							$box_count = $product_data['box_count'];
+						}else{
+							$box_count = $product_data['box_count'];
+						}*/
+
+					}
+
 
 				?>
 				<div class="col-md-8">

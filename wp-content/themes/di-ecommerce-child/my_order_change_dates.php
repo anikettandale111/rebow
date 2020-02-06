@@ -212,23 +212,23 @@
 	            <div class="row my-4">
 	              <div class="col-sm-12 st-details pl-5">
 	                <p>Subtotal :</p>
-	                <label id="subtotal" for="">$<?php echo $data['subtotal'];?></label>
+	                <label for="">$<span id="subtotal"><?php echo $data['subtotal'];?></span></label>
 	              </div>
 	              <div class="col-sm-12 st-details pl-5 pb-0">
 	                <p>Delivery:</p>
-	                <label id="delivery_cost" for="">$<?php echo $data['delivery_cost'];?></label>
+	                <label for="">$<span id="delivery_cost"><?php echo $data['delivery_cost'];?></span></label>
 	              </div>
 	              <div class="col-sm-12 st-details pl-5">
 	                <p>Pick Up :</p>
-	                <label id="pickup_cost" for="">$<?php echo $data['pickup_cost'];?></label>
+	                <label  for="">$<span id="pickup_cost"><?php echo $data['pickup_cost'];?></span></label>
 	              </div>
 	              <div class="col-sm-12 st-details pl-5 pb-0">
 	                <p>Sales Tax :</p>
-	                <label id="sales_tax" for="">$<?php echo $data['sales_tax'];?></label>
+	                <label  for=""><span id="sales_tax"><?php echo $data['sales_tax'];?></span></label>
 	              </div>
 	              <div class="col-sm-12 st-details pl-5">
 	                <p>Total :</p>
-	                <label id="total_price1" for="">$<?php echo $data['total_price'];?></label>
+	                <label for="">$<span id="total_price1"><?php echo $data['total_price'];?></span></label>
 	              </div>
 	            </div>
 	            <div class="row justify-content-end my-5">
@@ -381,17 +381,17 @@
 
 				/*SET values to main fields*/
 
-				jQuery('#pickup_cost').text('$'+pickup_cost);
+				jQuery('#pickup_cost').text(pickup_cost);
 
-				jQuery('#delivery_cost').text('$'+delivery_cost);
+				jQuery('#delivery_cost').text(delivery_cost);
 
-				jQuery('#subtotal').text('$'+subtotal);
+				jQuery('#subtotal').text(subtotal);
 
-				jQuery('#sales_tax').text('$'+sales_tax);
+				jQuery('#sales_tax').text(sales_tax);
 
-				jQuery('#total_price1').text('$'+total_price);
+				jQuery('#total_price1').text(total_price);
 
-				jQuery('#total_price2').text('$'+total_price);
+				jQuery('#total_price2').text(total_price);
 				//jQuery('#delivery_cost').val(delivery_cost);
 
 			}
@@ -421,15 +421,15 @@
 
 			    var total_price = jQuery('#total_price_field').val();*/
 
-			    var subtotal = Number(jQuery('#subtotal').val());
+			    var subtotal = Number(jQuery('#subtotal').text());
 
-			    var delivery_cost = Number(jQuery('#delivery_cost_field').val());
+			    var delivery_cost = Number(jQuery('#delivery_cost').text());
 
-			    var pickup_cost = Number(jQuery('#pickup_cost_field').val());
+			    var pickup_cost = Number(jQuery('#pickup_cost').text());
 
-			    var sales_tax = Number(jQuery('#sales_tax_field').val());
+			    var sales_tax = Number(jQuery('#sales_tax').text());
 
-			    var total_price = jQuery('#total_price_field').val();
+			    var total_price = jQuery('#total_price').text();
 
 
 			    var tax_rates = jQuery('#tax_rates').val();
@@ -441,6 +441,9 @@
 			    var start_date = jQuery('#start_date').val();
 
 			    var end_date = jQuery('#end_date_field').val();
+
+
+
 
 			    var datastring = "ajax_request=goto_order_summary3&display_period="+display_period+"&dp_period="+dp_period+"&box_count="+box_count+"&added_box_count="+added_box_count+"&added_box_price="+added_box_price+"&product_price="+product_price+"&subtotal="+subtotal+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&period_datas="+period_data+"&start_date="+start_date+"&end_date="+end_date;
 			    

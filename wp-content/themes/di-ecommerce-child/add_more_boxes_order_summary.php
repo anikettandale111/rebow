@@ -105,7 +105,7 @@
 
 						/*Pickup Date*/
 
-						$pickup_date =(isset($session_data->end_date)) ? $session_data->end_date : $pickup_empty_boxes_data['date'];
+						$pickup_date =(isset($session_data->pickup_date)) ? $session_data->pickup_date : $pickup_empty_boxes_data['date'];
 
 						$preferred_pickup_time =(isset($session_data->preferred_pickup_time)) ? $session_data->preferred_pickup_time : $deliver_empty_boxes_data['preferred_time'];
 
