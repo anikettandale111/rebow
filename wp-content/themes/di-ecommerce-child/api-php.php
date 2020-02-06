@@ -1902,6 +1902,10 @@ if($ajax_resquest_type=="add_more_boxes_submit"){
 }
 if($ajax_resquest_type=="added_boxes_pickup_delivery_info"){
 
+    $period_data_field = $_REQUEST['period_data_field'];
+
+    $delivery_date = $_REQUEST['delivery_date'];
+
     $delivery_date = $_REQUEST['delivery_date'];
 
     $preferred_delivery_time = $_REQUEST['preferred_delivery_time'];
@@ -2013,8 +2017,15 @@ if($ajax_resquest_type=="added_boxes_pickup_delivery_info"){
         $storesession->pickup_address_packed = $pickup_address_packed;
         $storesession->apt_unit_pickup_packed = $apt_unit_pickup_packed;
         $storesession->apartment_level_packed = $apartment_level_packed;
+        $storesession->pickup_address_packed_loc_lat = $pickup_address_packed_loc_lat;
+        $storesession->pickup_address_packed_loc_long = $pickup_address_packed_loc_long;
+
 
         $storesession->selectaddress = $selectaddress;
+        
+        $storesession->delivery_date_packed = $delivery_date_packed;
+        $storesession->preferred_delivery_time_packed = $preferred_delivery_time_packed;
+        $storesession->alternate_delivery_time_packed = $alternate_delivery_time_packed;
         $storesession->delivery_address_packed = $delivery_address_packed;
         $storesession->apt_unit_delivery_packed = $apt_unit_delivery_packed;
         $storesession->apartment_level_packed_delivery = $apartment_level_packed_delivery;

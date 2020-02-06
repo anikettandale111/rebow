@@ -10,17 +10,14 @@ jQuery(document).ready(function() {
 	jQuery("#delivery_packed_boxes").hide();
 	jQuery("#pick_up_boxes").hide();
 
-	// jQuery( "#delivery_date").datepicker({
-	// 	dateFormat: 'M dd , yy',
-	// 	beforeShowDay: noWeekendsOrHolidays,
-	// 	minDate: 0
-	// });
 	$('.global_date').datepicker({
 		startDate: "today",
 		daysOfWeekDisabled: [0,6],
 		format: "M dd, yyyy ",
 		autoclose:true,
+
 	});
+	
 	/*jQuery('#delivery_address').focusout(function()
 	{
 	    if( jQuery('#delivery_address_loc_lat').val().length === 0 ) {
@@ -46,9 +43,9 @@ jQuery(document).ready(function() {
 		jQuery('#pickup_address_loc_lat').val("");
 	    
 	});*/
-	jQuery('#delivery_date').change(function() {
+	$('#delivery_date').change(function() {
 	    //var date = $(this).val();
-
+	    //alert(1);
 	    var delivery_date = jQuery('#delivery_date').val();
 	    console.log(delivery_date);
 		var display_period = jQuery('#display_period').val();
@@ -92,12 +89,14 @@ jQuery(document).ready(function() {
 			console.log('next_pickup_date_pcaked_formatted: '+next_pickup_date_pcaked_formatted);
 
 			jQuery("#pickup_date_packed").text(next_pickup_date_pcaked_formatted);
-			jQuery("#pickup_date_packed_field").val(next_pickup_date_pcaked_formatted);
+			jQuery("#pickup_date_packed_field").val(next_pickup_date_pcaked);
 
 			var next_pickup_date = get_date(delivery_date,days_to_add_pickup_empty);
 			var next_pickup_date_formatted = dateFormat(next_pickup_date);
 
 			var next_delivery_date = get_date(delivery_date,days_to_add_delivery);
+			console.log('next_delivery_date'+next_delivery_date);
+
 			var next_delivery_date_formatted = dateFormat(next_delivery_date);
 
 			jQuery("#pickup_date").text(next_pickup_date_formatted);
@@ -119,6 +118,10 @@ jQuery(document).ready(function() {
 	jQuery("#delivery_box_submit").submit(function(event) {
 		event.preventDefault();
 		//alert('form submitted');
+		if($('.global_date').val()==''){
+			alert('Delivery Date Required');
+			return false;
+		}
 		jQuery('#continue_delivery').hide();
 		var delivery_date = jQuery('#delivery_date_field').val();
 		console.log('delivery_date: '+delivery_date);

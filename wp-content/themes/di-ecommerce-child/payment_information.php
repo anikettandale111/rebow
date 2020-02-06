@@ -132,8 +132,8 @@ require_once("db_config.php");
 		        
 		        <h4 class="modal-title">Update Payment Info</h4><button type="button" class="close" data-dismiss="modal">&times;</button>
 		      </div>
-		      <div class="modal-body">
-		      	<form class="checkout-form form" id="add_new_payment_form">
+		     	<div class="modal-body">
+		      	<form class="checkout-form form" id="update_form">
 				   <div id="new_user_checkout">
 				    	
 				    <div class="form-row">

@@ -8,6 +8,7 @@
 		<?php
 		require_once('session_values.php');
 		get_header(); 
+		//print_r($session_data);
 		?>
 		<!-- FAQ heading -->
 		<section class="faq-header">
@@ -145,10 +146,12 @@
 			                  <div class="col-from-field">
 			                    <!--<div class="selectholder">
 			                      <label>Choose Time</label>-->
+
 			                      	<select id="apartment_level_delivery" class="apartment_level" required>
 										<option value="">Select</option>
 										<?php 
 										foreach($elevator_bulding_array as $key=>$value){
+											//echo "apartment_level_delivery:".$apartment_level_delivery;
 											if($key==$apartment_level_delivery){
 												echo "<option selected value=$key>$value</option>";
 											}else{
@@ -181,7 +184,7 @@
 				                      <p>Pick Up Date* :</p>
 				                    </div>
 			                    	<div class="col-from-field">
-			                    		<input id="dpickup_date_packed_field" type="hidden" value="<?php echo $pickup_date_packed;?>" >
+			                    		<input id="pickup_date_packed_field" type="hidden" value="<?php echo $pickup_date_packed;?>" >
 			                      		<label id="pickup_date_packed" for=""><?php echo get_custom_formatted_date($pickup_date_packed);?></label>
 			                    	</div>
 			                  	</div>
@@ -464,6 +467,7 @@
 			                  <div class="col-from-field">
 			                    <!--<div class="selectholder">
 			                      <label>Choose Time</label>-->
+			                      	<?php echo "apartment_level_pickup:".$apartment_level_pickup;?>
 			                     	<select id="apartment_level_pickup" class="apartment_level">
 										<option value="">Select</option>
 										<?php 
@@ -549,6 +553,9 @@
 				jQuery("#back_btn").click(function (){
 				  window.history.back();
 				});
+				 $('#back_btn').hover(function() {
+				      $(this).css('cursor','pointer');
+				  });
 				var period_data = jQuery('#period_data_field').val();
 				if(period_data=="RENTAL"){
 					jQuery('#deliver_boxes').show();
@@ -642,6 +649,7 @@
 						
 					}else{
 						//jQuery("#pick_up_packed_boxes").show();
+						//jQuery("#pick_up_packed_boxes").show();
 						var days_to_add = 2;
 						var next_pickup_date_pcaked = get_date(delivery_date_format,days_to_add);
 						var next_pickup_date_pcaked_formatted = dateFormat(next_pickup_date_pcaked);
@@ -721,16 +729,26 @@
 					event.preventDefault();
 					var period_data_field = jQuery('#period_data_field').val();
 					
-					if(jQuery('#delivery_daye').val()==''){
+					if(jQuery('#delivery_date').val()==''){
 			            alert('Fill all required field');
 			            jQuery([document.documentElement, document.body]).animate({
 			                scrollTop: jQuery("#edit_details_pickup_delivery").offset().top
 			            }, 1000);
 			            setTimeout(function(){
-			              jQuery('#delivery_daye').focus();
+			              jQuery('#delivery_date').focus();
 			            },1000);
 			            return false;
 			        }
+			        if(jQuery('#preferred_delivery_time').val()==''){
+			            alert('Fill all required field');
+			            jQuery([document.documentElement, document.body]).animate({
+			                scrollTop: jQuery("#edit_details_pickup_delivery").offset().top
+			            }, 1000);
+			            setTimeout(function(){
+			              jQuery('#preferred_delivery_time').focus();
+			            },1000);
+			            return false;
+			        } 
 			        if(jQuery('#alternate_delivery_time').val()==''){
 			            alert('Fill all required field');
 			            jQuery([document.documentElement, document.body]).animate({
@@ -778,7 +796,7 @@
 				            },1000);
 				            return false;
 				        }
-				        if(jQuery('#alternate_delivery_time_packed').val()==''){
+				        if(jQuery('#alternate_pickup_time_packed').val()==''){
 				            alert('Fill all required field');
 				            jQuery([document.documentElement, document.body]).animate({
 				                scrollTop: jQuery("#pick_up_packed_boxes").offset().top
@@ -949,7 +967,7 @@
 					if(period_data_field=="STORAGE"){
 
 						/*Form 2*/
-						var pickup_date_packed = jQuery('#pickup_date_packed+_field').val();
+						var pickup_date_packed = jQuery('#pickup_date_packed_field').val();
 
 						var preferred_pickup_time_packed = jQuery('#preferred_pickup_time_packed').val();
 						
@@ -987,11 +1005,11 @@
 						/*END Form 3*/
 
 						
-						datastring = "ajax_request=added_boxes_pickup_delivery_info&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&pickup_date_packed="+pickup_date_packed+"&preferred_pickup_time_packed="+preferred_pickup_time_packed+"&alternate_pickup_time_packed="+alternate_pickup_time_packed+"&pickup_address_packed="+pickup_address_packed+"&apt_unit_pickup_packed="+apt_unit_pickup_packed+"&apartment_level_packed="+apartment_level_packed+"&delivery_date_packed="+delivery_date_packed+"&delivery_address_packed="+delivery_address_packed+"&apt_unit_delivery_packed="+apt_unit_delivery_packed+"&apartment_level_packed_delivery="+apartment_level_packed_delivery+"&preferred_delivery_time_packed="+preferred_delivery_time_packed+"&alternate_delivery_time_packed="+alternate_delivery_time_packed+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&delivery_address_loc_lat="+delivery_address_loc_lat+"&delivery_address_loc_long="+delivery_address_loc_long+"&pickup_address_loc_lat="+pickup_address_loc_lat+"&pickup_address_loc_long="+pickup_address_loc_long+"&delivery_address_packed_loc_lat="+delivery_address_packed_loc_lat+"&delivery_address_packed_loc_long="+delivery_address_packed_loc_long+"&pickup_address_packed_loc_lat="+pickup_address_packed_loc_lat+"&pickup_address_packed_loc_long="+pickup_address_packed_loc_long;
+						datastring = "ajax_request=added_boxes_pickup_delivery_info&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&pickup_date_packed="+pickup_date_packed+"&preferred_pickup_time_packed="+preferred_pickup_time_packed+"&alternate_pickup_time_packed="+alternate_pickup_time_packed+"&pickup_address_packed="+pickup_address_packed+"&apt_unit_pickup_packed="+apt_unit_pickup_packed+"&apartment_level_packed="+apartment_level_packed+"&delivery_date_packed="+delivery_date_packed+"&delivery_address_packed="+delivery_address_packed+"&apt_unit_delivery_packed="+apt_unit_delivery_packed+"&apartment_level_packed_delivery="+apartment_level_packed_delivery+"&preferred_delivery_time_packed="+preferred_delivery_time_packed+"&alternate_delivery_time_packed="+alternate_delivery_time_packed+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&delivery_address_loc_lat="+delivery_address_loc_lat+"&delivery_address_loc_long="+delivery_address_loc_long+"&pickup_address_loc_lat="+pickup_address_loc_lat+"&pickup_address_loc_long="+pickup_address_loc_long+"&delivery_address_packed_loc_lat="+delivery_address_packed_loc_lat+"&delivery_address_packed_loc_long="+delivery_address_packed_loc_long+"&pickup_address_packed_loc_lat="+pickup_address_packed_loc_lat+"&pickup_address_packed_loc_long="+pickup_address_packed_loc_long+"&period_data_field="+period_data_field;
 					}else{
-						datastring = "ajax_request=added_boxes_pickup_delivery_info&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&delivery_address_loc_lat="+delivery_address_loc_lat+"&delivery_address_loc_long="+delivery_address_loc_long+"&pickup_address_loc_lat="+pickup_address_loc_lat+"&pickup_address_loc_long="+pickup_address_loc_long;
+						datastring = "ajax_request=added_boxes_pickup_delivery_info&delivery_date="+delivery_date+"&preferred_delivery_time="+preferred_delivery_time+"&alternate_delivery_time="+alternate_delivery_time+"&delivery_address="+delivery_address+"&apt_unit_delivery="+apt_unit_delivery+"&apartment_level_delivery="+apartment_level_delivery+"&pickup_date="+pickup_date+"&preferred_pickup_time="+preferred_pickup_time+"&alternate_pickup_time="+alternate_pickup_time+"&pickup_address="+pickup_address+"&apt_unit_pickup="+apt_unit_pickup+"&apartment_level_pickup="+apartment_level_pickup+"&delivery_cost="+delivery_cost+"&pickup_cost="+pickup_cost+"&sales_tax="+sales_tax+"&total_price="+total_price+"&delivery_address_loc_lat="+delivery_address_loc_lat+"&delivery_address_loc_long="+delivery_address_loc_long+"&pickup_address_loc_lat="+pickup_address_loc_lat+"&pickup_address_loc_long="+pickup_address_loc_long+"&period_data_field="+period_data_field;
 					}
-
+					console.log(datastring);
 					jQuery.ajax({
 						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
 						method : "POST",

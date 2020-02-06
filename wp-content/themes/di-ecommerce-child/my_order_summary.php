@@ -1,4 +1,4 @@
-<?php /* Template Name: my_orders_summary*/ ?>
+<?php /* Template Name: my_orders_summary1*/ ?>
 <?php require_once("user_check_login.php");?>
 <?php require_once("db_config.php");?>
 <html lang="en">
@@ -143,7 +143,7 @@
 							<div class="col-md-6">
 								<span>Delivery Address  :</span><br/>
 								<span><?php echo $deliver_empty_boxes_data['address'];?></span>
-								<span>Delivery Date :<?php echo $deliver_empty_boxes_data['date'];?></span><br/>
+								<span>Delivery Date :<?php echo get_custom_formatted_date($deliver_empty_boxes_data['date']);?></span><br/>
 								<span>Optional Delivery Time :</span><br/>
 								<span><?php echo str_replace("_"," ",$deliver_empty_boxes_data['preferred_time']);?></span><br/>
 								<span><?php echo str_replace("_"," ",$deliver_empty_boxes_data['alternative_time']);?></span><br/>
@@ -152,7 +152,7 @@
 							</div class="col-md-6">
 								<span>Pickup Address  :</span><br/>
 								<span><?php echo $pickup_empty_boxes_data['address'];?></span>
-								<span>Delivery Date :<?php echo $pickup_empty_boxes_data['date'];?></span><br/>
+								<span>Delivery Date :<?php echo get_custom_formatted_date($pickup_empty_boxes_data['date']);?></span><br/>
 								<span>Optional Delivery Time :</span><br/>
 								<span><?php echo str_replace("_"," ",$pickup_empty_boxes_data['preferred_time']);?></span><br/>
 								<span><?php echo str_replace("_"," ",$pickup_empty_boxes_data['alternative_time']);?></span><br/>

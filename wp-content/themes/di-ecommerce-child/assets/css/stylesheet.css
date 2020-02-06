@@ -10,6 +10,9 @@
 	text-align: center;
 	padding: 5px;
 	font-weight: normal;
+	position: fixed;
+	top: 0;
+	width: 100%;
 }
 
 .masthead p{
@@ -17,6 +20,7 @@
 	letter-spacing: 2px;
 	margin-bottom: 0;
 	padding: 7px 0;
+	color: #FFF;
 }
 
 nav, .light-grey{
@@ -1511,6 +1515,14 @@ section.con-details p{
 	color: #626262;
 	letter-spacing: 1px;
 	font-family: 'axiformabook';
+}
+
+.show-offer{
+	margin-top: 40px;
+}
+
+.offer-loaded{
+	margin-top: 80px;
 }
 
 /*** Media Query ***/

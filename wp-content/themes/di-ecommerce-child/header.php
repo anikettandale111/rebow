@@ -29,7 +29,7 @@ if( get_theme_mod( 'loading_icon', '0' ) == 1 ) {
 <!-- Loader icon Ends -->
 <?php get_template_part( 'template-parts/header', 'menu' ); ?>
 
-<?php get_template_part( 'template-parts/header', 'main' ); ?>
+<?php //get_template_part( 'template-parts/header', 'main' ); ?>
 
 <?php //get_template_part( 'template-parts/header', 'sidebar-cart' ); ?>
 

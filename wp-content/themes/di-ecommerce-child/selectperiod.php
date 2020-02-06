@@ -210,8 +210,8 @@
 							            </li>
 							            <li class="list-group-item d-flex justify-content-between lh-condensed">
 							              <div class="col-md-8 p-0 align-self-end">
-							                <p class="my-0">Delivery - <span id="delivery_floor_level"><?php echo $apartment_level_delivery;?></span></p>
-							                <p class="my-0">Pickup - <span id="pickup_floor_level"><?php echo $apartment_level_pickup;?></span></p>
+							                <p class="my-0">Delivery - <span id="delivery_floor_level"><?php echo $apartment_level_delivery_text;?></span></p>
+							                <p class="my-0">Pickup - <span id="pickup_floor_level"><?php echo $apartment_level_pickup_text;?></span></p>
 							              </div>
 							              <div class="col-md-4 p-0 text-right align-self-end">
 							                <span id="delivery_cost" class="text-muted"><?php 

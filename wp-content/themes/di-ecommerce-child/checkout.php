@@ -35,7 +35,7 @@
 
       $cards_data = get_cards_data($user_id,$email);
 
-// https://stripe.com/docs/payments/checkout/collecting#retrieve-setupintent
+
       $intent = \Stripe\SetupIntent::create();
       //print_r($cards_data);
       //exit;
@@ -312,8 +312,8 @@
                   </li>
                   <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div class="col-md-8 p-0 align-self-end">
-                      <p id="deliveryinfo" class="my-0">Delivery - <span id="delivery_floor_level"><?php echo $apartment_level_delivery;?></span></p>
-                      <p id="pickupinfo" class="my-0">Pickup - <span id="pickup_floor_level"><?php echo $apartment_level_pickup;?></span></p>
+                      <p id="deliveryinfo" class="my-0">Delivery - <span id="delivery_floor_level"><?php echo $apartment_level_delivery_text;?></span></p>
+                      <p id="pickupinfo" class="my-0">Pickup - <span id="pickup_floor_level"><?php echo $apartment_level_pickup_text;?></span></p>
                     </div>
                     <div class="col-md-4 p-0 text-right align-self-end">
                       <span id="delivery_cost" class="text-muted">$<?php echo $delivery_cost;?></span>
@@ -408,7 +408,8 @@
             <label class="time-period">Storage Period : <span><?php echo $period_data_value;?></span></label>
             <?php }else{?>
               <ul class="pkg-info">
-                <li class=""><?php echo $product_name." Package (".$product_range.") "?></li>
+                <?php $product_range_text=($product_range!="")? "(".$product_range.")" :"";?>
+                <li class=""><?php echo $product_name." Package".$product_range_text;?></li>
               </ul>
             <label class="time-period">Rental Period: <span><?php echo $period_data_value;?></span></label>
             <?php }?>
@@ -469,7 +470,7 @@
               <div class="row">
                   <div class="col-sm-12 pb-2 information">
                     <label for="">Delivery :</label>
-                      <p><span id="delivery_floor_level"><?php echo $apartment_level_delivery;?></span></p>
+                      <p><span id="delivery_floor_level"><?php echo $apartment_level_delivery_text;?></span></p>
                   </div>
               </div>
              	<div class="row">
@@ -500,7 +501,7 @@
              	<div class="row">
                		<div class="col-sm-12 pb-2 information">
                  		<label for="">Pick Up :</label>
-                  		<p><span id="pickup_floor_level"><?php echo $apartment_level_pickup;?></span></p>
+                  		<p><span id="pickup_floor_level"><?php echo $apartment_level_pickup_text;?></span></p>
                 	</div>
              	</div>
              	<div class="row">
@@ -636,6 +637,33 @@
 		<?php get_footer(); ?>
 
 		<!-- Stripe JavaScript library -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBtVumWdkvUED3b_Ct75wcYXsJQmKQWuXM"></script>
+    <script>
+      //var searchInput = 'delivery_address';
+
+      jQuery(document).ready(function () {
+        //alert(1);
+          set_lat_long1("billingaddress");
+
+      });
+
+      function set_lat_long1(searchInput){
+        var autocomplete;
+          autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+              types: ['geocode'],
+          });
+        
+          google.maps.event.addListener(autocomplete, 'place_changed', function () {
+              var near_place = autocomplete.getPlace();
+
+              //document.getElementById(latvar).value = near_place.geometry.location.lat();
+              //document.getElementById(longvar).value = near_place.geometry.location.lng();
+              
+              //document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
+              //document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
+          });
+      }
+    </script>
 		<script src="https://js.stripe.com/v3/"></script>
 
 		<script>

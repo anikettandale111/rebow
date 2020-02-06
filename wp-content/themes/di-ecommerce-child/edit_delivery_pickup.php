@@ -539,6 +539,9 @@
 				jQuery("#back_btn").click(function (){
 				  window.history.back();
 				});
+				$('#back_btn').hover(function() {
+			      	$(this).css('cursor','pointer');
+			  	});
 				var period_data = jQuery('#period_data_field').val();
 				if(period_data=="RENTAL"){
 					jQuery('#deliver_boxes').show();

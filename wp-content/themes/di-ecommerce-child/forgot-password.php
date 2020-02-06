@@ -81,9 +81,17 @@
                               //jQuery('#error-block').show();
                             }else{
                                 jQuery('#Modalforgot').modal('show');
+                                
                             }
                         }
                     });
+                });
+                jQuery("#forgotok").click(function() {
+
+                  //jQuery(location).attr('href', '#');
+                  jQuery('#Modalforgot').modal('hide');
+                  jQuery('#exampleInputEmail1').val('');
+                  
                 });
 
             });

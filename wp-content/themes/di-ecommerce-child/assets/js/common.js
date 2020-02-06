@@ -2,6 +2,7 @@
 
 jQuery(document).ready(function ($) {
   // body...
+ 
   //$('.selectpicker').selectpicker();
   $("ul.price-tabs li").click(function () {
     var priceTab = $(this).index();

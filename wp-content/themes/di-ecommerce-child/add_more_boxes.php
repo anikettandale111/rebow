@@ -150,7 +150,8 @@
 		                      <p class="txt-blue mt-1"><b>Price :</b></p>
 		                    </div>
 		                    <div class="col-from-field mt-1">
-		                      <label id="added_box_price" for="" class="price">$<?php echo $added_box_price;?></label>/ week
+		                    <?php $period_text=($period_datas=="STORAGE")?"Months":"Weeks";?>
+		                      <label id="added_box_price" for="" class="price">$<?php echo $added_box_price;?></label>/ <?php echo $period_text;?>
 		                    </div>
 		                    <div class="col-from-field">
 		                      <button id="add_more_boxes785" type="submit" class="btn btn-secondary">Add</button>
@@ -273,6 +274,9 @@
 				jQuery("#back_btn").click(function (){
 				  window.history.back();
 				});
+				 $('#back_btn').hover(function() {
+				      $(this).css('cursor','pointer');
+				  });
 				jQuery('#show_cost').hide();
 				jQuery("#add_box_count").change(function() {
 					//alert(1);
@@ -286,10 +290,12 @@
 
 					jQuery('#added_box_price').text('$'+added_box_price);
 					jQuery('#added_box_price_field').val(added_box_price);
+					//jQuery('#submit_changes').attr('disabled',false);
 					//calculation();
 
 				});
 				jQuery('#add_more_boxes785').click(function(){
+
 					var added_box_count = jQuery('#add_box_count').val();
 
 					var added_box_price = Number(jQuery('#added_box_price').text());
@@ -309,8 +315,18 @@
 
 					jQuery('#display_period').val(selectperiod1);
 
+					var added_box_count = jQuery('#add_box_count').val();
+					
+					var display_period = jQuery('#display_period').val();
+					
+					var default_product_cost = jQuery('#default_product_cost').val();
+					
+					var added_box_price = (added_box_count*default_product_cost*display_period);
+
+					jQuery('#added_box_price').text('$'+added_box_price);
+					jQuery('#added_box_price_field').val(added_box_price);
 					//calculation();
-					calculate_add_more_boxes();
+					//calculate_add_more_boxes();
 				});
 				jQuery("#submit_changes").click(function() {
 

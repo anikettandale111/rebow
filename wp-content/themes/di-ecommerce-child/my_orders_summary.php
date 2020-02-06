@@ -1,4 +1,4 @@
-<?php /* Template Name: my_orders_summary*/ ?>
+<?php /* Template Name: my_orders_summary2*/ ?>
 <?php require_once("db_config.php");?>
 <html lang="en">
 	<head>
@@ -250,7 +250,7 @@
 		              <div class="col-sm-12 py-2 o-summary">
 		                <small class="pl-2 white-color">ORDER DETAILS</small>
 		                <div class="edit float-right pr-3">
-		                  <em><a id="edit_order_details" href="/rebow/my-orders-2">Edit</a></em>
+		                  <em><a id="edit_order_details" href="/rebow/my-orders-2/">Edit</a></em>
 		                </div>
 		              </div>
 		            </div>
@@ -326,64 +326,7 @@
 		          	</div>
 		        </div>
 		    	<?php } ?>
-		        <!-- Payment Information -->
-		        <div class="row">
-		          <div class="blue-bg w mx-3 py-2 pl-4">
-		            <div class="row">
-		              <div class="col-sm-12 py-2 o-summary">
-		                <small class="pl-2 white-color">PAYMENT INFORMATION</small>
-		                <div class="edit float-right pr-3">
-		                  <em><a id="edit_payment_details" href="">Edit</a></em>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-		        <div class="row col-order payment-info">
-		          <div class="col-sm-12">
-		            <div class="grey-bg py-4 px-5">
-		              <div class="row">
-		                <div class="col-sm-12">
-		                  <div class="row-form">
-		                      <div class="col-from-field p-0">
-		                        <p>Credit Card :</p>
-		                      </div>
-		                      <div class="col-from-field p-0">
-		                        <label for="">**************<?php echo $Card_Number;?></label>
-		                      </div>
-		                  </div>
-		                </div>
-		                <div class="col-sm-12">
-		                    <div class="row-form">
-		                       <div class="col-from-field p-0">
-		                          <p>Expiration : </p>
-		                       </div>
-		                       <div class="col-from-field p-0">
-		                         <label for="">**/**</label>
-		                       </div>
-		                    </div>
-		                    <div class="row-form">
-		                       <div class="col-from-field p-0">
-		                         <p>CCV :</p>
-		                       </div>
-		                       <div class="col-from-field p-0">
-		                         <label for="">***</label>
-		                       </div>
-		                    </div>
-		                     <div class="row-form">
-		                       <div class="col-from-field billing">
-		                        <p>Billing Address :</p>
-		                         <address>
-		                           <?php echo $billing_address;?>
-		                         </address>
-		                       </div>
-		                     </div>
-		                </div>
-		                </div>
-		            </div>
-		            </div>
-		          </div>
-		          <!-- DELIVERY & PICK UP DETAILS  -->
+		       
 		        <div class="row">
 		          <div class="blue-bg w mx-3 py-2 pl-4">
 		            <div class="row">
@@ -470,64 +413,7 @@
 		            </div>
 		          </div>
 		        </div>
-		        <!-- Total  -->
-		        <div class="col-subtotal-total my-5 pl-3">
-		          <div class="row">
-		            <div class="col-sm-12">
-		              <div class="row-form">
-		                <div class="col-from-field">
-		                  <p>Subtotal :</p>
-		                </div>
-		                <div class="col-from-field">
-		                  <label id="subtotal">$<?php echo $subtotal;?></label>
-		                </div>
-		              </div>
-		              <div class="row-form">
-		                <div class="col-from-field p-0">
-		                  <p>Delivery: </p>
-		                </div>
-		                <div class="col-from-field p-0">
-		                  <label id="delivery_cost"><?php echo $delivery_cost;?></label>
-		                </div>
-		              </div>
-		              <div class="row-form">
-		                <div class="col-from-field p-0">
-		                  <p>Pick Up : </p>
-		                </div>
-		                <div class="col-from-field p-0">
-		                  <label id="pickup_cost"><?php echo $pickup_cost;?></label>
-		                </div>
-		              </div>
-		              <div class="row-form">
-		                <div class="col-from-field pb-0">
-		                  <p>Sales Tax: </p>
-		                </div>
-		                <div class="col-from-field pb-0">
-		                  <label id="sales_tax">$<?php echo $sales_tax;?></label>
-		                </div>
-		              </div>
-		              <div class="row-form total">
-		                <div class="col-from-field p-0">
-		                  <p>Total :</p> 
-		                </div>
-		                <div class="col-from-field p-0">
-		                  <label id="total_price">$<?php echo $total_price;?></label>
-		                </div>
-		                <div class="clearfix"></div>
-		                <div class="col-from-field">
-		                  <label class="control control-checkbox">You confirm that the changes above are correct and you agree to let<br> ReBow charge the card ending in <?php echo substr($payments_data['Card_Number'],-4);?> for : $<?php echo $total_price;?>
-		                    <input type="checkbox"/>
-		                    <div class="control-indicator"></div>
-		                  </label>
-		                </div>
-		                <div class="clearfix"></div>
-		                <div class="col-from-field">
-		                  <button id="submit_order2" type="" class="btn btn-secondary">Submit Order</button>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
+		        
 		      </div>
 		    </div>
 

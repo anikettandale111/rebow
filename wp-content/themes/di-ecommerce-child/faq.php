@@ -68,7 +68,7 @@
 </section>
 <!-- End 1st FAQ -->
 <!-- Start 2nd group FAQ -->
-<section class="faq-heading mt-5">
+<section class="faq-heading">
 	<div class="container">
 		<div class="row">
 			<div class="col text-center">

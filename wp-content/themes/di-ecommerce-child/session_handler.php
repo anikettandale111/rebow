@@ -170,6 +170,9 @@ class rebow_session{
 
 	public $period_data_value;
 
+	public $apartment_level_delivery_text;
+	public $apartment_level_pickup_text;
+
 }
 
 function set_rebow_session($storesession){

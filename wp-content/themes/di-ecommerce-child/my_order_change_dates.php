@@ -187,7 +187,7 @@
 		                </div>
 		                <div class="col-sm-12 col-md-6 st-details pl-5">
 		                	<input type="hidden" id="end_date_field" value="<?php echo $pickup_date;?>"/>
-							<p><?php echo $data['order_type']." End Date";?></p>: <input id="end_date" type="text" class="global_date" value="<?php echo $pickup_date;?>"></input>
+							<p><?php echo ucwords(strtolower($data['order_type']))." End Date";?></p>: <input id="end_date" type="text" class="global_date" value="<?php echo get_custom_formatted_date($pickup_date);?>"></input>
 		                </div>
 		              </div>
 		             
@@ -267,22 +267,27 @@
 			$('#end_date').datepicker({
 				startDate: "today",
 				daysOfWeekDisabled: [0,6],
-				format: "M dd, yyyy ",
+				format: "M dd, yyyy",
 				autoclose:true,
 			});
-			$( "#end_date" ).change(function() {
+			$("#end_date").change(function() {
 				//alert('changed');
 				console.log(1);
 			    var start_date = jQuery('#start_date').val();
 			    //alert(start_date);
 			    console.log('start_date: '+start_date);
-			    console.log(start_date);
-			    var end_date = jQuery('#end_date_field').val();
-			     console.log(end_date);
+			    var end_date = jQuery('#end_date').val();
+			    var end_date_format = dateFormat2(end_date);
+				console.log('end_date_format: '+end_date_format);
+
+			   	// console.log('start date '+start_date);
+			    jQuery('#end_date_field').val(end_date_format);
+
+			    console.log('End Date: '+end_date);
 			    var dayDff = get_day_diffrence(start_date,end_date);
+			    console.log('dayDff:'+dayDff);
 			    //alert(dayDff);
 			    price_calculation(dayDff);
-			    
 			});
 			function get_day_diffrence(start_date,end_date){
 			    var startDay = new Date(start_date);
@@ -294,6 +299,7 @@
 
 			    // Round down.
 			    var dayDiff = Math.floor(days);
+
 			    return dayDiff;
 			}
 
@@ -303,24 +309,32 @@
 				var previous_added_box_price = "<?php echo $data['added_box_price'];?>";
 				var previous_delivery_cost = "<?php echo ($data['delivery_cost']);?>";
 
-				var previous_pickup_cost = "<?php echo ($data['pickup_cost']);?>";
+				console.log('previous_product_price: '+previous_product_price);
+				console.log('previous_added_box_price: '+previous_added_box_price);
+				console.log('previous_delivery_cost: '+previous_delivery_cost);
 
+				var previous_pickup_cost = "<?php echo ($data['pickup_cost']);?>";
+				console.log('previous_pickup_cost'+previous_pickup_cost);
 				var default_product_cost = Number(jQuery('#default_product_cost').val());
+
 				var tax_rates = Number(jQuery('#tax_rates').val());
 				var period_data_field = jQuery('#period_data_field').val();
+				console.log('period_data_field'+period_data_field);
 				var box_count = Number(jQuery('#box_count_field').val());
+				console.log('box_count'+box_count);
 				var added_box_count = Number(jQuery('#added_box_count_field').val());
-
+				console.log('added_box_count'+added_box_count);
 				var delivery_cost = Number(jQuery('#delivery_cost_field').val());
-
+				console.log('delivery_cost'+delivery_cost);
 				var pickup_cost = Number(jQuery('#pickup_cost_field').val());
-
+				console.log('pickup_cost'+pickup_cost);
 				var tax_rates = Number(jQuery('#tax_rates').val());
 
 				if(period_data_field=="RENTAL"){
 					//alert(dayDff/7);
 					var period=Math.ceil(dayDff/7);
 				}
+				console.log('period: '+period);
 
 				var product_price = default_product_cost * box_count * period;
 
@@ -367,18 +381,17 @@
 
 				/*SET values to main fields*/
 
-				jQuery('#pickup_cost').text(pickup_cost);
+				jQuery('#pickup_cost').text('$'+pickup_cost);
 
-				jQuery('#delivery_cost').text(delivery_cost);
+				jQuery('#delivery_cost').text('$'+delivery_cost);
 
+				jQuery('#subtotal').text('$'+subtotal);
 
-				jQuery('#subtotal').text(subtotal);
+				jQuery('#sales_tax').text('$'+sales_tax);
 
-				jQuery('#sales_tax').text(sales_tax);
+				jQuery('#total_price1').text('$'+total_price);
 
-				jQuery('#total_price1').text(total_price);
-
-				jQuery('#total_price2').text(total_price);
+				jQuery('#total_price2').text('$'+total_price);
 				//jQuery('#delivery_cost').val(delivery_cost);
 
 			}
@@ -398,7 +411,7 @@
 
 			    var product_price = jQuery('#product_price_field').val();
 
-			    var subtotal = jQuery('#subtotal_field').val();
+			    /*var subtotal = jQuery('#subtotal_field').val();
 
 			    var delivery_cost = jQuery('#delivery_cost_field').val();
 
@@ -406,7 +419,18 @@
 
 			    var sales_tax = jQuery('#sales_tax_field').val();
 
+			    var total_price = jQuery('#total_price_field').val();*/
+
+			    var subtotal = Number(jQuery('#subtotal').val());
+
+			    var delivery_cost = Number(jQuery('#delivery_cost_field').val());
+
+			    var pickup_cost = Number(jQuery('#pickup_cost_field').val());
+
+			    var sales_tax = Number(jQuery('#sales_tax_field').val());
+
 			    var total_price = jQuery('#total_price_field').val();
+
 
 			    var tax_rates = jQuery('#tax_rates').val();
 
@@ -452,6 +476,33 @@
 				jQuery('#cancel-order').modal('hide');
 				
 			});
+			var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+				 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+			function dateFormat(d){
+			  var t = new Date(d);
+			  return monthNames[t.getMonth()]+' '+t.getDate()+', '+t.getFullYear();
+			}
+
+			function dateFormat2(d){
+			  var t = new Date(d);
+			  var mon;
+			  console.log(t);
+			  var month = ("0" + (t.getMonth() + 1)).slice(-2); 
+			  var date = ("0" + t.getDate()).slice(-2); 
+			  //console.log(Number(mon));
+			  return t.getFullYear()+'-'+month+'-'+date;
+			}
+
+
+			function convertDate(date) {
+			    var day = date.getDate();
+			    day = day < 10 ? "0" + day : day;
+			    var month = date.getMonth() + 1;
+			    month = month < 10 ? "0" + month : month;
+			    var year = date.getFullYear();
+			    return day + "." + month + "." + year;
+			}
 		</script>
 	</body>
 </html>

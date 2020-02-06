@@ -9,6 +9,7 @@
 		require_once('session_values.php');
 		get_header(); 
 		//print_r($_SESSION);
+		//print_r($session_data);
 		?>
 		<!-- FAQ heading -->
 		<section class="faq-header">
@@ -139,7 +140,7 @@
 
 						$delivery_address =(isset($session_data->delivery_address)) ? $session_data->delivery_address : $deliver_empty_boxes_data['address'];
 
-						$apt_unit_delivery =(isset($session_data->apt_unit_delivery)) ? $session_data->preferred_delivery_time : $deliver_empty_boxes_data['apartment_unit_info'];
+						$apt_unit_delivery =(isset($session_data->apt_unit_delivery)) ? $session_data->apt_unit_delivery : $deliver_empty_boxes_data['apartment_unit_info'];
 
 						$apartment_level_delivery =(isset($session_data->apartment_level_delivery)) ? $session_data->apartment_level_delivery : $deliver_empty_boxes_data['floor_level'];
 
@@ -173,7 +174,7 @@
 
 						/*Pickup Empty Boxes Data*/
 
-						$pickup_date =(isset($session_data->end_date)) ? $session_data->end_date : $pickup_empty_boxes_data['date'];
+						$pickup_date =(isset($session_data->pickup_date)) ? $session_data->pickup_date : $pickup_empty_boxes_data['date'];
 						
 						$preferred_pickup_time =(isset($session_data->preferred_pickup_time)) ? $session_data->preferred_pickup_time : $pickup_empty_boxes_data['preferred_time'];
 
@@ -181,7 +182,7 @@
 
 						$pickup_address =(isset($session_data->pickup_address)) ? $session_data->pickup_address : $pickup_empty_boxes_data['address'];
 
-						$apt_unit_pickup =(isset($session_data->apt_unit_pickup)) ? $session_data->preferred_delivery_time : $pickup_empty_boxes_data['apartment_unit_info'];
+						$apt_unit_pickup =(isset($session_data->apt_unit_pickup)) ? $session_data->apt_unit_pickup : $pickup_empty_boxes_data['apartment_unit_info'];
 
 						$apartment_level_pickup =(isset($session_data->apartment_level_pickup)) ? $session_data->apartment_level_pickup : $pickup_empty_boxes_data['floor_level'];
 
@@ -194,7 +195,7 @@
 					$product_data = get_package_data($data['product_id']);
 
 					if($data['order_type']=="RENTAL"){
-						if($data['product_id']!=0){
+						/*if($data['product_id']!=0){
 							//echo "in else";
 							$product_display_name = $product_data['product_name']." Package - ".$product_data['box_count']." Boxes (".$product_data['product_range'].")";
 
@@ -221,24 +222,25 @@
 							$product_labels_count = $data['added_box_count']." Labels";
 
 							$product_zipties_count = $data['added_box_count']." Security Zip Ties";
-						}
+						}*/
 					}else{
 
 						$storage_start_date = $delivery_date;
 
 						$storage_end_date = $pickup_date;
 
-						$storage_period = $data['order_time_period'];
+						$storage_period = $period_data_value;
 
 						$storage_facility_location ="141 W Avenue 34, Los Angeles, CA 90031";
 
-						if($data['product_id']!=0){
+						$box_count = $added_box_no;
+						/*if($data['product_id']!=0){
 							$product_name = $product_data['product_name'];
 
 							$box_count = $product_data['box_count'];
 						}else{
 							$box_count = $product_data['box_count'];
-						}
+						}*/
 
 					}
 
@@ -271,7 +273,7 @@
 					                       <p><?php echo ucwords(strtolower($breadcrumb2));?> :</p>
 					                    </div>
 					                    <div class="col-from-field">
-					                       <label class="ax-md" for=""><?php echo $product_display_period;?></label>
+					                       <label class="ax-md" for=""><?php echo $period_data_value;?></label>
 					                    </div>
 				                  	</div>
 				                </div>
@@ -319,7 +321,7 @@
 				                </div>
 
 				                <div class="col-sm-12">
-				                  	<label class="ax-md" for=""><?php echo "Number of Boxes in Storage :  ".$product_name." - ".$box_count;?></label>
+				                  	<label class="ax-md" for=""><?php echo "Number of Boxes in Storage : ".$box_count;?> Boxes</label>
 				                </div>
 			              	</div>
 			            </div>

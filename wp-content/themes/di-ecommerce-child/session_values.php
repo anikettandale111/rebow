@@ -206,11 +206,16 @@
 	}
 
 	if($apartment_level_delivery=="Neither" || empty($apartment_level_delivery)){
-		$apartment_level_delivery="Curb";
+		$apartment_level_delivery_text="Curb";
+	}else{
+		$apartment_level_delivery_text= $apartment_level_delivery;
 	}
 
 	if($apartment_level_pickup=="Neither" || empty($apartment_level_pickup)){
-		$apartment_level_pickup="Curb";
+		$apartment_level_pickup_text="Curb";
+	}else{
+		$apartment_level_pickup_text= $apartment_level_pickup;
+
 	}
 
 	if($delivery_cost==0 || empty($delivery_cost)){

@@ -125,7 +125,10 @@
 		          <div class="col-sm-12 col-md-5 pl-5 order-details">
 		            <?php if($data['product_id']!=0){?>
 						<?php if($product_data['product_name']!='Custom Order'){?>
-							<p><?php echo ucwords(strtolower($product_data['product_name']))." Package - ".$product_data['box_count']." Boxes"."<br/>(".$product_data['product_range'].")";?></p>
+							<?php $product_range_text=($product_data['product_range']!="")? "(".$product_data['product_range'].")" :"";?>
+							<p><?php
+
+							 echo ucwords(strtolower($product_data['product_name']))." Package - ".$product_data['box_count']." Boxes"."<br/>".$product_range_text;?></p>
 							<?php 
 								if($data['added_box_count']!=0){
 									echo "<p>".$data['added_box_count'] ." Added Boxes";
@@ -548,7 +551,12 @@
 			jQuery(document).ready(function() {
 				jQuery("#back_btn").click(function (){
 				  window.history.back();
+				  return false;
 				});
+				$('#back_btn').hover(function() {
+			        $(this).css('cursor','pointer');
+			    });
+
 				jQuery('#change_pickup_delivey_dates').click(function(event) {
 					
 					//var current_id = jQuery(this).attr('id');
@@ -605,7 +613,12 @@
 						}
 					});
 				});
-
+				$('#change_pickup_delivey_dates').hover(function() {
+				    $(this).css('cursor','pointer');
+				});
+				$('#change_delivery_pickup_info').hover(function() {
+				    $(this).css('cursor','pointer');
+				});
 				jQuery('#change_delivery_pickup_info').click(function(event) {
 					var period_datas = "<?php echo $data['order_type'];?>";
 
