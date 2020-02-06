@@ -166,7 +166,10 @@ function handle_custom_login(){
             }
             echo json_encode(array("status"=>0,'error'=>$error_msg));
         }else{
-
+            $userdata = wp_get_current_user();
+            if($userdata->id== 1 && $userdata->user_nicename == "admin"){
+                $redirect_url = site_url()."/wp-admin/"; 
+            }
             echo json_encode(array("status"=>1,'error'=>$error_msg,'redirect_url'=>$redirect_url,'refer_url'=>$refer_url));
         }
     }
