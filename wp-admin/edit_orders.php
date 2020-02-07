@@ -191,8 +191,8 @@ function show_order_details($order_id){
 			</div>
 		</div>
 		<center>
-			<button type="button" id="update_order_Details" class="btn btn-success reset_readonly" style="margin:20px;">UPDATE</button>
-			<button type="button" class="btn btn-info reset_readonly" style="margin:20px;">CANCEL</button>
+			<button type="button" id="update_order_Details" class="btn btn-success reset_readonly" style="display:none;margin:20px;">UPDATE</button>
+			<a href="<?php site_url().'/wp-admin/admin.php?page=Orders' ?>" type="button" class="btn btn-info reset_readonly" style="margin:20px;">CANCEL</a>
 		</center>
 	</form>
 	</div>
@@ -228,6 +228,7 @@ function get_user_data($user_id){
 	});
 	jQuery('#edit_order_Details').click(function(){
 		jQuery(".editable").removeAttr("readonly");
+		jQuery("#update_order_Details").css("display","block");
 		jQuery('#shipping_edited_change').val(1);
 	});
 		jQuery(document).ready(function(){
