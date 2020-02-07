@@ -192,7 +192,7 @@ function show_order_details($order_id){
 		</div>
 		<center>
 			<button type="button" id="update_order_Details" class="btn btn-success reset_readonly" style="display:none;margin:20px;">UPDATE</button>
-			<a href="<?php site_url().'/wp-admin/admin.php?page=Orders' ?>" type="button" class="btn btn-info reset_readonly" style="margin:20px;">CANCEL</a>
+			<a href="<?php echo site_url().'/wp-admin/admin.php?page=Orders' ?>" type="button" class="btn btn-info reset_readonly" style="margin:20px;">CANCEL</a>
 		</center>
 	</form>
 	</div>
