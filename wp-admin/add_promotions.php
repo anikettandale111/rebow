@@ -162,8 +162,8 @@ $db = mysql_select_db("rebow");*/
 			});
 			jQuery('#discount_amount').change(function(){
 				var disc_amt = $(this).val();
-				var mini_spend =jQuery("#minimum_spend").val();
-				if(disc_amt >= mini_spend){
+				var mini_spend = jQuery("#minimum_spend").val();
+				if(parseInt(disc_amt) >= parseInt(mini_spend)){
 					alert('Discount amount not greater than Minimum Spend Amount');
 					$(this).val('0');
 					$(this).focus();
