@@ -296,6 +296,16 @@ if($ajax_request=='order_update'){
 			update_delivery_address($delivery_address,$order_id);
 			update_pickup_address($pickup_address,$order_id);
 			$message = "Order Details Updated Successfully.";
+		}elseif($order_type=="STORAGE"){
+			$delivery_address = $delivery_address_edited_value;
+			$pickup_address = $pickup_address_edited_value;
+			$pickup_packed_address = $_POST['pickup_packed_address_edited_value'];
+			$delivery_packed_address = $_POST['delivery_packed_address_edited_value'];
+			update_delivery_address($delivery_address,$order_id);
+			update_pickup_address($pickup_address,$order_id);
+			update_pickup_address_pacaked($pickup_packed_address,$order_id);
+			update_delivery_address_packed($delivery_packed_address,$order_id);
+			$message = "Order Details Updated Successfully.";
 		}
 	}
 
@@ -334,6 +344,28 @@ function update_delivery_address($delivery_address,$order_id){
 }
 function update_pickup_address($pickup_address,$order_id){
 	$query = "UPDATE order_shipping SET address='$pickup_address' where order_id=$order_id and shipping_type='Pickup Empty Boxes'";
+
+	$res = mysql_query($query);
+
+	// if($res==1){
+	// 	echo "updated successfully";
+	// }else{
+	// 	echo "something went wrong";
+	// }
+}
+function update_pickup_address_pacaked($pickup_address,$order_id){
+	$query = "UPDATE order_shipping SET address='$pickup_address' where order_id=$order_id and shipping_type='Pickup Packed Boxes'";
+
+	$res = mysql_query($query);
+
+	// if($res==1){
+	// 	echo "updated successfully";
+	// }else{
+	// 	echo "something went wrong";
+	// }
+}
+function update_delivery_address_packed($pickup_address,$order_id){
+	$query = "UPDATE order_shipping SET address='$pickup_address' where order_id=$order_id and shipping_type='Delivery Packed Boxes'";
 
 	$res = mysql_query($query);
 

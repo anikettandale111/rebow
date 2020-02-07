@@ -160,7 +160,7 @@ function show_order_details($order_id){
 			<?php if(count($get_additional_order_details_data)): ?>
 			<center><b>Aditional Order Product Details</b></center>
 			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th>Order Number</th><th>Product Name</th><th>Date</th><th>Box Count</th><th>Subtotal</th><th>Total</th></tr>
+				<tr><th><center>Order Number</center></th><th><center>Product Name</center></th><th><center>Date</center></th><th><center>Box Count</center></th><th><center>Subtotal</center></th><th><center>Total</center></th></tr>
 				<?php foreach($get_additional_order_details_data as $val): ?>
 					<?php $order_id = $val['order_id']; ?>
 				<tr>
@@ -178,7 +178,7 @@ function show_order_details($order_id){
 			<?php if(count($order_tracking_history_data)): ?>
 			<center><b>Order Tracking Status Histroy</b></center>
 			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th>Order Status</th><th>Description</th><th>Date</th></tr>
+				<tr><th><center>Order Status</center></th><th><center>Description</center></th><th><center>Date</center></th></tr>
 				<?php foreach($order_tracking_history_data as $val): ?>
 				<tr>
 					<td><?php echo $val['order_status'];?></td>
