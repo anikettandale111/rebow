@@ -1653,40 +1653,48 @@ if($ajax_resquest_type=="order_submit"){
     $sales_tax = $storesession->sales_tax;
 
     $total_price = $storesession->total_price;
-
+    if(empty($total_price)){
+        $total_price = $_REQUEST['total_price'];
+    }
     $dp_period =($period_data==0)? "Weeks" : "Months";
     /*Delivery Data*/
-    $delivery_date = (isset($storesession->start_date)) ? $storesession->start_date : 0;
 
-    $preferred_delivery_time = $storesession->preferred_delivery_time;
+    $period_data_field = $_REQUEST['period_data_field'];
+    $delivery_date = (isset($storesession->delivery_date)) ? $storesession->delivery_date : $_REQUEST['delivery_date'];
 
-    $alternate_delivery_time = $storesession->alternate_delivery_time;
+    $preferred_delivery_time = (isset($storesession->preferred_delivery_time)) ? $storesession->preferred_delivery_time : $_REQUEST['preferred_delivery_time'];
 
-    $delivery_address = $storesession->delivery_address;
+    $alternate_delivery_time = (isset($storesession->alternate_delivery_time)) ? $storesession->alternate_delivery_time : $_REQUEST['alternate_delivery_time'];
 
-    $apt_unit_delivery = $storesession->apt_unit_delivery;
+    $delivery_address = (isset($storesession->delivery_address)) ? $storesession->delivery_address : $_REQUEST['delivery_address'];
 
-    $apartment_level_delivery = $storesession->apartment_level_delivery;
+    $apt_unit_delivery = (isset($storesession->apt_unit_delivery)) ? $storesession->apt_unit_delivery : $_REQUEST['apt_unit_delivery'];
 
-    $delivery_address_loc_lat = $storesession->delivery_address_loc_lat;
-    $delivery_address_loc_long = $storesession->delivery_address_loc_long;
+    $apartment_level_delivery = (isset($storesession->apartment_level_delivery)) ? $storesession->apartment_level_delivery : $_REQUEST['apartment_level_delivery'];
+
+    $delivery_address_loc_lat = (isset($storesession->delivery_address_loc_lat)) ? $storesession->delivery_address_loc_lat : $_REQUEST['delivery_address_loc_lat'];
+
+    $delivery_address_loc_long = (isset($storesession->delivery_address_loc_long)) ? $storesession->delivery_address_loc_long : $_REQUEST['delivery_address_loc_long'];
+
 
     /*Pickup Data*/
 
-    $pickup_date = (isset($storesession->end_date)) ? $storesession->end_date : 0;
+    $pickup_date = (isset($storesession->pickup_date)) ? $storesession->pickup_date : $_REQUEST['pickup_date'];
 
-    $preferred_pickup_time = $storesession->preferred_pickup_time;
+    $preferred_pickup_time = (isset($storesession->preferred_pickup_time)) ? $storesession->preferred_pickup_time : $_REQUEST['preferred_pickup_time'];
 
-    $alternate_pickup_time = $storesession->alternate_pickup_time;
+    $alternate_pickup_time = (isset($storesession->alternate_pickup_time)) ? $storesession->alternate_pickup_time : $_REQUEST['alternate_pickup_time'];
 
-    $pickup_address = $storesession->pickup_address;
+    $pickup_address = (isset($storesession->pickup_address)) ? $storesession->pickup_address : $_REQUEST['pickup_address'];
 
-    $apt_unit_pickup = $storesession->apt_unit_pickup;
+    $apt_unit_pickup = (isset($storesession->apt_unit_pickup)) ? $storesession->apt_unit_pickup : $_REQUEST['apt_unit_pickup'];
 
-    $apartment_level_pickup = $storesession->apartment_level_pickup;
+    $apartment_level_pickup = (isset($storesession->apartment_level_pickup)) ? $storesession->apartment_level_pickup : $_REQUEST['apartment_level_pickup'];
 
-    $pickup_address_loc_lat = $storesession->pickup_address_loc_lat;
-    $pickup_address_loc_long = $storesession->pickup_address_loc_long;
+
+    $pickup_address_loc_lat = (isset($storesession->pickup_address_loc_lat)) ? $storesession->pickup_address_loc_lat : $_REQUEST['pickup_address_loc_lat'];
+
+    $pickup_address_loc_long = (isset($storesession->pickup_address_loc_long)) ? $storesession->pickup_address_loc_long : $_REQUEST['pickup_address_loc_long'];
 
 
     $product_id = $storesession->product_id;
@@ -1713,34 +1721,56 @@ if($ajax_resquest_type=="order_submit"){
 
     if($period_data_field=="STORAGE"){
 
-        $delivery_date_packed = $storesession->delivery_date_packed;
-        $preferred_delivery_time_packed = $storesession->preferred_delivery_time_packed;
-        $alternate_delivery_time_packed = $storesession->alternate_delivery_time_packed;
-        $delivery_address_packed = $storesession->delivery_address_packed;
-        $apt_unit_delivery_packed = $storesession->apt_unit_delivery_packed;
-        $apartment_level_packed_delivery = $storesession->apartment_level_packed_delivery;
-        $delivery_address_packed_loc_lat = $storesession->delivery_address_packed_loc_lat;
-        $delivery_address_packed_loc_long = $storesession->delivery_address_packed_loc_long;
+        $delivery_date_packed = (isset($storesession->delivery_date_packed)) ? $storesession->delivery_date_packed : $_REQUEST['delivery_date_packed'];
 
-        $pickup_date_packed = $storesession->pickup_date_packed;
-        $preferred_pickup_time_packed = $storesession->preferred_pickup_time_packed;
-        $alternate_pickup_time_packed = $storesession->alternate_pickup_time_packed;
-        $pickup_address_packed = $storesession->pickup_address_packed;
-        $apt_unit_pickup_packed = $storesession->apt_unit_pickup_packed;
-        $apartment_level_packed = $storesession->apartment_level_packed;
-        $pickup_address_packed_loc_lat = $storesession->pickup_address_packed_loc_lat;
-        $pickup_address_packed_loc_long = $storesession->pickup_address_packed_loc_long;
+        $preferred_delivery_time_packed = (isset($storesession->preferred_delivery_time_packed)) ? $storesession->preferred_delivery_time_packed : $_REQUEST['preferred_delivery_time_packed'];
+        
+        $alternate_delivery_time_packed = (isset($storesession->alternate_delivery_time_packed)) ? $storesession->alternate_delivery_time_packed : $_REQUEST['alternate_delivery_time_packed'];
+
+        $delivery_address_packed = (isset($storesession->delivery_address_packed)) ? $storesession->delivery_address_packed : $_REQUEST['delivery_address_packed'];
+
+        $apt_unit_delivery_packed = (isset($storesession->apt_unit_delivery_packed)) ? $storesession->apt_unit_delivery_packed : $_REQUEST['apt_unit_delivery_packed'];
+
+        $apartment_level_packed_delivery = (isset($storesession->apartment_level_packed_delivery)) ? $storesession->apartment_level_packed_delivery : $_REQUEST['apartment_level_packed_delivery'];
+        
+        $delivery_address_packed_loc_lat = (isset($storesession->delivery_address_packed_loc_lat)) ? $storesession->delivery_address_packed_loc_lat : $_REQUEST['delivery_address_packed_loc_lat'];
+
+        $delivery_address_packed_loc_long = (isset($storesession->delivery_address_packed_loc_long)) ? $storesession->delivery_address_packed_loc_long : $_REQUEST['delivery_address_packed_loc_long'];
+        
+        $pickup_date_packed = (isset($storesession->pickup_date_packed)) ? $storesession->pickup_date_packed : $_REQUEST['pickup_date_packed'];
+
+        $preferred_pickup_time_packed = (isset($storesession->preferred_pickup_time_packed)) ? $storesession->preferred_pickup_time_packed : $_REQUEST['preferred_pickup_time_packed'];
+
+        $alternate_pickup_time_packed = (isset($storesession->alternate_pickup_time_packed)) ? $storesession->alternate_pickup_time_packed : $_REQUEST['alternate_pickup_time_packed'];
+
+        $pickup_address_packed = (isset($storesession->pickup_address_packed)) ? $storesession->pickup_address_packed : $_REQUEST['pickup_address_packed'];
+
+        $alternate_pickup_time_packed = (isset($storesession->alternate_pickup_time_packed)) ? $storesession->alternate_pickup_time_packed : $_REQUEST['alternate_pickup_time_packed'];
+
+        $pickup_address_packed = (isset($storesession->pickup_address_packed)) ? $storesession->pickup_address_packed : $_REQUEST['pickup_address_packed'];
+
+        $apt_unit_pickup_packed = (isset($storesession->apt_unit_pickup_packed)) ? $storesession->apt_unit_pickup_packed : $_REQUEST['apt_unit_pickup_packed'];
+
+        $apartment_level_packed = (isset($storesession->apartment_level_packed)) ? $storesession->apartment_level_packed : $_REQUEST['apartment_level_packed'];
+
+        $pickup_address_packed_loc_lat = (isset($storesession->pickup_address_packed_loc_lat)) ? $storesession->pickup_address_packed_loc_lat : $_REQUEST['pickup_address_packed_loc_lat'];
+
+        $pickup_address_packed_loc_long = (isset($storesession->pickup_address_packed_loc_long)) ? $storesession->pickup_address_packed_loc_long : $_REQUEST['pickup_address_packed_loc_long'];
+    
     }
 
     $customer_stripe_id = retrieve_customer_id($email);
 
     $payment_method_id = retrieve_payment_method_id($customer_stripe_id);
-
+    //echo "total_price".$total_price;
+    $total_amount = round($total_price,2);
+    //dollars to cents
+    $total_amount1 = ($total_amount)*100;
     //$customer_stripe_id = get_customer_data_stripe($user_id);
     //$payment_method_id = get_payment_method_data($customer_stripe_id);
     
     $paymentIntent = \Stripe\PaymentIntent::create([
-      'amount' => $total_price,
+      'amount' => $total_amount1,
       'currency' => 'USD',
       'customer' => $customer_stripe_id,
       'payment_method' => $payment_method_id,
@@ -1748,8 +1778,8 @@ if($ajax_resquest_type=="order_submit"){
       'confirm' => true,
     ]);
 
-    echo "Amount Received: ".$paymentIntent->amount_received;
-    echo "Payment Status: ".$paymentIntent->status;
+    $total_amount = $paymentIntent->amount_received;
+    $payment_status = $paymentIntent->status;
     
     $order_id = insert_into_orders($product_id,$display_period,$dp_period,$box_count,$added_box_count,$product_price,$added_box_price,$delivery_cost,$pickup_cost,$sales_tax,$total_price,$period_data_field,$order_time_period,$zip_current,$zip_new,$user_id,$current_order_id,$subtotal);
     //$shipping_type ="Delivery Empty Boxes";
@@ -1787,13 +1817,15 @@ if($ajax_resquest_type=="order_submit"){
     $pickup_empty_boxes_data = get_rental_shipping_data($current_order_id,$shipping_type);
     
     $rental_end_date = $pickup_empty_boxes_data['date']; 
-    echo "dayDiff: ".$dayDiff = day_diff_between_two_dates($pickup_date,$rental_end_date);
+    $dayDiff = day_diff_between_two_dates($pickup_date,$rental_end_date);
     $daydiffrence = (int) filter_var($dayDiff, FILTER_SANITIZE_NUMBER_INT);
     //print_r($pickup_empty_boxes_data);
     //print_r($pickup_empty_boxes_data);
-    echo "current_order_id: ".$current_order_id;
-    echo "preferred_delivery_time: ".$preferred_delivery_time;
-    echo "apartment_level_delivery: ".$apartment_level_delivery;
+    $current_order_id;
+    //echo "preferred_delivery_time: ".
+    $preferred_delivery_time;
+    //echo "apartment_level_delivery: ".
+    $apartment_level_delivery;
 
     if($period_data_field=="RENTAL"&&$daydiffrence>6){
 
@@ -1817,7 +1849,7 @@ if($ajax_resquest_type=="order_submit"){
     insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
     insert_into_order_tracking($order_id,$user_id,$order_status,$active);
 
-    $json_array = array('order_id'=>$order_id,'delivery_date'=>$delivery_date,'pickup_date'=>$pickup_date);
+    $json_array = array('order_id'=>$order_id,'delivery_date'=>$delivery_date,'pickup_date'=>$pickup_date,'payment_status'=>$payment_status);
     echo $json_array1 = json_encode($json_array);
 }
 function day_diff_between_two_dates($new_date,$db_date){

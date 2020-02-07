@@ -881,7 +881,7 @@
 					jQuery('#addedboxesfield').show();
 				}
         $( "#promocode" ).blur(function() {
-          alert('promocode check');
+          //alert('promocode check');
           var promocode = $('#promocode').val();
           if(promocode!=''){
             datastring = "ajax_request=promocode_check&promocode="+promocode;
@@ -907,11 +907,8 @@
                     }else if(jsonOBJ.promotion_type=="Percentage_Off"){
                       var Percentage_Off = jsonOBJ.percentage_off;
                       
-                      
                       var discount_amount = (total_price*Percentage_Off)/100;
                       
-                      
-
                     } 
                     console.log(discount_amount);
                     jQuery('#promo_price').text('$'+discount_amount);

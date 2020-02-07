@@ -313,7 +313,7 @@ function get_package_data($product_id){
 function get_packages_datas($product_type){
 
 	$product_type = strtoupper($product_type);
-	$sql="select product_id,product_name,product_type,box_count from products where product_type='$product_type'";
+	$sql="select product_id,product_name,product_type,box_count from products where product_type='$product_type' and status=1";
 	
 	$result = mysql_query($sql);
 	

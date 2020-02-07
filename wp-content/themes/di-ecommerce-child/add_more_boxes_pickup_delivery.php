@@ -467,7 +467,7 @@
 			                  <div class="col-from-field">
 			                    <!--<div class="selectholder">
 			                      <label>Choose Time</label>-->
-			                      	<?php echo "apartment_level_pickup:".$apartment_level_pickup;?>
+			                      	<?php //echo "apartment_level_pickup:".$apartment_level_pickup;?>
 			                     	<select id="apartment_level_pickup" class="apartment_level">
 										<option value="">Select</option>
 										<?php 
