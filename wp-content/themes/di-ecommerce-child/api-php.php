@@ -502,7 +502,7 @@ if($ajax_resquest_type=="add_new_payment_method"){
     $promocode = "";
     $state = "";
     
-    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billingaddress,$city,$zipcode,$promocode,$state,$user_id);
+    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billingaddress,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id);
 
     
 }
@@ -513,8 +513,16 @@ if($ajax_resquest_type=="send_card_intent2"){
     //print_r($intent);
     $storesession = get_rebow_session();
 
-    $total_price = round($storesession->total_price,2);
+    $total_price = $storesession->total_price;
+    $new_total_price = $_REQUEST['new_total_price'];
+
+    if(!empty($new_total_price)){
+        $total_price = $new_total_price;
+    }
+    
     //dollars to cents
+
+    $total_price = round($total_price,2);
     $total_price = ($total_price)*100;
 
     $email = $storesession->email;
@@ -555,8 +563,18 @@ if($ajax_resquest_type=="send_card_intent2"){
 
                 $customer_stripe_id = retrieve_customer_id($user_email);
 
-                $payment_method_id = retrieve_payment_method_id($customer_stripe_id);
+                $payment_method_id = $intent->setupIntent->payment_method;
 
+                //retrieve_payment_method_id($customer_stripe_id);
+
+                $customer = \Stripe\Customer::update(
+                    $customer_stripe_id,
+                    ['invoice_settings' => [
+                        'default_payment_method' => $payment_method_id
+                    ]     
+                ]);
+
+            
                 $status = 1;
 
                 $product = \Stripe\Product::create([
@@ -584,10 +602,35 @@ if($ajax_resquest_type=="send_card_intent2"){
 
             }catch (\Stripe\Exception\CardException $e) {
               // Error code will be authentication_required if authentication is needed
-              echo 'Error code is:' . $e->getError()->code;
-              $payment_intent_id = $e->getError()->payment_intent->id;
-              $payment_intent = \Stripe\PaymentIntent::retrieve($payment_intent_id);
+              $error_code = $e->getError()->code;
+              //$payment_intent_id = $e->getError()->payment_intent->id;
+              //$payment_intent = \Stripe\PaymentIntent::retrieve($payment_intent_id);
+            }catch (\Stripe\Exception\RateLimitException $e) {
+                 $error_code = $e->getError()->code;
+              // Too many requests made to the API too quickly
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+              // Invalid parameters were supplied to Stripe's API
+                 $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\AuthenticationException $e) {
+              // Authentication with Stripe's API failed
+              // (maybe you changed API keys recently)
+                 $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\ApiConnectionException $e) {
+              // Network communication with Stripe failed
+                 $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+              // Display a very generic error to the user, and maybe send
+              // yourself an email
+                 $error_code = $e->getError()->code;
+            }catch (\Stripe\Exception\UnexpectedValueException $e) {
+              // Something else happened, completely unrelated to Stripe
+                echo "catch found";
+                 $error_code = $e->getError()->code;
+            } catch (Exception $e) {
+              // Something else happened, completely unrelated to Stripe
+                 $error_code = $e->getError()->code;
             }
+
         }else{
             //echo "intent->setupIntent->payment_method: ".$intent->setupIntent->payment_method;
             /*$customer = \Stripe\Customer::create([
@@ -595,15 +638,17 @@ if($ajax_resquest_type=="send_card_intent2"){
                 'payment_method' => $intent->setupIntent->payment_method,
             ]);*/
             //echo "customer_stripe_id: ".
-            $customer_stripe_id = retrieve_customer_id($user_email);
-
-            //echo "payment_method_id: ".
-            $payment_method_id = retrieve_payment_method_id($customer_stripe_id);
+            
             try {
+                $customer_stripe_id = retrieve_customer_id($user_email);
+
+                //echo "payment_method_id: ".
+                $payment_method_id = $intent->setupIntent->payment_method;
+                //retrieve_payment_method_id($customer_stripe_id);
                
                 $status=1;
-                //$payment_methods = \Stripe\PaymentMethod::retrieve($intent->setupIntent->payment_method);
-                //$payment_method->attach(['customer' => $customer_stripe_id]);
+                $payment_methods = \Stripe\PaymentMethod::retrieve($intent->setupIntent->payment_method);
+                $payment_methods->attach(['customer' => $customer_stripe_id]);
                 
                 $paymentIntent = \Stripe\PaymentIntent::create([
                   'amount' => $total_price,
@@ -617,12 +662,37 @@ if($ajax_resquest_type=="send_card_intent2"){
                 $payment_status = $paymentIntent->status;
                 //insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
                 //insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
-            } catch (\Stripe\Exception\CardException $e) {
+            }catch (\Stripe\Exception\CardException $e) {
               // Error code will be authentication_required if authentication is needed
-              echo 'Error code is:' . $e->getError()->code;
-              $payment_intent_id = $e->getError()->payment_intent->id;
-              $payment_intent = \Stripe\PaymentIntent::retrieve($payment_intent_id);
-            }   
+                $error_code = $e->getError()->code;
+              //$payment_intent_id = $e->getError()->payment_intent->id;
+              ///$payment_intent = \Stripe\PaymentIntent::retrieve($payment_intent_id);
+            }catch (\Stripe\Exception\RateLimitException $e) {
+                $error_code = $e->getError()->code;
+              // Too many requests made to the API too quickly
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+              // Invalid parameters were supplied to Stripe's API
+                $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\AuthenticationException $e) {
+              // Authentication with Stripe's API failed
+              // (maybe you changed API keys recently)
+                $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\ApiConnectionException $e) {
+              // Network communication with Stripe failed
+                $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+              // Display a very generic error to the user, and maybe send
+              // yourself an email
+                $error_code = $e->getError()->code;
+            } catch (\Stripe\Exception\UnexpectedValueException $e) {
+              // Something else happened, completely unrelated to Stripe
+                echo "catch found";
+                $error_code = $e->getError()->code;
+            } catch (Exception $e) {
+              // Something else happened, completely unrelated to Stripe
+                $error_code = $e->getError()->code;
+            }
+   
         }
 
             
@@ -802,7 +872,7 @@ if($ajax_resquest_type=="send_card_intent2"){
 
     $zipcode = $paymentMethod->billing_details->address->postal_code;
 
-    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id);
+    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id);
 
     /*$first_name = $storesession->firstName;
     $last_name = $storesession->lastName;
@@ -843,7 +913,7 @@ if($ajax_resquest_type=="send_card_intent2"){
         }
 
     }
-    $json_array = array('payment_status'=>$payment_status,'subscription_status'=>$subscription_status,'order_id'=>$order_id);
+    $json_array = array('payment_status'=>$payment_status,'subscription_status'=>$subscription_status,'order_id'=>$order_id,'error_code'=>$error_code);
     echo json_encode($json_array);
 }
 
@@ -1143,7 +1213,7 @@ if($ajax_resquest_type=="send_card_intent3"){
 
     $zipcode = $paymentMethod->billing_details->address->postal_code;
 
-    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id);
+    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id);
 
     /*$first_name = $storesession->firstName;
     $last_name = $storesession->lastName;
@@ -2981,6 +3051,12 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
 
     $total_price = $storesession->total_price;
 
+    $new_total_price = $_REQUEST['new_total_price'];
+
+    if(!empty($new_total_price)){
+        $total_price = $new_total_price;
+    }
+
     $zip_current= $storesession->zip_current;
 
     $zip_new = $storesession->zip_new;
@@ -3103,7 +3179,7 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
 
     $zipcode = $paymentMethod->billing_details->address->postal_code;
 
-    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id);
+    insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id);
  
     $first_name = $storesession->firstName;
     $last_name = $storesession->lastName;
@@ -3367,10 +3443,11 @@ function insert_into_shipping_info($order_id,$order_type,$shipping_type,$date,$a
     $res = mysql_query($query);
 }
 
-function insert_into_payments($order_id,$user_id,$payment_type,$First_Name,$Last_Name,$Card_Number,$Expiry_month,$Expiry_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id){
+function insert_into_payments($order_id,$user_id,$payment_type,$First_Name,$Last_Name,$Card_Number,$Expiry_month,$Expiry_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id){
     //echo "Query: ".
-    $query = "INSERT INTO payments(`order_id`,`user_id`,`payment_type`,`First_Name`,`Last_Name`,`Card_Number`,`Expiry_month`,`Expiry_year`,`billing_address`,`city`,`state`,`zipcode`,`promocode`,`active`,`created_at`,`abandoned`)
-        VALUES ($order_id,$user_id,'$payment_type','$First_Name','$Last_Name',$Card_Number,$Expiry_month,$Expiry_year,'$billing_address','$city','$state',$zipcode,'$promocode',1,NOW(),1)";
+    $query = "INSERT INTO payments(`order_id`,`user_id`,`payment_type`,`First_Name`,`Last_Name`,`Card_Number`,`Expiry_month`,`Expiry_year`,`billing_address`,`city`,`state`,`zipcode`,`promocode`,`active`,`created_at`,`abandoned`, `paymentmethod_id`)
+        VALUES ($order_id,$user_id,'$payment_type','$First_Name','$Last_Name',$Card_Number,$Expiry_month,$Expiry_year,'$billing_address','$city','$state',$zipcode,'$promocode',1,NOW(),1,
+        '$payment_method_id')";
 
     $res = mysql_query($query);
 }

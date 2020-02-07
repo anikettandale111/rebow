@@ -195,51 +195,11 @@
                     </select>
                   </div>
                 </div>-->
-                  <div class="form-row" style="display:none;">
+                  <div class="form-row">
                     <div class="form-group col-md-8">
                       <div id="card-element"></div>
                     </div>
                   </div>
-                  <label for="name">Name on Card</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">A</span>
-                        </div>
-                        <input type="text" class="form-control" id="name">
-                        <div class="input-group-append">
-                            <span class="input-group-text">B</span>
-                        </div>
-                    </div>
-                    <label for="card-number">Credit Card Number</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">C</span>
-                        </div>
-                        <span id="card-number" class="form-control">
-                            <!-- Stripe Card Element -->
-                        </span>
-                        <div class="input-group-append">
-                            <span class="input-group-text">D</span>
-                        </div>
-                    </div>
-                    <label for="card-cvc">CVC Number</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">E</span>
-                        </div>
-                        <span id="card-cvc" class="form-control">
-                            <!-- Stripe CVC Element -->
-                        </span>
-                    </div>
-                    <label for="card-exp">Expiration</label>
-                    <div class="input-group mb-2">
-                        <span id="card-exp" class="form-control">
-                            <!-- Stripe Card Expiry Element -->
-                        </span>
-                        <div class="input-group-append">
-                            <span class="input-group-text">F</span>
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="form-row">
@@ -716,51 +676,19 @@
         // cardButton.addEventListener('click', function(ev) {
             var elements = stripe.elements();
           // Set up Stripe.js and Elements to use in checkout form
-          // var style = {
-          //   base: {
-          //     color: "Red",
-          //   }
-          // };
-
-          // var cardElement = elements.create('card',{ style: style,value:'424242' });
-          // cardElement.mount('#card-element');
-
-          // var cardholderName = document.getElementById('firstName');
-        var cardButton = document.getElementById('submit_order');
-          
-          var clientSecret = cardButton.dataset.secret;
-
-          // Try to match bootstrap 4 styling
           var style = {
-              base: {
-                  'lineHeight': '1.35',
-                  'fontSize': '1.11rem',
-                  'color': 'green',
-                  'fontFamily': 'apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'
-              }
+            base: {
+              color: "Red",
+            }
           };
 
-          // Card number
-          var card = elements.create('cardNumber', {
-              'placeholder': '',
-              'style': style
-          });
-          card.mount('#card-number');
+          var cardElement = elements.create('card',{ style: style,value:'424242' });
+          cardElement.mount('#card-element');
 
-          // CVC
-          var cvc = elements.create('cardCvc', {
-              'placeholder': '',
-              'style': style
-          });
-          cvc.mount('#card-cvc');
-
-          // Card expiry
-          var exp = elements.create('cardExpiry', {
-              'placeholder': '',
-              'style': style
-          });
-          exp.mount('#card-exp');
-
+          var cardholderName = document.getElementById('firstName');
+          var cardButton = document.getElementById('submit_order');
+          
+          var clientSecret = cardButton.dataset.secret;
 
       jQuery(document).ready(function() {
 
@@ -1160,13 +1088,13 @@
           }
 
               //ev.preventDefault();
-              var name = jQuery('#name').val();
+              
               stripe.confirmCardSetup(
                 clientSecret,
                 {
                   payment_method: {
-                    card: card,
-                    billing_details: {name: name}
+                    card: cardElement,
+                    billing_details: {name: cardholderName.value}
                   }
                 }
               ).then(function(result) {
@@ -1275,7 +1203,7 @@
 
                             var jsonOBJ = JSON.parse(result);
                             if(jsonOBJ.subscription_status=="active" || jsonOBJ.payment_status=="succeeded"){
-                              //jQuery(location).attr('href', '/rebow/order-confirmation/');
+                              jQuery(location).attr('href', '/rebow/order-confirmation/');
                             }else{
                               alert("Payment Failed");
                             }
