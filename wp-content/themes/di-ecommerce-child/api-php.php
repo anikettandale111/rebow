@@ -496,7 +496,8 @@ if($ajax_resquest_type=="add_new_payment_method"){
 
     $exp_year = $payment_method->card->exp_year;
 
-    $zipcode = $payment_method->billing_details->address->postal_code;
+    $zipcode = 0;
+    //$zipcode = $payment_method->billing_details->address->postal_code;
     $order_id =0;
     $city = "";
     $promocode = "";

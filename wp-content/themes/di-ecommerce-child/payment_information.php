@@ -192,21 +192,54 @@ require_once("db_config.php");
 	                    <div class="form-group col-md-6 mb-0">
 	                      <label for="inputEmail4">Last Name:</label>
 	                    </div>
-	                  </div>
+	                </div>
                   	<div class="form-row">
 	                    <div class="form-group col-md-6">
-	                      
-	                      <input type="text" class="form-control" id="firstName" value="<?php echo $firstName;?>" placeholder="First Name" required>
+	                      	<input type="text" class="form-control" id="firstName" value="<?php echo $firstName;?>" placeholder="First Name" required>
 	                    </div>
 	                    <div class="form-group col-md-6">
-	                      <input type="text" class="form-control" id="lastName" required value="<?php echo $lastName;?>" placeholder="Last Name">
+	                      	<input type="text" class="form-control" id="lastName" required value="<?php echo $lastName;?>" placeholder="Last Name">
 	                    </div>
-	                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-8">
-                      <div id="card-element"></div>
-                    </div>
-                  </div>
+	                </div>
+	                <div class="form-row">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">Card Number:</label>
+	                    </div>
+	                    <div class="form-group col-md-4 mb-0">
+	                      <label for="inputEmail4">CCV:</label>
+	                    </div>
+	                </div>
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                      	
+	                      	<span id="card-number" class="form-control">
+		                        <!-- Stripe Card Element -->
+		                    </span>
+	                    </div>
+	                    <div class="form-group col-md-4">
+	                      	
+	                      	<span id="card-cvc" class="form-control">
+		                        <!-- Stripe CVC Element -->
+		                    </span>
+	                    </div>
+	                </div>
+	                <div class="form-row">
+	                  	<div class="form-group col-md-12 mb-0">
+	                    	<label for="inputEmail4">Expiration Date :</label>
+	                  	</div>
+	                </div>
+	                <div class="form-row">
+	                  	<div class="form-group col-md-4">
+	                    	<span id="card-exp" class="form-control">
+	                      	<!-- Stripe Card Expiry Element -->
+	                    	</span>
+	                  	</div>
+	                </div>
+	                  <!--<div class="form-row">
+	                    <div class="form-group col-md-8">
+	                      <div id="card-element"></div>
+	                    </div>
+	                  </div>-->
                 </div>
                 
                 <div class="form-row">
@@ -242,21 +275,42 @@ require_once("db_config.php");
 	        // cardButton.addEventListener('click', function(ev) {
 	        var elements = stripe.elements();
 	        // Set up Stripe.js and Elements to use in checkout form
-	          var style = {
-	            base: {
-	              color: "#32325d",
-	            }
-	          };
-
-	        var cardElement = elements.create('card',{ style: style });
-	        cardElement.mount('#card-element');
-
-	        var cardholderName = document.getElementById('firstName');
-	        console.log(cardholderName);
 	        var cardButton = document.getElementById('add_new_payment_method');
-	        console.log(cardButton);
+          
+          	var clientSecret = cardButton.dataset.secret;
 
-	        var clientSecret = cardButton.dataset.secret;
+          	// Try to match bootstrap 4 styling
+	        var style = {
+	              base: {
+	                  'lineHeight': '1.35',
+	                  'fontSize': '1.11rem',
+	                  'color': 'green',
+	                  'fontFamily': 'apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'
+	              }
+	        };
+
+          	// Card number
+	        var card = elements.create('cardNumber', {
+	            'placeholder': 'Card Number*',
+	            'style': style
+	         });
+          	card.mount('#card-number');
+
+	        // CVC
+	        var cvc = elements.create('cardCvc', {
+	            'placeholder': 'CVC*',
+	            'style': style
+	        });
+	        cvc.mount('#card-cvc');
+
+	        // Card expiry
+	        var exp = elements.create('cardExpiry', {
+	            'placeholder': 'MM/YY',
+	            'style': style
+	        });
+	        exp.mount('#card-exp');
+
+	        //var clientSecret = cardButton.dataset.secret;
 			
 			jQuery(document).ready(function() {
 				jQuery('#update_payment_info').click(function() {
@@ -382,20 +436,22 @@ require_once("db_config.php");
 		            return false;
 		        }
 
+		        var firstName = jQuery('#firstName').val();
+		        
 		        var billingaddress = jQuery('#billingaddress').val();
 
-		        var zipcode = jQuery('input[name="postal"]').val();
+		        //var zipcode = jQuery('input[name="postal"]').val();
 
 		        stripe.confirmCardSetup(
                 clientSecret,
                 {
                   payment_method: {
-                    card: cardElement,
+                    card: card,
                     billing_details: {
-                    	name: cardholderName.value,
+                    	name: firstName,
                     	address: {
                     		line1: billingaddress,
-                    		postal_code: zipcode
+                    		//postal_code: zipcode
                     	}
                     }
                   }

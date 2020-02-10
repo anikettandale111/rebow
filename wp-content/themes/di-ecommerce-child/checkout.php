@@ -149,14 +149,20 @@
                       <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/payment-method-img.png" alt="">
                     </div>
                   </div>
-                  <!--<div class="form-row">
-                  <div class="form-group col-md-6">
-                    <input type="text" name="cardNumber" id="cardNumber" value="<?php //echo $cardNumber;?>" placeholder="Card Number*"/>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <span id="card-number" class="form-control">
+                            <!-- Stripe Card Element -->
+                      </span>
+                      <!--<input type="text" name="card-number" class="form-control" id="card-number" value="<?php //echo $cardNumber;?>" placeholder="Card Number*"/>-->
+                    </div>
+                    <div class="form-group col-md-3">
+                      <!--<input type="text" name="card-cvc" id="card-cvc" value="<?php //echo $CCV;?>" placeholder="CCV*"/>-->
+                      <span id="card-cvc" class="form-control">
+                            <!-- Stripe CVC Element -->
+                      </span>
+                    </div>
                   </div>
-                  <div class="form-group col-md-3">
-                   <input type="text" name="CCV" id="CCV" value="<?php //echo $CCV;?>" placeholder="CCV*"/>
-                  </div>
-                </div>
                 <div class="form-row">
                   <div class="form-group col-md-12 mb-0">
                     <label for="inputEmail4">Expiration Date :</label>
@@ -164,22 +170,11 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
-                    <select id="month">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                      </select>
+                    <span id="card-exp" class="form-control">
+                      <!-- Stripe Card Expiry Element -->
+                    </span>
                   </div>
-                  <div class="form-group col-md-4">
+                  <!--<div class="form-group col-md-4">
                     <select id="Year">
                       <option value="2020">2020</option>
                       <option value="2021">2021</option>
@@ -193,53 +188,14 @@
                       <option value="2029">2029</option>
                       <option value="2030">2030</option>
                     </select>
-                  </div>
-                </div>-->
+                  </div>-->
+                </div>
                   <div class="form-row" style="display:none;">
                     <div class="form-group col-md-8">
                       <div id="card-element"></div>
                     </div>
                   </div>
-                  <label for="name">Name on Card</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">A</span>
-                        </div>
-                        <input type="text" class="form-control" id="name">
-                        <div class="input-group-append">
-                            <span class="input-group-text">B</span>
-                        </div>
-                    </div>
-                    <label for="card-number">Credit Card Number</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">C</span>
-                        </div>
-                        <span id="card-number" class="form-control">
-                            <!-- Stripe Card Element -->
-                        </span>
-                        <div class="input-group-append">
-                            <span class="input-group-text">D</span>
-                        </div>
-                    </div>
-                    <label for="card-cvc">CVC Number</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">E</span>
-                        </div>
-                        <span id="card-cvc" class="form-control">
-                            <!-- Stripe CVC Element -->
-                        </span>
-                    </div>
-                    <label for="card-exp">Expiration</label>
-                    <div class="input-group mb-2">
-                        <span id="card-exp" class="form-control">
-                            <!-- Stripe Card Expiry Element -->
-                        </span>
-                        <div class="input-group-append">
-                            <span class="input-group-text">F</span>
-                        </div>
-                    </div>
+                  
                 </div>
                 
                 <div class="form-row">
@@ -271,7 +227,11 @@
                     </div>
                   </div>
                 </div>
-                
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <input type="text" class="form-control" id="inputPassword4" placeholder="Zip Code*">
+                  </div>
+                </div>
                 <div class="form-row">
                   <div class="form-group col-md-3">
                     <input type="text" class="form-control" id="promocode" placeholder="Promo Code">
@@ -726,7 +686,7 @@
           // cardElement.mount('#card-element');
 
           // var cardholderName = document.getElementById('firstName');
-        var cardButton = document.getElementById('submit_order');
+          var cardButton = document.getElementById('submit_order');
           
           var clientSecret = cardButton.dataset.secret;
 
@@ -742,21 +702,21 @@
 
           // Card number
           var card = elements.create('cardNumber', {
-              'placeholder': '',
+              'placeholder': 'Card Number*',
               'style': style
           });
           card.mount('#card-number');
 
           // CVC
           var cvc = elements.create('cardCvc', {
-              'placeholder': '',
+              'placeholder': 'CCV*',
               'style': style
           });
           cvc.mount('#card-cvc');
 
           // Card expiry
           var exp = elements.create('cardExpiry', {
-              'placeholder': '',
+              'placeholder': 'MM/YY',
               'style': style
           });
           exp.mount('#card-exp');
