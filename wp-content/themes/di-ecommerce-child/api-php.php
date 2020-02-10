@@ -564,7 +564,15 @@ if($ajax_resquest_type=="send_card_intent2"){
 
                 $customer_stripe_id = retrieve_customer_id($user_email);
 
+                //echo "payment_method_id: ".
                 $payment_method_id = $intent->setupIntent->payment_method;
+                //retrieve_payment_method_id($customer_stripe_id);
+               
+                $status=1;
+
+                $payment_methods = \Stripe\PaymentMethod::retrieve($intent->setupIntent->payment_method);
+
+                $payment_methods->attach(['customer' => $customer_stripe_id]);
 
                 //retrieve_payment_method_id($customer_stripe_id);
 
@@ -574,9 +582,6 @@ if($ajax_resquest_type=="send_card_intent2"){
                         'default_payment_method' => $payment_method_id
                     ]     
                 ]);
-
-            
-                $status = 1;
 
                 $product = \Stripe\Product::create([
                   'name' => $product_name,
@@ -598,8 +603,8 @@ if($ajax_resquest_type=="send_card_intent2"){
                 ]);
 
                 $subscription_status = $subscriptions->status;
-                //insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
-                //insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+                insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
+                insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
 
             }catch (\Stripe\Exception\CardException $e) {
               // Error code will be authentication_required if authentication is needed
@@ -661,8 +666,8 @@ if($ajax_resquest_type=="send_card_intent2"){
                 ]);
 
                 $payment_status = $paymentIntent->status;
-                //insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
-                //insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+                insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
+                insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
             }catch (\Stripe\Exception\CardException $e) {
               // Error code will be authentication_required if authentication is needed
                 $error_code = $e->getError()->code;
@@ -857,7 +862,7 @@ if($ajax_resquest_type=="send_card_intent2"){
 
     $city = $_REQUEST['city'];
 
-    //$zipcode = $_REQUEST['zipcode'];
+    $zipcode = $_REQUEST['zipcode'];
 
     $state = $_REQUEST['state'];
 
@@ -871,7 +876,7 @@ if($ajax_resquest_type=="send_card_intent2"){
 
     $exp_year = $paymentMethod->card->exp_year;
 
-    $zipcode = $paymentMethod->billing_details->address->postal_code;
+    //$zipcode = $paymentMethod->billing_details->address->postal_code;
 
     insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id);
 
@@ -3164,7 +3169,7 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
 
     $city = $_REQUEST['city'];
 
-    //$zipcode = $_REQUEST['zipcode'];
+    $zipcode = $_REQUEST['zipcode'];
 
     $state = $_REQUEST['state'];
 
@@ -3178,7 +3183,7 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
 
     $exp_year = $paymentMethod->card->exp_year;
 
-    $zipcode = $paymentMethod->billing_details->address->postal_code;
+    //$zipcode = $paymentMethod->billing_details->address->postal_code;
 
     insert_into_payments($order_id,$user_id,$payment_type,$firstName,$lastName,$card_number,$exp_month,$exp_year,$billing_address,$city,$zipcode,$promocode,$state,$user_id,$payment_method_id);
  

@@ -105,9 +105,9 @@ require_once("db_config.php");
 				                    <label for=""></label>
 				                  </div>
 				                  <ul class="edit-removed">
-				                    <li><a href="#javascript;" data-toggle="modal" data-target="#myModal1">Edit</a></li>
+				                    <li><a href="#javascript;" data-toggle="modal" data-target="#myModal1">EDIT</a></li>
 				                    <?php if(count($payments_data)!=1):?>
-				                    <li><a id="remove_payments" onclick="delete_payment_method(<?php echo $payment['payment_id']; ?>)" href="javascript:;">Remove</a></li>
+				                    <li><a id="remove_payments" onclick="delete_payment_method(<?php echo $payment['payment_id']; ?>)" href="javascript:;">REMOVE</a></li>
 				                    <?php endif ?>
 				                  </ul>
 				                </div>
@@ -134,15 +134,40 @@ require_once("db_config.php");
 		      </div>
 		      <div class="modal-body">
 		      	<form class="checkout-form form" id="update_payment_form">
-				   <!--<div id="new_user_checkout">
-				    	
-				    <div class="form-row">
-				      <div class="form-group col-md-8">
-				        <div id="card-element"></div>
-				      </div>
-				    </div>
-				  </div>-->
-				 <!-- /* test comment */  -->
+				   <div class="form-row">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">Card Number:</label>
+	                    </div>
+	                    <div class="form-group col-md-4 mb-0">
+	                      <label for="inputEmail4">CCV:</label>
+	                    </div>
+	                </div>
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                      	
+	                      	<span id="card-number" class="form-control">
+		                        <!-- Stripe Card Element -->
+		                    </span>
+	                    </div>
+	                    <div class="form-group col-md-4">
+	                      	
+	                      	<span id="card-cvc" class="form-control">
+		                        <!-- Stripe CVC Element -->
+		                    </span>
+	                    </div>
+	                </div>
+	                <div class="form-row">
+	                  	<div class="form-group col-md-12 mb-0">
+	                    	<label for="inputEmail4">Expiration Date :</label>
+	                  	</div>
+	                </div>
+	                <div class="form-row">
+	                  	<div class="form-group col-md-4">
+	                    	<span id="card-exp" class="form-control">
+	                      	<!-- Stripe Card Expiry Element -->
+	                    	</span>
+	                  	</div>
+	                </div>
 				  <button type="button" id="update_payment_method" onclick="update_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
 				</form>
 		      </div>
@@ -315,13 +340,13 @@ require_once("db_config.php");
 			jQuery(document).ready(function() {
 				jQuery('#update_payment_info').click(function() {
 					//alert('clicked');
-					var card_number = jQuery('#card_number').val();
+					.//var card_number = jQuery('#card_number').val();
 
-					var month = jQuery('#month').val();
+					//var month = jQuery('#month').val();
 
-					var Year = jQuery('#Year').val();
+					//var Year = jQuery('#Year').val();
 
-					var billingzip = jQuery('#billingzip').val();
+					//var billingzip = jQuery('#billingzip').val();
 
 					var datastring  = "ajax_request=update_payment_info&card_number="+card_number+"&month="+month+"&Year="+Year+"&billingzip="+billingzip;
 
@@ -487,7 +512,83 @@ require_once("db_config.php");
 	            });
 			}
 			function update_payment_info(){
+				
+				if(jQuery('#payment_type').val()==''){
+		            setTimeout(function(){
+		              jQuery('#payment_type').focus();
+		            },1000);
+		            return false;
+		        }
+	          	if(jQuery('#billingaddress').val()==''){
+		            setTimeout(function(){
+		              jQuery('#billingaddress').focus();
+		            },1000);
+		            return false;
+		        }
+          
+		        if(jQuery('#firstName').val()==''){
+		            setTimeout(function(){
+		              jQuery('#firstName').focus();
+		            },1000);
+		            return false;
+		        }
 
+		        if(jQuery('#lastName').val()==''){
+		            setTimeout(function(){
+		              jQuery('#lastName').focus();
+		            },1000);
+		            return false;
+		        }
+
+		        var firstName = jQuery('#firstName').val();
+		        
+		        var billingaddress = jQuery('#billingaddress').val();
+
+		        //var zipcode = jQuery('input[name="postal"]').val();
+
+		        stripe.confirmCardSetup(
+                clientSecret,
+                {
+                  payment_method: {
+                    card: card,
+                    billing_details: {
+                    	name: firstName,
+                    	address: {
+                    		line1: billingaddress,
+                    		//postal_code: zipcode
+                    	}
+                    }
+                  }
+                }
+              	).then(function(result) {
+	                if (result.error) {
+	                  
+	                  console.log(result);
+	                  //alert("unsuccessful");
+	                } else {
+	                  
+	                  //var user_status = jQuery('#user_status').val();
+	                  	var payment_type = jQuery('#payment_type').val();
+	                  	var firstName = jQuery('#firstName').val();
+	                  	var lastName = jQuery('#lastName').val();
+	                  	var billingaddress = jQuery('#billingaddress').val();
+
+	                    var data = JSON.stringify(result);
+	                    
+	                    var datastring = "ajax_request=add_new_payment_method&firstName="+firstName+"&lastName="+lastName+"&billingaddress="+billingaddress+"&payment_type="+payment_type+"&result="+data;
+	                    
+	                    jQuery.ajax({
+	                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+	                      	method : "POST",
+	                      	data : datastring,
+	                      	success: function(result){
+	                          	console.log(result);
+	                          	window.location.reload();
+	                      	}
+	                    });
+	                  
+	                }
+	            });
 			}
 			function delete_payment_method(rowid){
 				if(confirm('Are you sure to delete this ?')){

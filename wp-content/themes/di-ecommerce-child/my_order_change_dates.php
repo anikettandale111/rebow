@@ -333,6 +333,8 @@
 				if(period_data_field=="RENTAL"){
 					//alert(dayDff/7);
 					var period=Math.ceil(dayDff/7);
+				}else{
+					var period=Math.ceil(dayDff/30);
 				}
 				console.log('period: '+period);
 

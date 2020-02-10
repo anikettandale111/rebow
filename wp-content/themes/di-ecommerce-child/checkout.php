@@ -174,27 +174,44 @@
                       <!-- Stripe Card Expiry Element -->
                     </span>
                   </div>
-                  <!--<div class="form-group col-md-4">
-                    <select id="Year">
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2022</option>
-                      <option value="2023">2023</option>
-                      <option value="2024">2024</option>
-                      <option value="2025">2025</option>
-                      <option value="2026">2026</option>
-                      <option value="2027">2027</option>
-                      <option value="2028">2028</option>
-                      <option value="2029">2029</option>
-                      <option value="2030">2030</option>
-                    </select>
-                  </div>-->
+                      <!--<div class="form-group col-md-4">
+                        <select id="month">
+                          <option value="01">January</option>
+                          <option value="02">February</option>
+                          <option value="03">March</option>
+                          <option value="04">April</option>
+                          <option value="05">May</option>
+                          <option value="06">June</option>
+                          <option value="07">July</option>
+                          <option value="08">August</option>
+                          <option value="09">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <select id="Year">
+                          <option value="2020">2020</option>
+                          <option value="2021">2021</option>
+                          <option value="2022">2022</option>
+                          <option value="2023">2023</option>
+                          <option value="2024">2024</option>
+                          <option value="2025">2025</option>
+                          <option value="2026">2026</option>
+                          <option value="2027">2027</option>
+                          <option value="2028">2028</option>
+                          <option value="2029">2029</option>
+                          <option value="2030">2030</option>
+                        </select>
+                      </div>-->
+                  
                 </div>
-                  <div class="form-row" style="display:none;">
+                  <!-- <div class="form-row" style="display:none;">
                     <div class="form-group col-md-8">
                       <div id="card-element"></div>
                     </div>
-                  </div>
+                  </div> -->
                   
                 </div>
                 
@@ -229,7 +246,7 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-3">
-                    <input type="text" class="form-control" id="inputPassword4" placeholder="Zip Code*">
+                    <input type="text" class="form-control" id="zipcode" placeholder="Zip Code*">
                   </div>
                 </div>
                 <div class="form-row">
@@ -724,14 +741,25 @@
 
       jQuery(document).ready(function() {
 
-        jQuery("#cardNumber").keydown(function(event) {
+        jQuery("#month").change(function(event) {
           //console.log("keydown");
-          var cardNumber = jQuery(this).val();
-          console.log(cardNumber);
+          var month = jQuery(this).val();
+          console.log(month);
 
-          //jQuery('input[name="cardnumber"]').val(cardNumber);
+         jQuery("input[name='exp-date']").val(month);
 
         });
+        jQuery("#Year").change(function(event) {
+          //console.log("keydown");
+          var Year = jQuery(this).val();
+          console.log(Year);
+
+          //jQuery('#card-exp').val(Year);
+
+        });
+         
+
+
         var added_box_count_field = jQuery('#added_box_count_field').val();
         //alert(added_box_count_field);
         if(added_box_count_field==0){
@@ -1075,6 +1103,7 @@
             },1000);
             return false;
           }
+
           if(jQuery('#billingaddress').val()==''){
             alert('Fill all required field');
             jQuery([document.documentElement, document.body]).animate({
@@ -1137,13 +1166,17 @@
                 } else {
                   //console.log(result);
                   //alert("successful");
+                  var zipcode = jQuery('#zipcode').val();
+
+                  var billingaddress = jQuery('#billingaddress').val();
+                  var promocode = jQuery('#promocode').val();
                   var promo_price = Number(jQuery('#promo_price').text());
                   var new_total_price = Number(jQuery('#new_total_price').text());
                   var user_status = jQuery('#user_status').val();
                   if(user_status==0){
                     var data = JSON.stringify(result);
                     //var user_status = jQuery('#user_status').val();
-                    var datastring = "ajax_request=send_card_intent&user_status="+user_status+"&result="+data;
+                    var datastring = "ajax_request=send_card_intent&user_status="+user_status+"&result="+data+"&promo_price="+promo_price+"&new_total_price="+new_total_price+"&billingaddress="+billingaddress+"&promocode="+promocode;
                     //var result = <?php //echo json_encode($data) ?>;
                     jQuery.ajax({
                       url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
@@ -1186,13 +1219,13 @@
 
                             var city = jQuery('#city').val();
 
-                            //var zipcode = jQuery('#zipcode').val();
+                            var zipcode = jQuery('#zipcode').val();
 
                             var state = jQuery('#state').val();
                             var address_country ='US';
                             var currency ='USD';  
                             
-                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status+"&promo_price="+promo_price+"&new_total_price="+new_total_price;
+                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status+"&promo_price="+promo_price+"&new_total_price="+new_total_price+"&zipcode="+zipcode+"&promocode="+promocode;
                             
                             //alert(datastring);
                             
@@ -1219,8 +1252,12 @@
                       var period_data_field = jQuery('#period_data_field').val();
                       var city = jQuery('#city').val();
                       var state = jQuery('#state').val();
+
+                      var payment_type = jQuery('#payment_type').val();
+
+                      var zipcode = jQuery('#zipcode').val();
                       
-                      var datastring = "ajax_request=send_card_intent2&user_status="+user_status+"&result="+data+"&state="+state+"&billing_address="+billing_address+"&city="+city+"&period_data_field="+period_data_field+"&promo_price="+promo_price+"&new_total_price="+new_total_price;
+                      var datastring = "ajax_request=send_card_intent2&user_status="+user_status+"&result="+data+"&state="+state+"&billing_address="+billing_address+"&city="+city+"&period_data_field="+period_data_field+"&promo_price="+promo_price+"&new_total_price="+new_total_price+"&zipcode="+zipcode;
                       
                       //var result = <?php //echo json_encode($data) ?>;
                       jQuery.ajax({
@@ -1235,7 +1272,7 @@
 
                             var jsonOBJ = JSON.parse(result);
                             if(jsonOBJ.subscription_status=="active" || jsonOBJ.payment_status=="succeeded"){
-                              //jQuery(location).attr('href', '/rebow/order-confirmation/');
+                              jQuery(location).attr('href', '/rebow/order-confirmation/');
                             }else{
                               alert("Payment Failed");
                             }
