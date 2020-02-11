@@ -112,14 +112,14 @@ $db = mysql_select_db("rebow");*/
 					<label><h3>Rental Packages</h3></label>
 					<input type="checkbox" class="form-control case" name="product_cat" value="Storage_Packages" <?php echo(in_array('Storage_Packages', $product_categories_array)) ? "checked" : "" ?> />
 					<label><h3>Storage Packages</h3></label>
-					<input type="checkbox" class="form-control case" name="product_cat" value="Residential_Packages"<?php echo(in_array('Residential_Packages', $product_categories_array)) ? "checked" : "" ?> />
-					<label><h3>Residential Packages</h3></label>
+					<!-- <input type="checkbox" class="form-control case" name="product_cat" value="Residential_Packages"<?php echo(in_array('Residential_Packages', $product_categories_array)) ? "checked" : "" ?> />
+					<label><h3>Residential Packages</h3></label> -->
 					<input type="hidden" name="product_categories" id="product_categories" value="<?php echo $product_categories?>">
 					<br>
 					<label for="startdate"><?php _e( 'Start Date' ); ?></label>
-					<input id="promotion_start_date" class="form-control" type="date" value="<?php echo $promotion_start_date; ?>" required/>
+					<input id="promotion_start_date" class="form-control global_date" type="text" value="<?php echo $promotion_start_date; ?>" required/>
 					<label for="promotionenddate"><?php _e( 'End Date' ); ?></label>
-					<input id="promotion_end_date" class="form-control" type="date" value="<?php echo $promotion_end_date; ?>" required/>
+					<input id="promotion_end_date" class="form-control global_date" type="text" value="<?php echo $promotion_end_date; ?>" required/>
 					<label for="usage_limit_per_user"><?php _e( 'Usage Limit Per User' ); ?></label>
 					<input id="usage_limit_per_user" class="form-control" autocomplete="off" min="0" type="number" value="<?php echo $usage_limit_per_user ?>" required/>
 				</div>
@@ -237,6 +237,10 @@ $db = mysql_select_db("rebow");*/
 					return false;
 				}
 
+				if(Date.parse(promotion_start_date) > Date.parse(promotion_end_date)){
+					alert('End date should be greater than start date');
+					return false;
+				}
 				var usage_limit_per_user = jQuery("#usage_limit_per_user").val().trim();
 				//alert(usage_limit_per_user);
 				if(usage_limit_per_user == null || usage_limit_per_user == '' || usage_limit_per_user <= 0){
@@ -255,7 +259,7 @@ $db = mysql_select_db("rebow");*/
 				var promotion_id = jQuery("#promotion_id").val();
 				
 				var datastring ="ajax_request="+request_from+"&promotion_id="+promotion_id+"&coupon_code="+coupon_code+"&promotion_type="+promotion_type+"&discount_amount="+discount_amount+"&percentage_off="+percentage_off+"&minimum_spend="+minimum_spend+"&product_categories="+product_categories+"&promotion_start_date="+promotion_start_date+"&promotion_end_date="+promotion_end_date+"&usage_limit_per_user="+usage_limit_per_user+"&promotion_description="+promotion_description;
-				
+
 				jQuery.ajax({
 					url: "test-plugin-api.php",
 					method : "POST",
@@ -273,7 +277,7 @@ $db = mysql_select_db("rebow");*/
 		$('.global_date').datepicker({
 			startDate: "today",
 			daysOfWeekDisabled: [0,6],
-			format: "M dd, yyyy ",
+			format: "yyyy-mm-dd ",
 			autoclose:true,
 		});
 		$(function(){

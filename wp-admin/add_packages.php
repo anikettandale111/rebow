@@ -30,9 +30,9 @@ echo '<input id="monthly_storage_id" type="hidden" value="'.$monthly_storage.'"/
 					<label for="producttype">Product Type</label>
 					<select class="form-control" id="product_type" name="product_type">
 						<option selected value="">Select Package Type</option>
-						<option value="Residential">Residential</option>
-						<option value="Office">Office</option>
-						<option value="Student">Student</option>
+						<option value="RESIDENTIAL">Residential</option>
+						<option value="OFFICE">Office</option>
+						<option value="STUDENT">Student</option>
 					</select>
 					<label for="productrange">Product Range</label>
 					<input class="form-control" id="product_range" type="text" value=""/>

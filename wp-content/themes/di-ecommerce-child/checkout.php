@@ -76,20 +76,20 @@
     print_r($cust);*/
 ?>
 <html lang="en">
-	<body>
+  <body>
     <head>
       <link rel='icon' href="/rebow/wp-content/themes/di-ecommerce-child/assets/images/favicon.ico" />
     </head>
-		<?php 
-		require_once('session_values.php');
-		require_once('stripe_config.php');
-		//get_header();
-		require_once('header2.php');
+    <?php 
+    require_once('session_values.php');
+    require_once('stripe_config.php');
+    //get_header();
+    require_once('header2.php');
 
-		$months_array = array("01"=>"January","02"=>"February","03"=>"March","04"=>"April","05"=>"May","06"=>"June","07"=>"July","08"=>"August","09"=>"September","10"=>"October","11"=>"November","12"=>"December");
-		?>
-		<!--<div class="container-fluid">-->
-		<!-- page heading -->
+    $months_array = array("01"=>"January","02"=>"February","03"=>"March","04"=>"April","05"=>"May","06"=>"June","07"=>"July","08"=>"August","09"=>"September","10"=>"October","11"=>"November","12"=>"December");
+    ?>
+    <!--<div class="container-fluid">-->
+    <!-- page heading -->
 <section class="page-header mt-10">
   <div class="container">
     <div class="row justify-content-center">
@@ -134,14 +134,14 @@
                   <div class="form-row">
                     <div class="form-group col-md-4">
                       <div class="selectholder">
-                        	<label>Payment Type</label>
-                        	<select id="payment_type" required>
-              							<option value="">Select</option>
-              							<option value="Mastercard">Mastercard</option>
-              							<option value="Visa">Visa</option>
-              							<option value="American_Express">American Express</option>
-              							
-              						</select>
+                          <label>Payment Type</label>
+                          <select id="payment_type" required>
+                            <option value="">Select</option>
+                            <option value="Mastercard">Mastercard</option>
+                            <option value="Visa">Visa</option>
+                            <option value="American_Express">American Express</option>
+                            
+                          </select>
                       </div>
                     </div>
 
@@ -151,10 +151,10 @@
                   </div>
                   <!--<div class="form-row">
                   <div class="form-group col-md-6">
-                    <input type="text" name="cardNumber" id="cardNumber" value="<?php echo $cardNumber;?>" placeholder="Card Number*"/>
+                    <input type="text" name="cardNumber" id="cardNumber" value="<?php //echo $cardNumber;?>" placeholder="Card Number*"/>
                   </div>
                   <div class="form-group col-md-3">
-                   <input type="text" name="CCV" id="CCV" value="<?php echo $CCV;?>" placeholder="CCV*"/>
+                   <input type="text" name="CCV" id="CCV" value="<?php //echo $CCV;?>" placeholder="CCV*"/>
                   </div>
                 </div>
                 <div class="form-row">
@@ -195,11 +195,51 @@
                     </select>
                   </div>
                 </div>-->
-                  <div class="form-row">
+                  <div class="form-row" style="display:none;">
                     <div class="form-group col-md-8">
                       <div id="card-element"></div>
                     </div>
                   </div>
+                  <label for="name">Name on Card</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">A</span>
+                        </div>
+                        <input type="text" class="form-control" id="name">
+                        <div class="input-group-append">
+                            <span class="input-group-text">B</span>
+                        </div>
+                    </div>
+                    <label for="card-number">Credit Card Number</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">C</span>
+                        </div>
+                        <span id="card-number" class="form-control">
+                            <!-- Stripe Card Element -->
+                        </span>
+                        <div class="input-group-append">
+                            <span class="input-group-text">D</span>
+                        </div>
+                    </div>
+                    <label for="card-cvc">CVC Number</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">E</span>
+                        </div>
+                        <span id="card-cvc" class="form-control">
+                            <!-- Stripe CVC Element -->
+                        </span>
+                    </div>
+                    <label for="card-exp">Expiration</label>
+                    <div class="input-group mb-2">
+                        <span id="card-exp" class="form-control">
+                            <!-- Stripe Card Expiry Element -->
+                        </span>
+                        <div class="input-group-append">
+                            <span class="input-group-text">F</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-row">
@@ -221,13 +261,13 @@
                   </div>
                   <div class="form-group col-md-3">
                     <div class="selectholder">
-                      	<label>State*</label>
-                      	<select id="state" required>
-              							<option selected value="">State</option>
-              							<option value="Alabama">Alabama</option>
-              							<option value="Alaska">Alaska</option>
-              							<option value="California">California</option>
-              					</select>
+                        <label>State*</label>
+                        <select id="state" required>
+                            <option selected value="">State</option>
+                            <option value="Alabama">Alabama</option>
+                            <option value="Alaska">Alaska</option>
+                            <option value="California">California</option>
+                        </select>
                     </div>
                   </div>
                 </div>
@@ -292,8 +332,8 @@
                     <div class="col-md-8 p-0">
                       <ul class="pkg-info">
                         <li><span id="product_name"> <?php echo $product_name;?></span> / <span id="box_count"><?php echo $period_data_span;?></span></li>
-    					           <li id="addedboxesfield" class="hide_added_boxes_data"><span id="addedboxno"><?php echo $added_box_no;?> </span> Added Boxes
-    					           </li>
+                         <li id="addedboxesfield" class="hide_added_boxes_data"><span id="addedboxno"><?php echo $added_box_no;?> </span> Added Boxes
+                         </li>
                       </ul>
                     </div>
                     <div class="col-md-4 p-0 text-right align-self-end">
@@ -336,11 +376,11 @@
 
                   <li id="promo_price_div" class="list-group-item d-flex justify-content-between hidecm">
                     <span>Promo Price</span>
-                    <span id="promo_price">$<?php echo $promo_price;?></span>
+                    <label>$<span id="promo_price">$<?php echo $promo_price;?></span></label>
                   </li>
                   <li id="new_total_price_div" class="list-group-item d-flex justify-content-between hidecm">
                     <span>New Total</span>
-                    <span id="new_total_price">$<?php echo $new_total_price;?></span>
+                    <label>$<span id="new_total_price"><?php echo $new_total_price;?></span></label>
                   </li>
                 </ul>
               </div>
@@ -442,201 +482,201 @@
             <em class="text-right"><a href="/rebow/delivery_pickup/">EDIT</a></em>
           </div>
           <div class="col-sm-12 p-0">
-          	<?php if($period_datas=="RENTAL"){?>
-           	<div class="grey-bg p-4 pt-4 delivery-details">
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for="">Delivery Address  : </label>
-                		<div class="clearfix"></div>
-                 		<p><?php echo $delivery_address;?></p>
-                 		<p><?php echo $apt_unit_delivery;?></p>
-               		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Delivery Date :</label>
-                 		<p><?php 
+            <?php if($period_datas=="RENTAL"){?>
+            <div class="grey-bg p-4 pt-4 delivery-details">
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Delivery Address  : </label>
+                    <div class="clearfix"></div>
+                    <p><?php echo $delivery_address;?></p>
+                    <p><?php echo $apt_unit_delivery;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Delivery Date :</label>
+                    <p><?php 
                     $date=date_create($delivery_date);
                     echo date_format($date,"M d, Y");
                     //cho $delivery_date;?></p>
-               		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for="">Optional Delivery Times :</label>
-                		<p><?php echo str_replace("_"," ",$preferred_delivery_time)." PST OR ".str_replace("_"," ",$alternate_delivery_time)." PST";?></p>
-              		</div>
-             	</div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Optional Delivery Times :</label>
+                    <p><?php echo str_replace("_"," ",$preferred_delivery_time)." PST OR ".str_replace("_"," ",$alternate_delivery_time)." PST";?></p>
+                  </div>
+              </div>
               <div class="row">
                   <div class="col-sm-12 pb-2 information">
                     <label for="">Delivery :</label>
                       <p><span id="delivery_floor_level"><?php echo $apartment_level_delivery_text;?></span></p>
                   </div>
               </div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">Pick Up Address:</label>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">Pick Up Address:</label>
                       <div class="clearfix"></div>
-                  		<p><?php echo $pickup_address;?></p>
+                      <p><?php echo $pickup_address;?></p>
                       <p><?php echo $apt_unit_pickup;?></p>
-                	</div>
-             	</div>
-              	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Pick Up Date</label>
-                  		<p>
+                  </div>
+              </div>
+                <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Pick Up Date</label>
+                      <p>
                         <?php
                         $date = date_create($pickup_date);
                         echo date_format($date,"M d, Y");
                         //echo $pickup_date;?>
                       </p>
-                	</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  	<label for="">Optional Pick Up Times :</label>
-                  	<p><?php echo str_replace("_"," ",$preferred_pickup_time)." PST OR ".str_replace("_"," ",$alternate_pickup_time)." PST";?></p>
-                	</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Pick Up :</label>
-                  		<p><span id="pickup_floor_level"><?php echo $apartment_level_pickup_text;?></span></p>
-                	</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  	<label for="">*We will confirm these times with you  within 24-48 hours after your order</label>
-                	</div>
-             	</div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Optional Pick Up Times :</label>
+                    <p><?php echo str_replace("_"," ",$preferred_pickup_time)." PST OR ".str_replace("_"," ",$alternate_pickup_time)." PST";?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Pick Up :</label>
+                      <p><span id="pickup_floor_level"><?php echo $apartment_level_pickup_text;?></span></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">*We will confirm these times with you  within 24-48 hours after your order</label>
+                  </div>
+              </div>
             </div>
           <?php }else{?>
-     		<div class="grey-bg p-4 pt-4 delivery-details">
-     			    <div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for=""><b>ITEMS GOING INTO STORAGE</b></label>
-               		</div>
-              </div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for="">Delivery Address  : </label>
-                		<div class="clearfix"></div>
-                 		<p><?php echo $delivery_address;?></p><br>
-                 		<p><?php echo $apt_unit_delivery;?></p>
-               		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Delivery Date :</label>
-                 		<p><?php echo $delivery_date;?></p>
-               		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for="">Optional Delivery Times :</label>
-                		<p><?php echo $preferred_delivery_time."PST OR ".$alternate_delivery_time." PST";?></p>
-              		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">Pick up Address :</label>
-                  		<p><?php echo $pickup_address_packed;?><br/><?php echo $apt_unit_pickup_packed;?></p>
-                	</div>
-             	</div>
+        <div class="grey-bg p-4 pt-4 delivery-details">
               <div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Pick Up Date</label>
-                  		<p><?php echo $pickup_date_packed;?></p>
-                	</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">Optional Pick Up Times :</label>
-                  		<p><?php echo $preferred_pickup_time_packed." PST OR ".$alternate_pickup_time_packed." PST";?></p>
-                	</div>
-             	</div>
-             	<div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for=""><b>ITEMS GOING INTO STORAGE</b></label>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Delivery Address  : </label>
+                    <div class="clearfix"></div>
+                    <p><?php echo $delivery_address;?></p><br>
+                    <p><?php echo $apt_unit_delivery;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Delivery Date :</label>
+                    <p><?php echo $delivery_date;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Optional Delivery Times :</label>
+                    <p><?php echo $preferred_delivery_time."PST OR ".$alternate_delivery_time." PST";?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">Pick up Address :</label>
+                      <p><?php echo $pickup_address_packed;?><br/><?php echo $apt_unit_pickup_packed;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Pick Up Date</label>
+                      <p><?php echo $pickup_date_packed;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">Optional Pick Up Times :</label>
+                      <p><?php echo $preferred_pickup_time_packed." PST OR ".$alternate_pickup_time_packed." PST";?></p>
+                  </div>
+              </div>
+              <div class="row">
                   <div class="col-sm-12 pb-2 information">
                     <label for="">Pick up :</label>
                       <p><span id="pickup_floor_level"><?php echo $apartment_level_pickup;?></span></p>
                   </div>
               </div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">*We will confirm these times with you  within 24-48 hours after your order</label>
-                	</div>
-             	</div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">*We will confirm these times with you  within 24-48 hours after your order</label>
+                  </div>
+              </div>
             </div>
 
             <div class="grey-bg p-4 pt-4 delivery-details">
-     			<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for=""><b>ITEMS GOING OUT OF STORAGE</b></label>
-               		</div>
-               	</div>
-             	
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for="">Delivery Address  : </label>
-                		<div class="clearfix"></div>
-                 		<p><?php echo $delivery_address_packed;?></p><br>
-                 		<p><?php echo $apt_unit_delivery_packed?></p>
-               		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Delivery Date :</label>
-                 		<p><?php echo $delivery_date;?></p>
-               		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                		<label for="">Optional Delivery Times :</label>
-                		<p><?php echo $preferred_delivery_time_packed." PST OR ".$alternate_delivery_time_packed." PST";?></p>
-              		</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">Pick up Address:</label>
-                  		<p><?php echo $pickup_address;?><br/><?php echo $apt_unit_pickup;?></p>
-                	</div>
-             	</div>
-              	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                 		<label for="">Pick Up Date</label>
-                  		<p><?php echo $pickup_date;?></p>
-                	</div>
-             	</div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">Optional Pick Up Times :</label>
-                  		<p><?php echo $preferred_pickup_time." PST OR ".$alternate_pickup_time." PST";?></p>
-                	</div>
-             	</div>
-             	<div class="row">
+          <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for=""><b>ITEMS GOING OUT OF STORAGE</b></label>
+                  </div>
+                </div>
+              
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Delivery Address  : </label>
+                    <div class="clearfix"></div>
+                    <p><?php echo $delivery_address_packed;?></p><br>
+                    <p><?php echo $apt_unit_delivery_packed?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Delivery Date :</label>
+                    <p><?php echo $delivery_date;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Optional Delivery Times :</label>
+                    <p><?php echo $preferred_delivery_time_packed." PST OR ".$alternate_delivery_time_packed." PST";?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">Pick up Address:</label>
+                      <p><?php echo $pickup_address;?><br/><?php echo $apt_unit_pickup;?></p>
+                  </div>
+              </div>
+                <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                    <label for="">Pick Up Date</label>
+                      <p><?php echo $pickup_date;?></p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">Optional Pick Up Times :</label>
+                      <p><?php echo $preferred_pickup_time." PST OR ".$alternate_pickup_time." PST";?></p>
+                  </div>
+              </div>
+              <div class="row">
                   <div class="col-sm-12 pb-2 information">
                     <label for="">Pick Up :</label>
                       <p><span id="pickup_floor_level"><?php echo $apartment_level_pickup;?></span></p>
                   </div>
               </div>
-             	<div class="row">
-               		<div class="col-sm-12 pb-2 information">
-                  		<label for="">*We will confirm these times with you  within 24-48 hours after your order</label>
-                	</div>
-             	</div>
+              <div class="row">
+                  <div class="col-sm-12 pb-2 information">
+                      <label for="">*We will confirm these times with you  within 24-48 hours after your order</label>
+                  </div>
+              </div>
             </div>
             <?php }?>
-           	
+            
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>	
-		<!--</div>-->
-		<?php get_footer(); ?>
+</section>  
+    <!--</div>-->
+    <?php get_footer(); ?>
 
-		<!-- Stripe JavaScript library -->
+    <!-- Stripe JavaScript library -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBtVumWdkvUED3b_Ct75wcYXsJQmKQWuXM"></script>
     <script>
       //var searchInput = 'delivery_address';
@@ -664,9 +704,9 @@
           });
       }
     </script>
-		<script src="https://js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 
-		<script>
+    <script>
         // Set your publishable key: remember to change this to your live publishable key in production
         // See your keys here: https://dashboard.stripe.com/account/apikeys
         //var user_status = document.getElementById('user_status').value;
@@ -676,19 +716,51 @@
         // cardButton.addEventListener('click', function(ev) {
             var elements = stripe.elements();
           // Set up Stripe.js and Elements to use in checkout form
-          var style = {
-            base: {
-              color: "#32325d",
-            }
-          };
+          // var style = {
+          //   base: {
+          //     color: "Red",
+          //   }
+          // };
 
-          var cardElement = elements.create('card',{ style: style });
-          cardElement.mount('#card-element');
+          // var cardElement = elements.create('card',{ style: style,value:'424242' });
+          // cardElement.mount('#card-element');
 
-          var cardholderName = document.getElementById('firstName');
-          var cardButton = document.getElementById('submit_order');
+          // var cardholderName = document.getElementById('firstName');
+        var cardButton = document.getElementById('submit_order');
           
           var clientSecret = cardButton.dataset.secret;
+
+          // Try to match bootstrap 4 styling
+          var style = {
+              base: {
+                  'lineHeight': '1.35',
+                  'fontSize': '1.11rem',
+                  'color': 'green',
+                  'fontFamily': 'apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'
+              }
+          };
+
+          // Card number
+          var card = elements.create('cardNumber', {
+              'placeholder': '',
+              'style': style
+          });
+          card.mount('#card-number');
+
+          // CVC
+          var cvc = elements.create('cardCvc', {
+              'placeholder': '',
+              'style': style
+          });
+          cvc.mount('#card-cvc');
+
+          // Card expiry
+          var exp = elements.create('cardExpiry', {
+              'placeholder': '',
+              'style': style
+          });
+          exp.mount('#card-exp');
+
 
       jQuery(document).ready(function() {
 
@@ -829,32 +901,32 @@
               });
             });
         }
-			/*function stripeResponseHandler(status, response) {
-		      console.log('card status: ', status);
-		      console.log('token: ', response.id);
-		      $.ajax({
-		        type: 'POST',
-		        url: 'https://checkout.stripe.com/checkout.js',
-		        headers: {
-		          stripeToken: response.id
-		        },
-		        data: {
-		          number: ccNum,
-		          cvc: ccCVC,
-		          exp_month: ccMonth,
-		          exp_year: ccYear
-		        },
-		        success: (response) => {
-		          console.log('successful payment: ', response);
-		        },
-		        error: (response) => {
-		          console.log('error payment: ', response);
-		        }
-		      })
-		    }*/
-			//Stripe.setPublishableKey('<?php //echo STRIPE_PUBLISHABLE_KEY; ?>');
+      /*function stripeResponseHandler(status, response) {
+          console.log('card status: ', status);
+          console.log('token: ', response.id);
+          $.ajax({
+            type: 'POST',
+            url: 'https://checkout.stripe.com/checkout.js',
+            headers: {
+              stripeToken: response.id
+            },
+            data: {
+              number: ccNum,
+              cvc: ccCVC,
+              exp_month: ccMonth,
+              exp_year: ccYear
+            },
+            success: (response) => {
+              console.log('successful payment: ', response);
+            },
+            error: (response) => {
+              console.log('error payment: ', response);
+            }
+          })
+        }*/
+      //Stripe.setPublishableKey('<?php //echo STRIPE_PUBLISHABLE_KEY; ?>');
 
-			
+      
 
         jQuery('#select_card').change(function(){
           
@@ -875,11 +947,11 @@
           }
 
         });
-				var added_box_count_field = jQuery('#added_box_count_field').val();
-				//alert(added_box_count_field);
-				if(added_box_count_field>0){
-					jQuery('#addedboxesfield').show();
-				}
+        var added_box_count_field = jQuery('#added_box_count_field').val();
+        //alert(added_box_count_field);
+        if(added_box_count_field>0){
+          jQuery('#addedboxesfield').show();
+        }
         $( "#promocode" ).blur(function() {
           //alert('promocode check');
           var promocode = $('#promocode').val();
@@ -911,37 +983,38 @@
                       
                     } 
                     console.log(discount_amount);
-                    jQuery('#promo_price').text('$'+discount_amount);
+                    jQuery('#promo_price').text(discount_amount);
                     console.log(total_price);
                     var new_total_price = (total_price-discount_amount);
+                    new_total_price = new_total_price.toFixed(2);
                     console.log(new_total_price);
-                    jQuery('#new_total_price').text('$'+new_total_price);
+                    jQuery('#new_total_price').text(new_total_price);
                   }
                 }
               });
 
           }
         });
-				jQuery('#submit_order1').click(function() {
-					//datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
-					
-					//alert(datastring);
-					
-					/*jQuery.ajax({
-						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-						method : "POST",
-						data : datastring,
-						success: function(result){
-						    
-						    //var JSONobj = JSON.parse(result);
-						    console.log(result);
-
-						    //alert(result);
-						    //jQuery(location).attr('href', '/rebow/order-confirmation');
-						}
-					});*/
+        jQuery('#submit_order1').click(function() {
+          //datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
           
-				});
+          //alert(datastring);
+          
+          /*jQuery.ajax({
+            url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+            method : "POST",
+            data : datastring,
+            success: function(result){
+                
+                //var JSONobj = JSON.parse(result);
+                console.log(result);
+
+                //alert(result);
+                //jQuery(location).attr('href', '/rebow/order-confirmation');
+            }
+          });*/
+          
+        });
         // jQuery('#paymentFrm').submit(function(event){
         //     //alert("clicked");
         //     event.preventDefault();
@@ -967,69 +1040,69 @@
             
         //     //alert(1);
         // })
-				// jQuery("#paymentFrm1").submit(function(event){
-		  //       	// Disable the submit button to prevent repeated clicks
+        // jQuery("#paymentFrm1").submit(function(event){
+      //        // Disable the submit button to prevent repeated clicks
     //           //alert("Clicked");
-		  //       	event.preventDefault();
-		  //       	//jQuery('#submit_order').attr("disabled", "disabled");
+      //        event.preventDefault();
+      //        //jQuery('#submit_order').attr("disabled", "disabled");
 
-		  //       	var datastring = "";
-    // 					var period = jQuery('#period').val(); 
+      //        var datastring = "";
+    //          var period = jQuery('#period').val(); 
 
-    // 					var period_data_field = jQuery('#period_data_field').val();
-    					
-    // 					var firstName = jQuery('#firstName').val();
-    // 					//alert(firstName);
-    // 					var lastName = jQuery('#lastName').val();
+    //          var period_data_field = jQuery('#period_data_field').val();
+              
+    //          var firstName = jQuery('#firstName').val();
+    //          //alert(firstName);
+    //          var lastName = jQuery('#lastName').val();
 
-    // 					var account_holder_name = firstName+" "+lastName;
+    //          var account_holder_name = firstName+" "+lastName;
 
-    // 					var payment_type = jQuery('#payment_type').val();
+    //          var payment_type = jQuery('#payment_type').val();
 
-    // 					var cardNumber = jQuery('#cardNumber').val();
-    // 					//alert(cardNumber);
+    //          var cardNumber = jQuery('#cardNumber').val();
+    //          //alert(cardNumber);
 
-    // 					var ccv = jQuery('#CCV').val();
-    // 					//alert(ccv);
-    // 					var exp_month = jQuery('#month').val();
-    // 					//alert(exp_month);
-    // 					var exp_year = jQuery('#Year').val();
-    // 					//alert(exp_year);
-    // 					var billingaddress = jQuery('#billingaddress').val();
+    //          var ccv = jQuery('#CCV').val();
+    //          //alert(ccv);
+    //          var exp_month = jQuery('#month').val();
+    //          //alert(exp_month);
+    //          var exp_year = jQuery('#Year').val();
+    //          //alert(exp_year);
+    //          var billingaddress = jQuery('#billingaddress').val();
 
-    // 					var city = jQuery('#city').val();
+    //          var city = jQuery('#city').val();
 
-    // 					var zipcode = jQuery('#zipcode').val();
+    //          var zipcode = jQuery('#zipcode').val();
 
-    // 					var state = jQuery('#state').val();
-    // 					var address_country ='US';
-    // 					var currency ='USD';
-    // 					//var promocode = jQuery('#promocode').val();
+    //          var state = jQuery('#state').val();
+    //          var address_country ='US';
+    //          var currency ='USD';
+    //          //var promocode = jQuery('#promocode').val();
 
     //           //payment_checkout();
-    // 					//var result = create_token(currency,cardNumber,account_holder_name,city,state,zipcode,address_country,exp_month,exp_year,ccv);
-    // 					//console.log(result);
+    //          //var result = create_token(currency,cardNumber,account_holder_name,city,state,zipcode,address_country,exp_month,exp_year,ccv);
+    //          //console.log(result);
 
-    // 					//console.log(result.id);
+    //          //console.log(result.id);
 
-    // 					/*datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
-    					
-    // 					//alert(datastring);
-    					
-    // 					jQuery.ajax({
-    // 						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
-    // 						method : "POST",
-    // 						data : datastring,
-    // 						success: function(result){
-    						    
-    						    
-    // 						    console.log(result);
+    //          /*datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&cardNumber="+cardNumber+"&CCV="+ccv+"&month="+exp_month+"&Year="+exp_year+"&billingaddress="+billingaddress+"&city="+city+"&zipcode="+zipcode+"&state="+state+"&period_data_field="+period_data_field;
+              
+    //          //alert(datastring);
+              
+    //          jQuery.ajax({
+    //            url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+    //            method : "POST",
+    //            data : datastring,
+    //            success: function(result){
+                    
+                    
+    //                console.log(result);
 
-    						    
-    // 						}
-    // 					});*/
-		  //       });
-			});
+                    
+    //            }
+    //          });*/
+      //       });
+      });
     function test_card(){
 
           if(jQuery('#payment_type').val()==''){
@@ -1087,13 +1160,13 @@
           }
 
               //ev.preventDefault();
-              
+              var name = jQuery('#name').val();
               stripe.confirmCardSetup(
                 clientSecret,
                 {
                   payment_method: {
-                    card: cardElement,
-                    billing_details: {name: cardholderName.value}
+                    card: card,
+                    billing_details: {name: name}
                   }
                 }
               ).then(function(result) {
@@ -1104,6 +1177,8 @@
                 } else {
                   //console.log(result);
                   //alert("successful");
+                  var promo_price = Number(jQuery('#promo_price').text());
+                  var new_total_price = Number(jQuery('#new_total_price').text());
                   var user_status = jQuery('#user_status').val();
                   if(user_status==0){
                     var data = JSON.stringify(result);
@@ -1157,7 +1232,7 @@
                             var address_country ='US';
                             var currency ='USD';  
                             
-                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status;
+                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status+"&promo_price="+promo_price+"&new_total_price="+new_total_price;
                             
                             //alert(datastring);
                             
@@ -1172,6 +1247,8 @@
                                   jQuery(location).attr('href', '/rebow/order-confirmation/?user_id='+user_id);
                               }
                             });
+                          }else{
+                            alert("Payment Failed");
                           }
                       }
                     });
@@ -1183,7 +1260,7 @@
                       var city = jQuery('#city').val();
                       var state = jQuery('#state').val();
                       
-                      var datastring = "ajax_request=send_card_intent2&user_status="+user_status+"&result="+data+"&state="+state+"&billing_address="+billing_address+"&city="+city+"&period_data_field="+period_data_field;
+                      var datastring = "ajax_request=send_card_intent2&user_status="+user_status+"&result="+data+"&state="+state+"&billing_address="+billing_address+"&city="+city+"&period_data_field="+period_data_field+"&promo_price="+promo_price+"&new_total_price="+new_total_price;
                       
                       //var result = <?php //echo json_encode($data) ?>;
                       jQuery.ajax({
@@ -1198,7 +1275,9 @@
 
                             var jsonOBJ = JSON.parse(result);
                             if(jsonOBJ.subscription_status=="active" || jsonOBJ.payment_status=="succeeded"){
-                              jQuery(location).attr('href', '/rebow/order-confirmation/');
+                              //jQuery(location).attr('href', '/rebow/order-confirmation/');
+                            }else{
+                              alert("Payment Failed");
                             }
                             //jQuery(location).attr('href', '/rebow/order-confirmation/');
                         }
@@ -1210,6 +1289,6 @@
             // });
         }
 
-		</script>
-	</body>
+    </script>
+  </body>
 </html>

@@ -59,9 +59,9 @@ function get_packages_data($product_id){
 					<label for="producttype">Product Type</label>
 					<select class="form-control" id="product_type" name="product_type">
 						<option selected value="">Select Package Type</option>
-						<option value="Residential" <?php echo (ucfirst(strtolower($product_type))=="Residential")? 'selected': '' ?> >Residential</option>
-						<option value="Office" <?php echo (ucfirst(strtolower($product_type))=="Office")? 'selected': '' ?> >Office</option>
-						<option value="Student" <?php echo (ucfirst(strtolower($product_type))=="Student")? 'selected': '' ?> >Student</option>
+						<option value="RESIDENTIAL" <?php echo ($product_type =="RESIDENTIAL")? 'selected': '' ?> >Residential</option>
+						<option value="OFFICE" <?php echo ($product_type =="OFFICE")? 'selected': '' ?> >Office</option>
+						<option value="STUDENTS" <?php echo ($product_type =="STUDENTS")? 'selected': '' ?> >Student</option>
 					</select>
 					<label for="productrange">Product Range</label>
 					<input class="form-control" id="product_range" type="text" value="<?php echo $product_range; ?>"/>

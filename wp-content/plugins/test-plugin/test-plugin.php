@@ -37,7 +37,7 @@ function show_products(){
 	mysql_set_charset('utf8');
 	$db = mysql_select_db("rebow");*/
 
-	$sql="SELECT * FROM products WHERE status=1 ";
+	$sql="SELECT * FROM products WHERE status=1 AND product_type != 'CustomOrder' ";
 
 	$result = mysql_query($sql);
 	$count =1;
