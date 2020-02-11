@@ -1243,9 +1243,9 @@ class WP_List_Table {
 		if ( $this->has_items() ) {
 			$this->display_rows();
 		} else {
-			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
-			$this->no_items();
-			echo '</td></tr>';
+			// echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
+			// $this->no_items();
+			// echo '</td></tr>';
 		}
 	}
 

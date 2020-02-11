@@ -91,7 +91,7 @@ function show_order_details($order_id){
 					<label><b>Date Created </b></label>
 					<input class="form-control in_readonly " value="<?php echo $order_date;?>" >					
 					<label><b>Order Status </b></label>
-					<select class="form-control in_readonly editable" id="order_status" name="order_status">
+					<select class="form-control in_readonly editable" id="order_status" name="order_status" disabled>
 						<?php foreach($order_status_data as $key=>$value){	
 							$value1 = str_replace(" ", "_", $value);
 							if($value==$order_status){
@@ -145,7 +145,7 @@ function show_order_details($order_id){
 			<div class="col-md-12">
 			<center><b>Order Product Details</b></center>
 			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th>Product Name</th><th>Box Count</th><th>Subtotal</th><th>Total</th></tr>
+				<tr><th><center>Product Name</center></th><th><center>Box Count</center></th><th><center>Subtotal</center></th><th><center>Total</center></th></tr>
 				<tr>
 					<td><?php echo $product_data['product_name'];?>
 					</td>
@@ -230,6 +230,7 @@ function get_user_data($user_id){
 		jQuery(".editable").removeAttr("readonly");
 		jQuery("#update_order_Details").css("display","block");
 		jQuery('#shipping_edited_change').val(1);
+		jQuery('#order_status').removeAttr('disabled');
 	});
 		jQuery(document).ready(function(){
 			jQuery(".in_readonly").attr("readonly", "true");
