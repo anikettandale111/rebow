@@ -104,12 +104,12 @@
 		            <div class="row">
 		              <div class="col-12">
 		                <label for="">Order #<?php echo $current_order_id;?> :</label>
-		                <p><?php echo $tansactions_data['transaction_status'];?></p>
+		                <p><?php echo strtoupper($tansactions_data['transaction_status']);?></p>
 		              </div>
 		            </div>
 		            <div class="row">
 		              <div class="col-12">
-		                <label for="">Date Ordered:</label>
+		                <label for="">Date Ordered :</label>
 		                <p><?php $date=date_create($data['created_at']);
 							echo date_format($date,"M d, Y"); //echo date($data['created_at']);?></p>
 		              </div>
@@ -134,7 +134,7 @@
 									echo "<p>".$data['added_box_count'] ." Added Boxes";
 								}
 							?>
-							<p><?php echo ucfirst(strtolower($data['order_type']));?> Period : <?php echo $data['order_time_period'];?></p>
+							
 							<ul class="pkg-info">
 								<em>Includes:</em>
 								<li><em><?php echo ($product_data['box_count']+$data['added_box_count']);?> ReBow™ Boxes</em></li>
@@ -144,8 +144,9 @@
 								<li><em><?php echo ($product_data['box_count']+$data['added_box_count']);?> Labels</em></li>
 
 							</ul>
+							<p><?php echo ucfirst(strtolower($data['order_type']));?> Period : <?php echo $data['order_time_period'];?></p>
 						<?php }else{?>
-							<p><?php echo $product_data['product_name']." Package - ".$data['box_count']." Boxes";?></p>
+							
 							<ul class="pkg-info">
 								Includes:
 								<li><em><?php echo $data['box_count'];?> ReBow™ Boxes</em></li>
@@ -153,6 +154,7 @@
 								<li><em><?php echo $data['box_count'];?> Security Zip Ties</em></li>
 								<li><em><?php echo $data['box_count'];?> Labels</em></li>
 							</ul>
+							<p><?php echo $product_data['product_name']." Package - ".$data['box_count']." Boxes";?></p>
 						<?php }?>	
 					<?php }else{?>
 						<p><?php echo $data['added_box_count']." Boxes";?></p>

@@ -131,7 +131,7 @@
 						$packages_data = get_package_data($orders_data['product_id']);
 
 						$product_range_text = ($packages_data['product_range']!="")? "(".$packages_data['product_range'].")" : "";
-						echo $product_range_text;
+						//echo $product_range_text;
 						echo "<li>".$packages_data['product_name']." Package -".$packages_data['box_count']." Boxes ".$product_range_text."</li>";
 						echo "<li>".$order_type." PERIOD : ".$orders_data['order_time_period']."</li>";
 						/*echo "<ul>Includes";
@@ -296,7 +296,46 @@
 		    </div>
 		  </div>
 		</section>
-		
+		<script>
+			(function (global) { 
+
+		    if(typeof (global) === "undefined") {
+		        throw new Error("window is undefined");
+		    }
+
+		    var _hash = "!";
+		    var noBackPlease = function () {
+		        global.location.href += "#";
+
+		        // making sure we have the fruit available for juice (^__^)
+		        global.setTimeout(function () {
+		            global.location.href += "!";
+		        }, 50);
+		    };
+
+		    global.onhashchange = function () {
+		        if (global.location.hash !== _hash) {
+		            global.location.hash = _hash;
+		        }
+		    };
+
+		    global.onload = function () {            
+		        noBackPlease();
+
+		        // disables backspace on page except on input fields and textarea..
+		        document.body.onkeydown = function (e) {
+		            var elm = e.target.nodeName.toLowerCase();
+		            if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')) {
+		                e.preventDefault();
+		            }
+		            // stopping event bubbling up the DOM tree..
+		            e.stopPropagation();
+		        };          
+		    }
+
+		})(window);
+		</script>
 		<?php get_footer();?>
+
 	</body>
 </html>

@@ -104,7 +104,7 @@
 		                  <p class="mb-3">Need more ReBow™ Boxes?<br>You can add them in sets of 4.</p>
 		                  <div class="row-from">
 		                    <div class="col-from-field">
-		                      <p class="txt-blue"><b>Quantity:</b></p>
+		                      <p class="txt-blue"><b>Quantity :</b></p>
 		                    </div>
 		                    <div class="col-from-field">
 		                      <!--<div class="selectholder">
@@ -150,7 +150,7 @@
 		                      <p class="txt-blue mt-1"><b>Price :</b></p>
 		                    </div>
 		                    <div class="col-from-field mt-1">
-		                    <?php $period_text=($period_datas=="STORAGE")?"Months":"Weeks";?>
+		                    <?php $period_text=($period_datas=="STORAGE")?"Month":"Week";?>
 		                      <label id="added_box_price" for="" class="price">$<?php echo $added_box_price;?></label>/ <?php echo $period_text;?>
 		                    </div>
 		                    <div class="col-from-field">

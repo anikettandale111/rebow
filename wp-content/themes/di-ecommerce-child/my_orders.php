@@ -83,7 +83,7 @@
 			                    	$date=date_create($row['order_date']);
 									echo date_format($date,"M d, Y");
 									//echo $row['order_date'];?></td>
-			                    <td><?php echo ucfirst(strtolower($row['order_type']));?></td>
+			                    <td><?php echo ucwords(strtolower($row['order_type']));?></td>
 			                    <td><?php echo $row['payment_status'];?></td>
 			                    <td><?php echo $row['fullfillment_status'];?></td>
 			                    <td><?php echo '$'.$row['order_total'];?></td>
