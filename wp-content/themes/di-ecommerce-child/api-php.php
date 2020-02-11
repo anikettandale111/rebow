@@ -3089,7 +3089,7 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
             $array1= array('name1'=>$email,'name2'=>$pass);
             //$filepath = "template-parts/mail/mail-subscribe.php";
             $body = file_get_contents("template-parts/mail/mail-account_activation.php");
-
+            
             foreach($array1 as $key=>$value){
                 $body = str_replace($key,$value,$body);
             }
