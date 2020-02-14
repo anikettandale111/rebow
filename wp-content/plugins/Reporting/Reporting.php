@@ -193,7 +193,8 @@ function test_init_inventory(){
 
 }
 function get_data_boxes_out_for_delivery(){
-	$query ="SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id WHERE b.order_status ='Delivery Initiated' AND date(b.created_at) = CURDATE()";
+	// $query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id JOIN order_status_master os ON os.order_status_id=b.order_status WHERE b.order_status = os.order_status_id AND b.active=1 AND date(b.created_at) = CURDATE()";
+	$query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id WHERE b.order_status = 4 AND b.active=1 AND date(b.created_at) = CURDATE()";
 
 	$res = mysql_query($query);
 
@@ -202,16 +203,18 @@ function get_data_boxes_out_for_delivery(){
 	return $row[0];
 }
 function get_data_boxes_out_for_pickup(){
-	$query ="SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id WHERE b.order_status='Pickup Initiated' AND date(b.created_at) = CURDATE()";
+	// $query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id JOIN order_status_master os ON os.order_status_id=b.order_status WHERE b.order_status = os.order_status_id AND b.active = 1 AND date(b.created_at) = CURDATE()";
+	$query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id WHERE b.order_status = 7 AND b.active = 1 AND date(b.created_at) = CURDATE()";
 
 	$res = mysql_query($query);
 
 	$row = mysql_fetch_row($res);
 
 	return $row[0];
-}
+}	
 function get_boxes_in_pack_mode(){
-	$query ="SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id WHERE b.order_status='In Storage' AND date(b.created_at) = CURDATE()";
+	// $query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id JOIN order_status_master os ON os.order_status_id=b.order_status WHERE b.order_status = os.order_status_id AND b.active=1 AND date(b.created_at) = CURDATE()";
+	$query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_tracking b ON a.order_id = b.order_id WHERE b.order_status = 19 AND b.active=1 AND date(b.created_at) = CURDATE()";
 
 	$res = mysql_query($query);
 
@@ -220,7 +223,7 @@ function get_boxes_in_pack_mode(){
 	return $row[0];
 }
 function get_total_inventory(){
-	$query ="SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_shipping b ON a.order_id = b.order_id WHERE b.shipping_type='Pickup Empty Boxes' AND date(b.date) = CURDATE()";
+	$query = "SELECT SUM(a.box_count+a.added_box_count) AS 'box_count' FROM orders_data a JOIN order_shipping b ON a.order_id = b.order_id WHERE b.shipping_type='Pickup Empty Boxes' AND date(b.date) = CURDATE()";
 
 	$res = mysql_query($query);
 

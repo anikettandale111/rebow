@@ -31,7 +31,7 @@ function test_init_order(){
 
 function show_orders(){
 
-	$sql="SELECT a.order_status as 'order_status',u.display_name AS 'display_name',b.order_id as order_id,date(b.created_at) AS 'order_date',u.user_email AS 'email',b.order_type as 'order_type',b.product_id as 'product_id', b.box_count as 'box_count',b.order_time_period as 'order_time_period',b.subtotal as 'subtotal',b.product_price as 'product_price',b.Delivery_Cost as 'Delivery_Cost',b.Pickup_Cost as 'Pickup_Cost',b.Sales_tax as 'Sales_tax',b.total_price as 'total_price',date(b.updated_at) as 'updated_date' from order_tracking a JOIN orders_data b ON a.order_id = b.order_id JOIN wp_users u ON a.user_id = u.ID WHERE b.active=1 AND a.active=1 ORDER BY b.order_id DESC ;";
+	$sql="SELECT os.order_status as 'order_status',u.display_name AS 'display_name',b.order_id as order_id,date(b.created_at) AS 'order_date',u.user_email AS 'email',b.order_type as 'order_type',b.product_id as 'product_id', b.box_count as 'box_count',b.order_time_period as 'order_time_period',b.subtotal as 'subtotal',b.product_price as 'product_price',b.Delivery_Cost as 'Delivery_Cost',b.Pickup_Cost as 'Pickup_Cost',b.Sales_tax as 'Sales_tax',b.total_price as 'total_price',date(b.updated_at) as 'updated_date' from order_tracking a JOIN orders_data b ON a.order_id = b.order_id JOIN wp_users u ON a.user_id = u.ID JOIN order_status_master os ON os.order_status_id=a.order_status WHERE b.active=1 AND a.active=1 ORDER BY b.order_id DESC ;";
 
 	$result = mysql_query($sql);
 	//echo '<p><input type="search" id="search_order"/><button type="submit">Search Orders</button></p>';

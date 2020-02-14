@@ -1,3 +1,10 @@
+<style type="text/css">
+	th,.title-text{
+		text-align: center !important;
+		font-size: 15px !important;
+		font-weight: bold !important;
+	}
+</style>
 <?php
 /**
  * Edit user administration panel.
@@ -68,8 +75,6 @@ function show_order_details($order_id){
 		$pickup_empty_boxes_data = get_rental_shipping_data($order_id,$shipping_type);
 	}
 	
-	$order_status_array = array('Order_Received'=>'Order Received','Order_Confirmed'=>'Order Confirmed',
-		'Order_Completed'=>'Order Completed','Order_Cancelled'=>'Order Cancelled','Order_Refund'=>'Order Refund');
 	?>
 	<div class="inside" style="background:white">
 		<div class="panel-wrap">
@@ -77,36 +82,32 @@ function show_order_details($order_id){
 			<input id="ajax_request" name="ajax_request" type="hidden" value="order_update"/>
 			<input id="order_status_old" name="order_status_old" type="hidden" value="<?php echo $order_status;?>"/>
 			<div class="col-md-12">
-			<center><h3>Order Number <?php echo "#".$order_id ;?> Details</h3></center>
+			<p class="title-text">Order Number <?php echo "#".$order_id ;?> Details</p>
 			<h5 style="display:none;background:lightgray;padding:10px;font-size:15px;color:currentColor;" id="resp_message"></h5>
 			<button id="edit_order_Details" type="button" class="btn btn-info pull-right" style="padding:5px !important;float: right !important;"> Edit </button>
 			<div class="row" style="margin:20px;">
 				<div class="col-md-4">
-					<center><label><b>General</b></label></center>
+					<p class="title-text">General</p>
 					<input id="user_id" name="user_id" type="hidden" value="<?php echo $user_id;?>" />
 					<input id="order_id" name="order_id" type="hidden" value="<?php echo $order_id;?>" />
 					<input id="order_type" name="order_type" type="hidden" value="<?php echo $order_type;?>" />
 					<input id="billing_edited_change" name="billing_edited_change" type="hidden" value="0" />
 					<input id="shipping_edited_change" name="shipping_edited_change" type="hidden" value="0" />
 					<label><b>Date Created </b></label>
-					<input class="form-control in_readonly " value="<?php echo $order_date;?>" >					
+					<input class="form-control in_readonly " value="<?php echo $order_date;?>" >
+					<input type="hidden" id="current_order_status" value="<?php echo $order_status; ?>">
 					<label><b>Order Status </b></label>
 					<select class="form-control in_readonly editable" id="order_status" name="order_status" disabled>
-						<?php foreach($order_status_data as $key=>$value){	
-							$value1 = str_replace(" ", "_", $value);
-							if($value==$order_status){
-	    						echo "<option selected value=$value1>$value</option>";
-	    					}else{
-	    						echo "<option value=$value1>$value</option>";
-	    					}
-						}?>
+						<?php foreach($order_status_data as $key=>$value) : ?>	
+	    					 <option value="<?php echo $key ?>" <?php echo ((int)$order_status==(int)$key)? 'selected' : '' ;?>><?php echo $value ?></option>
+						<?php endforeach ?>	
 					</select>
 					<label><b>Customer </b></label>
 					<input class="form-control in_readonly " value="<?php echo $email;?>" id="email" name="email">
 				</div>
 
 				<div class="col-md-4" >
-					<center><label><b>Billing</b></label></center>
+					<p class="title-text">Billing</p>
 					<!-- <span id="billing_info_change">Edit</span> -->
 					<label><b>Address:</b></label>
 					<input class="form-control in_readonly " type="text" name="billing_address_edited_value" id="billing_address_edited_value" value="<?php echo $billing_address;?>">
@@ -116,7 +117,7 @@ function show_order_details($order_id){
 					<input class="form-control in_readonly " type="text" id="phone_number_edited_value" name="phone_number_edited_value" value="<?php echo $phone_number;?>" />
 				</div>
 				<div class="col-md-4">
-					<center><label><b>Shipping</b></label></center>
+					<p class="title-text">Shipping</p>
 					<?php if($order_type == 'RENTAL'){?>
 						<label><b>Delivery Address:</b></label>
 						<!-- <span id="delivery_address"><?php echo $deliver_empty_boxes_data['address'];?></span> -->
@@ -143,9 +144,9 @@ function show_order_details($order_id){
 				</div>
 			</div>
 			<div class="col-md-12">
-			<center><b>Order Product Details</b></center>
+			<p class="title-text">Order Product Details</p>
 			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th><center>Product Name</center></th><th><center>Box Count</center></th><th><center>Subtotal</center></th><th><center>Total</center></th></tr>
+				<tr><th>Product Name</th><th>Box Count</th><th>Subtotal</th><th>Total</th></tr>
 				<tr>
 					<td><?php echo $product_data['product_name'];?>
 					</td>
@@ -158,9 +159,9 @@ function show_order_details($order_id){
 				</tr>
 			</table>
 			<?php if(count($get_additional_order_details_data)): ?>
-			<center><b>Aditional Order Product Details</b></center>
+			<p class="title-text">Aditional Order Product Details</p>
 			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th><center>Order Number</center></th><th><center>Product Name</center></th><th><center>Date</center></th><th><center>Box Count</center></th><th><center>Subtotal</center></th><th><center>Total</center></th></tr>
+				<tr><th>Order Number</th><th>Product Name</th><th>Date</th><th>Box Count</th><th>Subtotal</th><th>Total</th></tr>
 				<?php foreach($get_additional_order_details_data as $val): ?>
 					<?php $order_id = $val['order_id']; ?>
 				<tr>
@@ -176,13 +177,13 @@ function show_order_details($order_id){
 			<?php endif ?>
 
 			<?php if(count($order_tracking_history_data)): ?>
-			<center><b>Order Tracking Status Histroy</b></center>
+			<p class="title-text">Order Tracking Status Histroy</p>
 			<table class='wp-list-table widefat fixed striped posts' style="margin:20px;">
-				<tr><th><center>Order Status</center></th><th><center>Description</center></th><th><center>Date</center></th></tr>
+				<tr><th>Order Status</th><th>Description</th><th>Date</th></tr>
 				<?php foreach($order_tracking_history_data as $val): ?>
 				<tr>
-					<td><?php echo $val['order_status'];?></td>
-					<td><?php echo $val['order_status_description'];?></td>
+					<td><?php echo $val['status_name'];?></td>
+					<td><?php echo ucfirst($val['order_status_description']);?></td>
 					<td><?php echo $val['created_at'];?></td>
 				</tr>
 				<?php endforeach ?>
@@ -211,7 +212,7 @@ function get_order_details($order_id){
 	return $row;
 }
 function get_user_data($user_id){
-	$query="select * from wp_users where ID=$user_id";
+	$query="SELECT * FROM wp_users WHERE id=$user_id";
 
 	$res = mysql_query($query);
 
@@ -223,6 +224,10 @@ function get_user_data($user_id){
 ?>
 
 <script>
+	var flag = 0;
+	$('#order_status').change(function(){
+		flag = 1;
+	})
 	jQuery('.reset_readonly').click(function(){
 		jQuery(".editable").attr("readonly", "true");
 	});
@@ -287,7 +292,17 @@ function get_user_data($user_id){
 
 			// var datastring ="ajax_request=order_update&order_status="+order_status+"&billing_address_edited_value="+billing_address_edited_value+"&email_edited_value="+email_edited_value+"&delivery_address_edited_value="+delivery_address_edited_value+"&pickup_address_edited_value="+pickup_address_edited_value+"&order_id="+order_id+"&order_status_old="+order_status_old+"&user_id="+user_id+"&shipping_edited_change="+shipping_edited_change+"&billing_edited_change="+billing_edited_change+"&order_type="+order_type;
 			//alert(datastring);
-			
+			if(flag){
+				var current_status = $('#current_order_status').val();
+				var new_status = $('#order_status').val();
+				if(current_status >= new_status){
+					alert('You can`t go back again');
+					return false;
+				}else if((parseInt(current_status)+1) < new_status){
+					alert('You can`t skip steps between the process.');
+					return false;
+				}
+			}
 			jQuery.ajax({
 				url: "test-plugin-api.php",
 				method : "POST",
