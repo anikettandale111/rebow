@@ -71,14 +71,12 @@ function show_products(){
 }
 function get_order_status_data($order_type){
 
-	$query = "SELECT order_status from order_status_master Where order_type='$order_type'";
+	$query = "SELECT order_status_id,order_status from order_status_master Where order_type='$order_type'";
 
 	$res = mysql_query($query);
 
 	while($row = mysql_fetch_assoc($res)){
-
-		$rows[] = $row['order_status'];
-
+		$rows[$row['order_status_id']] = $row['order_status'];
 	}
 
 	return $rows;
@@ -160,7 +158,7 @@ function get_order_tracking_info($order_id){
 }
 function get_order_tracking_info_histroy($order_id){
 
-	$sql="select * from order_tracking where order_id=$order_id order by tracking_id desc";
+	$sql="SELECT ot.*,os.order_status as 'status_name' FROM order_tracking ot JOIN order_status_master os ON os.order_status_id=ot.order_status WHERE ot.order_id=$order_id ORDER BY ot.tracking_id desc";
 
 	$result = mysql_query($sql);
 	// $row = mysql_fetch_assoc($result);
