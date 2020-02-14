@@ -26,13 +26,38 @@ function check_if_user_already_exist(){
 
     return $row[0];
 }
+if($ajax_resquest_type=="check_user_exist"){
+    $email = $_REQUEST['email'];
+
+    $user_exist_status = check_user_exists($email);
+
+    $json_array= array('user_exist_status'=>$user_exist_status);
+    
+    echo $json_array1 = json_encode($json_array);
+}
+function check_user_exists($email){
+    $query = "select count(*) from wp_users where user_email='$email'";
+
+    $res = mysql_query($query);
+
+    $row = mysql_fetch_row($res);
+
+    return $row[0];
+}
 if($ajax_resquest_type=="promocode_check"){
 
     $promocode = $_REQUEST['promocode'];
     $current_date = date('Y-m-d'); 
 
+    $sessionstore = get_rebow_session();
+    
+    $total_price = $sessionstore->total_price;
+
+    $period_data_field = $sessionstore->period_data_field;
+
+
     //echo "Query: ".
-    $query = "SELECT * from promotions where coupon_code='$promocode' and promotion_start_date < '$current_date' and promotion_end_date > '$current_date' and coupon_status=1";
+    $query = "SELECT * from promotions where coupon_code='$promocode' and promotion_start_date < '$current_date' and promotion_end_date > '$current_date' and minimum_spend<=$total_price and coupon_status=1";
 
     //$res_array = array();
     $res = mysql_query($query);
@@ -1673,6 +1698,7 @@ if($ajax_resquest_type=="order_confirmation_added_boxes"){
 
     insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
 
+    $order_date = get_custom_formatted_date(date('Y-m-d'));
     $order_status="Order Received";
     $active=1;
     insert_into_order_tracking($order_id,$user_id,$order_status,$active);
@@ -1683,7 +1709,7 @@ if($ajax_resquest_type=="order_confirmation_added_boxes"){
 
         $body = file_get_contents("template-parts/mail/order_confirmation_extra_boxes.php");
 
-        $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'order_completion_date'=>$pickup_date);
+        $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'added_box_count'=>$added_box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'order_completion_date'=>get_custom_formatted_date($pickup_date));
 
         foreach($array_rental as $key=>$value){
 
@@ -3039,6 +3065,8 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
 
     $product_name = $storesession->product_name;
 
+    $product_range = $storesession->product_range;
+
     $box_count = $storesession->box_count;
 
     $added_box_count =  $storesession->added_box_count;
@@ -3197,14 +3225,14 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
     $hearabotus = $storesession->selecthearus;
 
     insert_customers_data($user_id,$first_name,$last_name,$email,$company_name,$phone_number,$SecondaryPhoneNumber,$hearabotus,$delivery_address,$pickup_address);
-    
+    $order_date = get_custom_formatted_date(date('Y-m-d'));
     if($order_id!=0){
 
         if($period_data_field=="RENTAL"){
             $subject ="Order Confirmation";
             $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
 
-            $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+            $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
 
             foreach($array_rental as $key=>$value){
 
@@ -3214,16 +3242,31 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
             //echo $body;
             $res_mail = wp_mail($email, $subject, $body);
         }else{
-            $subject ="Order Confirmation";
-            $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
+            if($period_data_value="Month to Month")
+            {
+                $subject ="Order Confirmation";
+                $body = file_get_contents("template-parts/mail/storage-month-to-month.php");
             
-            $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
                 
                 foreach($array_rental as $key=>$value){
 
                     $body = str_replace($key,$value,$body);
                 }
                 $res_mail = wp_mail($email, $subject, $body);
+            }else{
+                $subject ="Order Confirmation";
+                $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
+            
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                
+                foreach($array_rental as $key=>$value){
+
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
+            }
+            
         }
 
     }
@@ -3442,6 +3485,16 @@ function insert_into_orders($product_id,$display_period,$dp_period,$box_count,$a
 
     return $id;
 }
+function insert_into_orders_info($order_id,$promo_price,$promo_code,$tax_rate,$Moving_dollies_per_box,$Labels_per_box,$Zipties_per_box,$Rental_cost_per_1_box_per_1_week,$Monthly_storage_cost_per_box,$status){
+
+    $query = "INSERT INTO orders_info(`order_id`,`promo_price`,`promo_code`,`tax_rate`,`Moving_dollies_per_box`,`Labels_per_box`,`Zipties_per_box`,`Rental_cost_per_1_box_per_1_week`,`Monthly_storage_cost_per_box`,`status`)
+        VALUES ($order_id,$promo_price,$promo_code,'$tax_rate',$Moving_dollies_per_box,$Labels_per_box,$Zipties_per_box,$Rental_cost_per_1_box_per_1_week,$Monthly_storage_cost_per_box,$status)";
+
+    $res = mysql_query($query);
+
+    //mysql_query()
+
+}
 function insert_into_shipping_info($order_id,$order_type,$shipping_type,$date,$address,$preferred_time,$alternative_time,$apartment_unit_info,$floor_level,$user_id,$latitude,$longitude){
     $query = "INSERT INTO order_shipping(`user_id`,`order_id`,`order_type`,`shipping_type`,`date`,`address`,`preferred_time`,`alternative_time`,`apartment_unit_info`,`floor_level`,`latitude`,`longitude`,`created_at`,`updated_at`,`active`)
         VALUES ($user_id,$order_id,'$order_type','$shipping_type','$date','$address','$preferred_time','$alternative_time','$apartment_unit_info','$floor_level','$latitude','$longitude',NOW(),NOW(),1)";
@@ -3506,4 +3559,9 @@ function mail_send_function($to,$subject,$replace_array,$body){
     $res_mail = wp_mail($to, $subject, $body);
     return $res_mail;
 }
+// if($ajax_resquest_type == 'testemailfunction'){
+//     $body = file_get_contents("template-parts/mail/order-confirmation-rental.php");
+//     $res_mail = wp_mail('anikettandale111@gmail.com', 'TEST', $body);
+//     return $res_mail;
+// }
 ?>

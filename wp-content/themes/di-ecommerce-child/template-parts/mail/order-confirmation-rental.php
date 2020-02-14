@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <link rel="stylesheet" href="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/css/fonts.css">
@@ -21,7 +22,7 @@
 	.clear{width: 100%; height: 1px;clear: both;}
 	.mb{margin-bottom: 25px;}
 	.dnt-reply{font-size: 12px;color: #434343;font-family: 'axiformabook';line-height: 20px;letter-spacing: 1px;}
-	label{float: left; display: inline-block; margin-right: 10px; font-family:'axiformamedium'; font-size: 15px;}
+	label{float: left; display: inline-block; margin-right: 10px;}
 	strong{font-family: 'axiformabold';}
 	.footer{border-top: 15px solid #B2D235; background-color: #002F6C; color: #BBBBBB; text-align: center; float: left; width: 100%; padding: 35px 0 25px 0;}
 	.footer small{float: left; width: 100%; padding-bottom: 25px; font-family: 'axiformasemibold'; font-size: 8px;}
@@ -72,7 +73,6 @@
 	.shipping-icon{ float: left; display: inline-block; margin-right: 10px;}
 	.shiiping-heading p{font-family: 'axiformamedium'; font-size: 16px; letter-spacing: 1.5px; color: #4B4B4B; margin-top: 18px; width: auto; display: inline-block;}
 	.opt-time{margin-left: 17px;}
-	.opt-time li{ font-family: 'axiformamedium'; font-size: 15px; }
 	h3{font-family: 'axiformabold'; font-size: 20px;}
 	h4{font-family: 'axiformabold'; font-size: 18px; color: #B4D339; padding-top: 7px;}
 	.rnt-prd p, .rnt-prd label, .col p{color: #737373; font-size: 15px; font-family: 'axiformamedium';}
@@ -111,8 +111,8 @@
 			</div>
 			<div class="blue-bg">
 				<h2>ORDER SUMMARY </h2>
-				<p>Order # order_id </p>
-				<p>Placed on order_date</p>
+				<p>Order # 2340956 </p>
+				<p>Placed on March 23, 2018</p>
 			</div>
 			<div class="grey-bg">
 				<div class="p-img text-center">
@@ -122,45 +122,45 @@
 				</div>
 				<div class="p-info">
 					<div class="col ord-details">
-						<p>product_name Package - product_box_count Boxes</p>
-						<p>(product_range) </p>
+						<p>1 Bedroom Package - 24 Boxes</p>
+						<p>(250 - 500 sq ft) </p>
 					</div>
 					<div class="col rnt-prd">
 						<label for="">Rental Period : </label>
-						<p>order_time_period</p>
+						<p>2 Weeks</p>
 					</div>
 					<div class="col">
-						<p>$ subtotal/ order_time_period</p>
+						<p>$144 / 2 weeks</p>
 					</div>
 					<div class="data-table">
 					<div class="table-responsive">
 					  <table class="table">
 					    <tr>
 					    	<td>Subtotal :</td>
-					    	<td><small>$subtotal</small></td>
+					    	<td><small>$144.00</small></td>
 					    </tr>
 					    <tr>
 					    	<td>Delivery:</td>
-					    	<td><small>Delivery_Cost</small></td>
+					    	<td><small>Free</small></td>
 					    </tr>
 					    <tr>
 					    	<td>Pickup :</td>
-					    	<td><small>Pickup_Cost</small></td>
+					    	<td><small>$50 - Stairs</small></td>
 					    </tr>
 					    <tr>
 					    	<td>CA Sales Tax :</td>
-					    	<td><small>$Sales_tax</small></td>
+					    	<td><small>$16.35</small></td>
 					    </tr>
 					    <tr>
 					    	<td class="semi-bold-txt">Total :</td>
-					    	<td class="semi-bold-txt f-15">$total_price</td>
+					    	<td class="semi-bold-txt f-15">$160.35</td>
 					    </tr>
 					  </table>
 					</div>
 				</div>
 				</div>
 				<div class="card-charge">
-					<p>Your card ending in 4678 was charged $total_price</p>
+					<p>Your card ending in 4678 was charged $160.35</p>
 				</div>
 			</div>
 			<div class="grey-bg mt-2">
@@ -173,48 +173,48 @@
 				<div class="col">
 					<label for="">Delivery Address  :</label>
 					<div class="clear"></div>
-					<p>delivery_address</p>
+					<p>4412 Wasall Loop Austin, TX 78749</p>
 				</div>
 				<div class="col">
 					<label for="">Delivery Date :</label>
-					<p>delivery_date</p>
+					<p>March 1, 2018</p>
 				</div>
 				<div class="col">
 					<label for="">Optional Delivery Times :</label>
 				</div>
 				<div class="col">
 					<ul class="opt-time">
-						<li>optional_delivery_times</li>
-						<li>optional_delivery_times’</li>
+						<li>8:30am - 11:00 am PST</li>
+						<li>11:00am - 1:00 pm PST’</li>
 					</ul>
 				</div>
 				<div class="col">
 					<label for="">Delivery : </label>
-					<p>floor_level_delivery</p>
+					<p>Curbside</p>
 				</div>
 			</div>
 			<div class="del-pic">
 				<div class="col">
 					<label for="">Pick Up Address  : </label>
 					<div class="clear"></div>
-					<p>pickup_adderess</p>
+					<p>2034 South Mo Pac Exwy, #3D Austin, TX 78746</p>
 				</div>
 				<div class="col">
 					<label for="">Pick Up Date : </label>
-					<p>pickup_date</p>
+					<p>March 15, 2018</p>
 				</div>
 				<div class="col">
 					<label for="">Optional Pick Up Times : </label>
 				</div>
 				<div class="col">
 					<ul class="opt-time">
-						<li>optional_pickup_times</li>
-						<li>optional_pickup_times</li>
+						<li>8:30am - 11:00 am PST</li>
+						<li>11:00am - 1:00 pm PST</li>
 					</ul>
 				</div>
 				<div class="col">
 					<label for="">Pick Up : </label>
-					<p> floor_level_pickup </p>
+					<p> Stairs </p>
 				</div>
 			</div>
 			<div class="col confirm-time">

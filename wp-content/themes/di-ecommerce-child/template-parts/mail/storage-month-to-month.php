@@ -11,16 +11,14 @@
 	.header{background-color: #002F6C; height: 124px; text-align: center; margin-bottom: 35px;}
 	.header img{padding-top: 45px;}
 	h1{color: #002F6C; font-size: 1.2em; text-align: center; letter-spacing: 1px;}
-	p{letter-spacing: 1px; line-height: 25px; color: #434343; width: 100%;}
+	p{letter-spacing: 1px; line-height: 25px; color: #434343;}
 	a{color: #002F6C; font-family: 'axiformabold'; text-decoration: none;}
 	.wrapper{margin: 0 auto; background: #fff;}
 	.email-container{padding: 0 40px;}
 	.col{padding-bottom: 25px; float: left; width: 100%;}
 	.grey-bg{background: #F6F6F6; padding:2%; float: left; width: 96%;}
-	.min-w{min-width: 50%;float: left;}
 	.clear{width: 100%; height: 1px;clear: both;}
-	.mb{margin-bottom: 25px;}
-	.dnt-reply{font-size: 12px;color: #434343;font-family: 'axiformabook';line-height: 20px;letter-spacing: 1px;}
+	.dnt-reply small{font-size: 12px;color: #434343;font-family: 'axiformabook';line-height: 20px;letter-spacing: 1px;}
 	label{float: left; display: inline-block; margin-right: 10px; font-family:'axiformamedium'; font-size: 15px;}
 	strong{font-family: 'axiformabold';}
 	.footer{border-top: 15px solid #B2D235; background-color: #002F6C; color: #BBBBBB; text-align: center; float: left; width: 100%; padding: 35px 0 25px 0;}
@@ -30,42 +28,29 @@
 	.footer ul.social li:last-child{margin-right: 0;}
 	.footer p.copy-right{float: left; width: 100%; font-size: 8px; margin-top: 10px; color: #B8B8B9;}
 	.pb-0{padding-bottom: 0px;}
-	ul.contact-info{width: 270px; margin:0 auto;}
+	ul.contact-info{width: 230px; margin:0 auto;}
 	.contact-info li{float: left; color: #BBBBBB; font-family: 'axiformamedium'; font-size: 8px; margin-right: 40px; margin-bottom: 25px;}
 	.contact-info li:first-child{ list-style-type: none; }
 	ul.contact-info li:last-child{ margin-right: 0; }
 
-	.mb-1{margin-bottom: 10px;}
+	.mb-1{margin-bottom: 20px;}
 	.mt-2{margin-top:10px;}
 	.text-center{ text-align: center;}
 	.mb-10{ margin-bottom: 100px; }
+	.pb-0{padding-bottom: 0;}
+	.pd{padding:30px;}
 
 	.blue-bg{background-color: #002F6C; color: #fff; text-align: center; padding:4% 2%; letter-spacing: 1.3px; float: left; width: 96%;}
-	.blue-bg h2{font-size: 18px; font-family: 'axiformabold';}
+	.blue-bg h2{font-size: 18px; font-family: 'axiformabold'; color: #FFF;}
 	.blue-bg p{font-size: 14px; font-family: 'axiformamedium'; color: #fff;}
 	.p-img, .p-info{ float: left; width: 50%; padding-top: 30px;}
 	.product-img{width: 60%; margin:0 auto; 	margin-bottom: 20px;}
 	.ord-details p{color: #737373; font-family: 'axiformamedium'; font-size: 15px;}
 	.card-charge{ padding: 20px 30px; text-align: center; border-top: 1px solid #979797; float: left; width: 87%;}
 	.card-charge p{ font-family: 'axiformamedium'; font-size: 15px; color: #4D4D4D; }
+	
 
-	/* table CSS */
-	.data-table{ width: 100%; float: left; }
-	.table-responsive {display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;}
-	.table {width: 100%; margin-bottom: 1rem; color: #212529;}
-	tr {display: table-row; vertical-align: inherit; border-color: inherit;}
-	.table td, .table th {padding: .15rem; vertical-align: top; font-family: 'axiformamedium'; font-size: 15px; color: #4D4D4D;}
-	td small{font-size: 12px; color: #4D4D4D; font-family: 'axiformamedium';}
-	.table td.red-text{ color: #FF0000; }
-	.table td.semi-bold-txt{font-family: 'axiformasemibold'; font-size: 20px;}
-	.table td.f-15{ font-size: 16px; }
-
-	/* end table */
-	.pb-0{padding-bottom: 0;}
-	.package-details{border-bottom:1px solid #979797; margin-bottom: 20px;}
-	.package-details p{ font-size:15px; font-family: 'axiformamedium'; color: #737373;}
-
-	.del-pic{float: left; width: 46%; margin-top: 20px; padding-left: 2%; padding-right: 2%; color: #737373;}
+	.del-pic{float: left; width: 44%; margin-top: 20px; padding-left: 3%; padding-right: 3%; color: #737373;}
 	.del-pic p{color: #737373;}
 	.btn-add-more{background: #002F6C; border-radius: 4px; width: 176px; text-align: center; color: #FFF; padding:5px 8px; }
 	.shiiping-heading{ width: 70%; margin: 0 auto; }
@@ -78,16 +63,29 @@
 	.rnt-prd p, .rnt-prd label, .col p{color: #737373; font-size: 15px; font-family: 'axiformamedium';}
 	.confirm-time p{color: #D0021B; font-family: 'axiformamedium'; font-size: 15px; text-align: center}
 
+	h2{font-family: 'axiformabold'; font-size: 16px; color: #4D4D4D; letter-spacing: 1.2px; margin-top: 20px; margin-left: 3%;}
+	.line{ float: left; width: 100%; height: 1px;background: #979797}
+	.complimentary{padding: 20px;}
+	.complimentary p{ font-family: 'axiformabook'; font-size: 15px; letter-spacing: 1.3px;}
+	.strg-location{ text-align: center;}
+	.w{width: 100%;}
+	.strg-location strong{font-family: 'axiformabold'; font-size: 15px; color: #4D4D4D; text-align: center;}
+	.storage-add{ width: 60%; margin: 30px auto; text-align: left;}
+	.storage-add img{float: left; display: inline-block; margin-right: 20px;}
+	.storage-add p, .need-access{font-family: 'axiformabook'; font-size: 15px; color: #4D4D4D;}
+	
+	.col p.future-date{ font-family: 'axiformabook'; }
+
 	@media (max-width: 420px){
+		body{padding:0;}
 		.email-container{ padding: 10px;}
-		.data-table{width: 90%;}
-		.table td, .table th{font-size: 13px;}
-		.p-img, .p-info{width: 96%; padding-left: 2%; padding-right: 2%;}
 		.product-img{padding-top: 20px;}
 		ul.contact-info{ width: 230px; }
 		.dnt-reply{text-align: center;}
 		.shiiping-heading{ width: 98%;}
 		.del-pic{ width: 96%; }
+		.storage-add{width: 75%;}
+		.p-img, .p-info{width: 100%;}
 	}
 
 </style>
@@ -99,15 +97,7 @@
 		</div><!-- /header -->
 		<div class="email-container">
 			<div class="col">
-				<h1>Thank you for your order!</h1>
-			</div>
-			<div class="grey-bg mb-1">
-				<div class="col text-center">
-					<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/email-icon.png" alt="">
-				</div>
-				<div class="col text-center">
-					<p>You will be receiving a confirmation of your delivery and pickup times within the next 24 - 48 hours to this email address.</p>
-				</div>
+				<h1>Pickup & Delivery Details</h1>
 			</div>
 			<div class="blue-bg">
 				<h2>ORDER SUMMARY </h2>
@@ -126,41 +116,12 @@
 						<p>(product_range) </p>
 					</div>
 					<div class="col rnt-prd">
-						<label for="">Rental Period : </label>
-						<p>order_time_period</p>
+						<label for="">Storage Period :</label>
+						<p>Month to Month</p>
 					</div>
 					<div class="col">
-						<p>$ subtotal/ order_time_period</p>
+						<p>$total_price / month</p>
 					</div>
-					<div class="data-table">
-					<div class="table-responsive">
-					  <table class="table">
-					    <tr>
-					    	<td>Subtotal :</td>
-					    	<td><small>$subtotal</small></td>
-					    </tr>
-					    <tr>
-					    	<td>Delivery:</td>
-					    	<td><small>Delivery_Cost</small></td>
-					    </tr>
-					    <tr>
-					    	<td>Pickup :</td>
-					    	<td><small>Pickup_Cost</small></td>
-					    </tr>
-					    <tr>
-					    	<td>CA Sales Tax :</td>
-					    	<td><small>$Sales_tax</small></td>
-					    </tr>
-					    <tr>
-					    	<td class="semi-bold-txt">Total :</td>
-					    	<td class="semi-bold-txt f-15">$total_price</td>
-					    </tr>
-					  </table>
-					</div>
-				</div>
-				</div>
-				<div class="card-charge">
-					<p>Your card ending in 4678 was charged $total_price</p>
 				</div>
 			</div>
 			<div class="grey-bg mt-2">
@@ -168,6 +129,9 @@
 					<img class="shipping-icon" src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
 					<p>DELIVERY & PICK UP DETAILS</p>
 				</div>
+			</div>
+			<div class="col pb-0">
+				<h2>ITEMS GOING INTO STORAGE :</h2>
 			</div>
 			<div class="del-pic">
 				<div class="col">
@@ -185,7 +149,7 @@
 				<div class="col">
 					<ul class="opt-time">
 						<li>optional_delivery_times</li>
-						<li>optional_delivery_times’</li>
+						<li>optional_delivery_times</li>
 					</ul>
 				</div>
 				<div class="col">
@@ -197,7 +161,7 @@
 				<div class="col">
 					<label for="">Pick Up Address  : </label>
 					<div class="clear"></div>
-					<p>pickup_adderess</p>
+					<p>pickup_address</p>
 				</div>
 				<div class="col">
 					<label for="">Pick Up Date : </label>
@@ -217,18 +181,41 @@
 					<p> floor_level_pickup </p>
 				</div>
 			</div>
+			<div class="col">
+				<h2>ITEMS GOING INTO STORAGE :</h2>
+			</div>
+			<div class="col text-center pd">
+				<p class="future-date">You have not set a delivery and pickup address for your items when they move out of storage. Please do so at a future date.</p>
+			</div>
 			<div class="col confirm-time">
 				<p>*We will confirm these times with you within<br> 24-48 hours after your order.</p>
 			</div>
-			<div class="blue-bg mb-10">
+			<div class="blue-bg mb-1 ">
+				<p>We provide a  48 hour complimentary window to pack and unpack. If you adjust the storage time above that will be reflected below.  Want to keep your ReBow boxes longer ?</p>
+				<p><strong>Call Us : 322 - 277 - 1111</strong></p>
+			</div>
+			<div class="grey-bg strg-location">
+				<strong>STORAGE LOCATION :</strong>
+				<div class="storage-add">
+					<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/warehouse-godown.png" alt="">
+					<p>141 W Avenue 34<br>Los Angeles, CA 90031</p>
+				</div>
+				<p class="need-access pd">Need to access your stuff? Call us to schedule a storage access 48 hours in advance during business hours Mon-Friday : 8am - 4pm</p>
+			</div>
+			<div class="blue-bg mb-1 mt-2">
 				<div class="col">
 					<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/feedback.png" alt="">
 				</div>
-				<div class="col">
+				<div class="col pb-0">
 					<h3>How was your experience ?</h3>
 					<h4>Let us know!</h4>
 				</div>
 			</div>
+			<div class="col dnt-reply text-center" style="margin-top: 30px">
+				<small>Please do not reply to this email. ReBow will not receive any reply message. For questions about your order,  please contact us directly : info@rebowsystem.com or call us 323.277.1111</small>
+			</div>
+		</div>
+
 
 		<div class="footer">
 			<small>MAILING ADDRESS :</small>
@@ -243,7 +230,7 @@
 				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/facebook-icon.png" alt=""></li>
 				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/instagram-icon.png" alt=""></li>
 			</ul>
-			<p class="copy-right">COPYRIGHT © 2018 REBOW SYSTEMS.</p>
+			<p class="copy-right">COPYRIGHT © 2020 REBOW SYSTEMS.</p>
 		</div>
 	</div>
 </body>
