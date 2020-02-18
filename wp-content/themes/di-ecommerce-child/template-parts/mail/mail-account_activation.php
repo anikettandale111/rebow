@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
-<link rel="stylesheet" href="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/css/fonts.css">
+<link rel="stylesheet" href="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/css/fonts.css">
 <style type="text/css">
 	
 	*{margin: 0; padding: 0; border: 0;}
@@ -13,7 +13,7 @@
 	.header img{padding-top: 45px;}
 	h1{color: #002F6C; font-size: 1.2em; text-align: center; letter-spacing: 1px;}
 	p{letter-spacing: 1px; line-height: 25px;}
-	.wrapper{margin: 0 auto; background: #fff;}
+	.wrapper{margin: 0 auto; background: #f0ff;}
 	.email-container{padding: 0 40px;}
 	.col{padding-bottom: 25px;}
 	.grey-bg{background: #F3F3F3; padding:15px;}
@@ -36,7 +36,7 @@
 <body>
 	<div class="wrapper">
 		<div id="header" class="header">
-			<img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/rebow-logo-white.png" alt="">
+			<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/rebow-logo-white.png" alt="">
 		</div><!-- /header -->
 	
 		<div class="email-container">
@@ -69,10 +69,10 @@
 			<small>MAILING ADDRESS :</small>
 			<small>141 W Avenue 34,<br /> Los Angeles, CA 90031</small>
 			<ul>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/twitter-icon.png" alt=""></li>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/google-plus-icon.png" alt=""></li>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/facebook-icon.png" alt=""></li>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/instagram-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/twitter-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/google-plus-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/facebook-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/instagram-icon.png" alt=""></li>
 			</ul>
 			<p class="copy-right">COPYRIGHT © 2018 REBOW SYSTEMS.</p>
 		</div>

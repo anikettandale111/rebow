@@ -312,7 +312,9 @@
 				});
 				jQuery("#selectperiod1").change(function() {
 					var selectperiod1 = jQuery('#selectperiod1').val();
-
+					if(selectperiod1=="MM"){
+						var selectperiod1 = 1;
+					}
 					jQuery('#display_period').val(selectperiod1);
 
 					var added_box_count = jQuery('#add_box_count').val();

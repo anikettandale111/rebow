@@ -375,6 +375,30 @@
 			jQuery(document).ready(function() {
 				//jQuery('#my-modal-login').show();
 				//alert(1);
+				$( "#email" ).blur(function() {
+		          //alert('promocode check');
+		          var email = $('#email').val();
+		          
+		            datastring = "ajax_request=check_user_exist&email="+email;
+		            
+		            jQuery.ajax({
+		                url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+		                method : "POST",
+		                data : datastring,
+		                success: function(result){
+		                    //alert(1);
+		                    console.log(result);
+		                  	var JSONobj = JSON.parse(result);
+		                  	console.log(JSONobj);
+		                  	if(JSONobj.user_exist_status==1){
+		                  		alert('User Already Exist');
+		                  	}
+		                  
+		                }
+		              });
+
+		          
+		        });
 				jQuery("#phoneNumber").on("keypress keyup blur",function (event) {    
 	           		jQuery(this).val(jQuery(this).val().replace(/[^\d].+/, ""));
 		            if ((event.which < 48 || event.which > 57)) {

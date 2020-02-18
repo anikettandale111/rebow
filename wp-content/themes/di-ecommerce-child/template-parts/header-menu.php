@@ -68,7 +68,11 @@ else{
     </ul>
   </div>
 </nav>
+<?php if(!empty($promo_text)){?>
 <div class="container-fluid logo-container offer-loaded">
+<?php }else{?>
+<div class="container-fluid logo-container">
+<?php } ?>
   <div  class="d-flex justify-content-center p-3">
     <img id="logo_img" src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/logo.svg" alt="" title=""></img>
   </div>
