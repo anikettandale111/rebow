@@ -1,5 +1,12 @@
 <?php /* Template Name: add_more_boxes_order_summary*/ ?>
 <?php require_once("user_check_login.php");?>
+<?php 
+ require_once("stripe_config.php");
+ require_once 'stripe-php/init.php';
+require_once("db_config.php");
+\Stripe\Stripe::setApiKey(STRIPE_API_KEY);
+ $intent = \Stripe\SetupIntent::create();
+?>
 <html lang="en">
 	<head>
 		<link rel='icon' href="/rebow/wp-content/themes/di-ecommerce-child/assets/images/favicon.ico" />
@@ -58,8 +65,11 @@
 					//echo $data['parent_order_id'];
 					if($data['parent_order_id']!=0){
 						$payments_data = get_payments_data_user($user_id);
+						//echo "in";
 					}else{
-						$payments_data = get_payments_data($current_order_id);
+						//echo "else";
+						$payments_data = get_payments_data_user($user_id);
+						//print_r($payments_data);
 					}
 					//print_r($payments_data);
 
@@ -185,8 +195,6 @@
 						$apt_unit_pickup =(isset($session_data->apt_unit_pickup)) ? $session_data->apt_unit_pickup : $pickup_empty_boxes_data['apartment_unit_info'];
 
 						$apartment_level_pickup =(isset($session_data->apartment_level_pickup)) ? $session_data->apartment_level_pickup : $pickup_empty_boxes_data['floor_level'];
-
-
 					}
 
 					//$deliver_empty_boxes_data['address']
@@ -335,7 +343,7 @@
 		              <div class="col-sm-12 py-2 o-summary">
 		                <small class="pl-2 white-color">PAYMENT INFORMATION</small>
 		                <div class="edit float-right pr-3">
-		                  <em><a id="edit_payment_details" href="">Edit</a></em>
+		                  <em><a id="edit_payment_details" onclick="hide_fields(<?php echo $payments_data['payment_id'];?>)" href="#javascript;" data-toggle="modal" data-target="#myModal2">Edit</a></em>
 		                </div>
 		              </div>
 		            </div>
@@ -557,10 +565,290 @@
 		    </div>
 		  </div>
 		</section>
+		<div id="myModal2" class="modal fade" role="dialog2">
+		  <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        
+		        <h4 class="modal-title">Add New Payment:</h4><button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		      <div class="modal-body">
+		      	<form class="checkout-form form" id="add_new_payment_form">
+                <?php //if($user_status!=1){?>
+                <div id="new_user_checkout">
+                  <div class="form-row add_pay">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputAddress">Payment Type :</label>
+	                    </div>
+                  	</div>
+                  	<div class="form-row add_pay">
+                    	<div class="form-group col-md-5">
+                      		<div class="selectholder">
+	                      		<label>Payment Type</label>
+	                     		<select id="payment_type" required>
+									<option value="">Select</option>
+									<option value="Mastercard">Mastercard</option>
+									<option value="Visa">Visa</option>
+									<option value="American_Express">American Express</option>
+									
+								</select>
+								<input type="hidden" id="rowid" value=""/>
+                      		</div>
+                    	</div>
+                  	</div>
+                  	<div class="form-row add_pay">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">First Name:</label>
+	                    </div>
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">Last Name:</label>
+	                    </div>
+	                </div>
+                  	<div class="form-row add_pay">
+	                    <div class="form-group col-md-6">
+	                      	<input type="text" class="form-control" id="firstName" value="<?php echo $firstName;?>" placeholder="First Name" required>
+	                    </div>
+	                    <div class="form-group col-md-6">
+	                      	<input type="text" class="form-control" id="lastName" required value="<?php echo $lastName;?>" placeholder="Last Name">
+	                    </div>
+	                </div>
+	                <div class="form-row ">
+	                    <div class="form-group col-md-6 mb-0">
+	                      <label for="inputEmail4">Card Number:</label>
+	                    </div>
+	                    <div class="form-group col-md-4 mb-0">
+	                      <label for="inputEmail4">CCV:</label>
+	                    </div>
+	                </div>
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                      	
+	                      	<span id="card-number" class="form-control">
+		                        <!-- Stripe Card Element -->
+		                    </span>
+	                    </div>
+	                    <div class="form-group col-md-4">
+	                      	
+	                      	<span id="card-cvc" class="form-control">
+		                        <!-- Stripe CVC Element -->
+		                    </span>
+	                    </div>
+	                </div>
+	                <div class="form-row">
+	                  	<div class="form-group col-md-12 mb-0">
+	                    	<label for="inputEmail4">Expiration Date :</label>
+	                  	</div>
+	                </div>
+	                <div class="form-row">
+	                  	<div class="form-group col-md-4">
+	                    	<span id="card-exp" class="form-control">
+	                      	<!-- Stripe Card Expiry Element -->
+	                    	</span>
+	                  	</div>
+	                </div>
+	                  <!--<div class="form-row">
+	                    <div class="form-group col-md-8">
+	                      <div id="card-element"></div>
+	                    </div>
+	                  </div>-->
+                </div>
+                
+                <div class="form-row add_pay">
+                  <div class="form-group col-md-12 mb-0">
+                    <label for="inputEmail4">Billing Address :</label>
+                  </div>
+                </div>
+                <div class="form-row add_pay">
+                  <div class="form-group col-md-8">
+                    <div class="location-pin">
+                      <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
+                    </div>
+                    <input class="addrs" type="text" placeholder="Address*" name="billingaddress" id="billingaddress" value="<?php echo $billing_address;?>" required>
+                  </div>
+                </div>
+
+               
+                <button type="button" id="add_new_payment_method" name="" data-secret="<?= $intent->client_secret ?>" onclick="add_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
+              </form>
+		      </div>
+		    </div>
+
+		  </div>
+		</div>
 		<?php get_footer();?>
-		
+		<script src="https://js.stripe.com/v3/"></script>
+		<!-- jQuery is used only for this example; it isn't required to use Stripe -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
-			
+			var stripe = Stripe('pk_test_jtWtIVtWDtzfftY59MQaNGJQ00ZZy89Axo');
+	        // cardButton.addEventListener('click', function(ev) {
+	        
+        	//alert(1);
+        	var elements = stripe.elements();
+        	// Set up Stripe.js and Elements to use in checkout form
+
+        	var style = {
+	              base: {
+	                  'lineHeight': '1.35',
+	                  'fontSize': '1.11rem',
+	                  'color': 'green',
+	                  'fontFamily': 'apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'
+	              }
+	        };
+
+          	// Card number
+	        var card = elements.create('cardNumber', {
+	            'placeholder': 'Card Number*',
+	            'style': style
+	         });
+          	card.mount('#card-number');
+
+	        // CVC
+	        var cvc = elements.create('cardCvc', {
+	            'placeholder': 'CVC*',
+	            'style': style
+	        });
+	        cvc.mount('#card-cvc');
+
+	        // Card expiry
+	        var exp = elements.create('cardExpiry', {
+	            'placeholder': 'MM/YY',
+	            'style': style
+	        });
+	        exp.mount('#card-exp');	
+
+	        function hide_fields(payment_id){
+				jQuery('.modal-title').text("Update Payment Info");
+				jQuery('.add_pay').hide();
+				alert(payment_id);
+				jQuery('#rowid').val(payment_id);
+				jQuery.ajax({
+                  	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                  	method : "POST",
+                  	data : {ajax_request:'get_payment_method',rowid:payment_id,},
+                  	success: function(result){
+                      	console.log(result);
+                      	
+                      	var jsonobj = JSON.parse(result);
+                      	console.log(jsonobj);
+
+                      	jQuery('#firstName').val(jsonobj.First_Name);
+
+                      	jQuery('#lastName').val(jsonobj.Last_Name);
+                      	
+                      	if(jsonobj.billing_address==""){
+                      		jsonobj.billing_address ="Beverly Road, Los Angeles";
+                      	}
+                      	jQuery('#billingaddress').val(jsonobj.billing_address);
+
+                      	//$('#pament_method_'+rowid).remove();
+                      	//window.location.reload();
+                  	}
+                });
+				//alert(jQuery(this).attr("id"));
+			}
+			function add_payment_info(){
+				var modal_title = jQuery('.modal-title').text();
+				/*if(jQuery('#payment_type').val()==''){
+		            setTimeout(function(){
+		              jQuery('#payment_type').focus();
+		            },1000);
+		            return false;
+		        }
+	          	if(jQuery('#billingaddress').val()==''){
+		            setTimeout(function(){
+		              jQuery('#billingaddress').focus();
+		            },1000);
+		            return false;
+		        }
+          
+		        if(jQuery('#firstName').val()==''){
+		            setTimeout(function(){
+		              jQuery('#firstName').focus();
+		            },1000);
+		            return false;
+		        }
+
+		        if(jQuery('#lastName').val()==''){
+		            setTimeout(function(){
+		              jQuery('#lastName').focus();
+		            },1000);
+		            return false;
+		        }*/
+		        if(modal_title=="Update Payment Info"){
+
+		        	var rowid = jQuery('#rowid').val();
+		        	alert(rowid);
+		        	jQuery.ajax({
+                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                      	method : "POST",
+                      	data : {ajax_request:'remove_payment_method',rowid:rowid},
+                      	success: function(result){
+                          	//alert(result);
+                          	//$('#pament_method_'+rowid).remove();
+                          	//window.location.reload();
+                      	}
+                    });
+		        }
+		        var cardButton = document.getElementById('add_new_payment_method');
+          
+	          	var clientSecret = cardButton.dataset.secret;
+
+	          	// Try to match bootstrap 4 styling
+		        
+
+		        var firstName = jQuery('#firstName').val();
+		        
+		        var billingaddress = jQuery('#billingaddress').val();
+		        alert("billingaddress: "+billingaddress);
+		        //var zipcode = jQuery('input[name="postal"]').val();
+
+		        stripe.confirmCardSetup(
+                clientSecret,
+                {
+                  payment_method: {
+                    card: card,
+                    billing_details: {
+                    	name: firstName,
+                    	address: {
+                    		line1: billingaddress,
+                    		//postal_code: zipcode
+                    	}
+                    }
+                  }
+                }
+              	).then(function(result) {
+	                if (result.error) {
+	                  
+	                  console.log(result);
+	                  //alert("unsuccessful");
+	                } else {
+	                  
+	                  //var user_status = jQuery('#user_status').val();
+	                  	var payment_type = jQuery('#payment_type').val();
+	                  	var firstName = jQuery('#firstName').val();
+	                  	var lastName = jQuery('#lastName').val();
+	                  	var billingaddress = jQuery('#billingaddress').val();
+
+	                    var data = JSON.stringify(result);
+	                    
+	                    var datastring = "ajax_request=add_new_payment_method&firstName="+firstName+"&lastName="+lastName+"&billingaddress="+billingaddress+"&payment_type="+payment_type+"&result="+data;
+	                    
+	                    jQuery.ajax({
+	                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+	                      	method : "POST",
+	                      	data : datastring,
+	                      	success: function(result){
+	                          	console.log(result);
+	                          	window.location.reload();
+	                      	}
+	                    });
+	                  
+	                }
+	            });
+			}
 			jQuery('.submit_order3').click(function(){
 
 				if(!jQuery('#confirm_order').is(":checked")){

@@ -175,6 +175,7 @@ if($ajax_resquest_type=="charge_using_existing_card"){
               'name' => $product_name,
               'type' => 'service',
             ]);
+           
 
             $plan = \Stripe\Plan::create([
                 'currency' => 'USD',
@@ -191,14 +192,22 @@ if($ajax_resquest_type=="charge_using_existing_card"){
             ]);
 
             $subscription_status = $subscriptions->status;
+
+            $subscription_id = $subscriptions->id;
+            $product_id = $product->id;
+            $plan_id = $plan->id;
             //insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
             //insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+
+            insert_into_subscriptions($subscription_id,$product_id,$product_id,$plan_id,$plan_name);
+            insert_into_customer_subscriptions($subscription_id,$customer_stripe_id,$payment_method_id,$payment_intent_id,$active);
 
         }catch (\Stripe\Exception\CardException $e) {
           // Error code will be authentication_required if authentication is needed
           echo 'Error code is:' . $e->getError()->code;
           $payment_intent_id = $e->getError()->payment_intent->id;
           $payment_intent = \Stripe\PaymentIntent::retrieve($payment_intent_id);
+
         }
     }else{
         //echo "customer_stripe_id: ".
@@ -295,6 +304,8 @@ if($ajax_resquest_type=="charge_using_existing_card"){
 
     $product_name = $storesession->product_name;
 
+    $product_range = get_product_range($product_id);
+
     $box_count = $storesession->box_count;
 
     $added_box_count =  $storesession->added_box_count;
@@ -374,7 +385,7 @@ if($ajax_resquest_type=="charge_using_existing_card"){
     //$transaction_status = "Paid";
     $transaction_amount = $total_price;
 
-    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
+    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription);
 
     $order_status="Order Received";
     $active=1;
@@ -444,16 +455,30 @@ if($ajax_resquest_type=="charge_using_existing_card"){
             //echo $body;
             $res_mail = wp_mail($email, $subject, $body);
         }else{
-            $subject ="Order Confirmation";
-            $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
+            if($period_data_value=="Month to Month")
+            {
+                $subject ="Order Confirmation";
+                $body = file_get_contents("template-parts/mail/storage-month-to-month.php");
             
-            $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
                 
-            foreach($array_rental as $key=>$value){
+                foreach($array_rental as $key=>$value){
 
-                $body = str_replace($key,$value,$body);
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
+            }else{
+                $subject ="Order Confirmation Storage";
+                $body = file_get_contents("template-parts/mail/order_details_storage.php");
+            
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                
+                foreach($array_rental as $key=>$value){
+
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
             }
-            $res_mail = wp_mail($email, $subject, $body);
         }
 
     }
@@ -628,6 +653,13 @@ if($ajax_resquest_type=="send_card_intent2"){
                 ]);
 
                 $subscription_status = $subscriptions->status;
+                $subscription_id = $subscriptions->id;
+                $product_id = $product->id;
+                $plan_id = $plan->id;
+
+                $active=1;
+                insert_into_subscriptions($subscription_id,$product_id,$product_id,$plan_id,$plan_name);
+                insert_into_customer_subscriptions($subscription_id,$customer_stripe_id,$payment_method_id,$payment_intent_id,$active);
                 insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
                 insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
 
@@ -784,6 +816,8 @@ if($ajax_resquest_type=="send_card_intent2"){
 
     $product_name = $storesession->product_name;
 
+    $product_range = get_product_range($product_id);
+
     $box_count = $storesession->box_count;
 
     $added_box_count =  $storesession->added_box_count;
@@ -863,7 +897,7 @@ if($ajax_resquest_type=="send_card_intent2"){
     //$transaction_status = "Paid";
     $transaction_amount = $total_price;
 
-    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
+    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription);
 
     $order_status="Order Received";
     $active=1;
@@ -931,16 +965,30 @@ if($ajax_resquest_type=="send_card_intent2"){
             //echo $body;
             $res_mail = wp_mail($email, $subject, $body);
         }else{
-            $subject ="Order Confirmation";
-            $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
+            if($period_data_value=="Month to Month")
+            {
+                $subject ="Order Confirmation";
+                $body = file_get_contents("template-parts/mail/storage-month-to-month.php");
             
-            $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
                 
-            foreach($array_rental as $key=>$value){
+                foreach($array_rental as $key=>$value){
 
-                $body = str_replace($key,$value,$body);
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
+            }else{
+                $subject ="Order Confirmation Storage";
+                $body = file_get_contents("template-parts/mail/order_details_storage.php");
+            
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                
+                foreach($array_rental as $key=>$value){
+
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
             }
-            $res_mail = wp_mail($email, $subject, $body);
         }
 
     }
@@ -1023,6 +1071,13 @@ if($ajax_resquest_type=="send_card_intent3"){
                 $subscription_status = $subscriptions->status;
                 insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
                 insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+
+                $subscription_id = $subscriptions->id;
+                $product_id = $product->id;
+                $plan_id = $plan->id;
+                
+                insert_into_subscriptions($subscription_id,$product_id,$product_id,$plan_id,$plan_name);
+                insert_into_customer_subscriptions($subscription_id,$customer_stripe_id,$payment_method_id,$payment_intent_id,$active);
 
             }catch (\Stripe\Exception\CardException $e) {
               // Error code will be authentication_required if authentication is needed
@@ -1125,6 +1180,8 @@ if($ajax_resquest_type=="send_card_intent3"){
 
     $product_name = $storesession->product_name;
 
+    $product_range = get_product_range($product_id);
+
     $box_count = $storesession->box_count;
 
     $added_box_count =  $storesession->added_box_count;
@@ -1204,7 +1261,7 @@ if($ajax_resquest_type=="send_card_intent3"){
     //$transaction_status = "Paid";
     $transaction_amount = $total_price;
 
-    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
+    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription);
 
     $order_status="Order Received";
     $active=1;
@@ -1272,16 +1329,30 @@ if($ajax_resquest_type=="send_card_intent3"){
             //echo $body;
             $res_mail = wp_mail($email, $subject, $body);
         }else{
-            $subject ="Order Confirmation";
-            $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
+            if($period_data_value=="Month to Month")
+            {
+                $subject ="Order Confirmation";
+                $body = file_get_contents("template-parts/mail/storage-month-to-month.php");
             
-            $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
                 
-            foreach($array_rental as $key=>$value){
+                foreach($array_rental as $key=>$value){
 
-                $body = str_replace($key,$value,$body);
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
+            }else{
+                $subject ="Order Confirmation Storage";
+                $body = file_get_contents("template-parts/mail/order_details_storage.php");
+            
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                
+                foreach($array_rental as $key=>$value){
+
+                    $body = str_replace($key,$value,$body);
+                }
+                $res_mail = wp_mail($email, $subject, $body);
             }
-            $res_mail = wp_mail($email, $subject, $body);
         }
 
     }
@@ -1428,9 +1499,17 @@ if($ajax_resquest_type=="send_card_intent"){
                       'customer' =>  $customer->id,
                       'items' => [['plan' => $plan->id]],
                     ]);
+                    //print_r($subscriptions);
+
                     $subscription_status = $subscriptions->status;
-                    insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
+                    //insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
                     insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
+                    $subscription_id = $subscriptions->id;
+                    $product_id = $product->id;
+                    $plan_id = $plan->id;
+                    $issubscription=1;
+                    insert_into_subscriptions($subscription_id,$product_id,$product_id,$plan_id,$plan_name);
+                    insert_into_customer_subscriptions($subscription_id,$customer_stripe_id,$payment_method_id,$payment_intent_id,$active);
                 }catch (\Stripe\Exception\CardException $e) {
                   // Error code will be authentication_required if authentication is needed
                   echo 'Error code is:' . $e->getError()->code;
@@ -1439,6 +1518,7 @@ if($ajax_resquest_type=="send_card_intent"){
                 }
             }else{
                 //echo "intent->setupIntent->payment_method: ".$intent->setupIntent->payment_method;
+                    //$payment_method_id = $intent->setupIntent->payment_method;
                     $customer = \Stripe\Customer::create([
                         'email' => $email,
                         'payment_method' => $intent->setupIntent->payment_method,
@@ -1458,6 +1538,8 @@ if($ajax_resquest_type=="send_card_intent"){
                           'off_session' => true,
                           'confirm' => true,
                         ]);
+                        $issubscription=0;
+                        $payment_intent_id = $paymentIntent->id;
                         $payment_status = $paymentIntent->status;
                         insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status);
                         insert_stripe_payments_data($customer_stripe_id,$payment_method_id,$email,$status);
@@ -1472,7 +1554,7 @@ if($ajax_resquest_type=="send_card_intent"){
             $msg = "User Already Exist";
         }
     }
-    $json_array = array('user_status'=>$user_status,'user_exist_status'=>$user_exist_status,'period_value'=>$storesession->period_data_value,'payment_status'=>$payment_status,'subscription_status'=>$subscription_status,'payment_method_id'=>$payment_method_id,"msg"=>$msg);
+    $json_array = array('user_status'=>$user_status,'user_exist_status'=>$user_exist_status,'period_value'=>$storesession->period_data_value,'payment_status'=>$payment_status,'subscription_status'=>$subscription_status,'payment_method_id'=>$payment_method_id,"msg"=>$msg,'payment_intent_id'=>$payment_intent_id,'subscription_id'=>$subscription_id,'issubscription'=>$issubscription);
     echo $json_array1 = json_encode($json_array);
 }
 function insert_stripe_customers_data($customer_stripe_id,$firstName,$lastName,$email,$status){
@@ -1665,7 +1747,7 @@ if($ajax_resquest_type=="order_confirmation_added_boxes"){
       'off_session' => true,
       'confirm' => true,
     ]);
-    
+    $payment_intent_id = $paymentIntent->id;
     $paymentIntent->amount_received;
     $payment_status = $paymentIntent->status;
 
@@ -1674,6 +1756,7 @@ if($ajax_resquest_type=="order_confirmation_added_boxes"){
     }else{
         $transaction_status="Unsucessful";
     }
+    $issubscription=0;
     //$amount_received = ($paymentIntent->amount_received/100);
     $order_id = insert_into_orders($product_id,$display_period,$dp_period,$box_count,$added_box_count,$product_price,$added_box_price,$delivery_cost,$pickup_cost,$sales_tax,$total_price,$period_data_field,$order_time_period,$zip_current,$zip_new,$user_id,$current_order_id,$subtotal);
     
@@ -1696,7 +1779,7 @@ if($ajax_resquest_type=="order_confirmation_added_boxes"){
     //$transaction_status = "Paid";
     $transaction_amount = $total_price;
 
-    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
+    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription);
 
     $order_date = get_custom_formatted_date(date('Y-m-d'));
     $order_status="Order Received";
@@ -1880,9 +1963,10 @@ if($ajax_resquest_type=="order_submit"){
       'confirm' => true,
     ]);
 
+    $payment_intent_id = $paymentIntent->id;
     $total_amount = $paymentIntent->amount_received;
     $payment_status = $paymentIntent->status;
-    
+    $issubscription = 0;
     $order_id = insert_into_orders($product_id,$display_period,$dp_period,$box_count,$added_box_count,$product_price,$added_box_price,$delivery_cost,$pickup_cost,$sales_tax,$total_price,$period_data_field,$order_time_period,$zip_current,$zip_new,$user_id,$current_order_id,$subtotal);
     //$shipping_type ="Delivery Empty Boxes";
 
@@ -1934,7 +2018,7 @@ if($ajax_resquest_type=="order_submit"){
         $subject = "Order Confirmation - Rental Period Extend";
         $body = file_get_contents("template-parts/mail/rental_extension_confirm.php");
 
-        $array_rental = array('order_id'=>$order_id,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,);
+        $array_rental = array('order_id'=>$order_id,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,);
 
         foreach($array_rental as $key=>$value){
 
@@ -1948,7 +2032,7 @@ if($ajax_resquest_type=="order_submit"){
     $transaction_status = "Paid";
     $transaction_amount = $total_price;
 
-    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
+    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription);
     insert_into_order_tracking($order_id,$user_id,$order_status,$active);
 
     $json_array = array('order_id'=>$order_id,'delivery_date'=>$delivery_date,'pickup_date'=>$pickup_date,'payment_status'=>$payment_status);
@@ -1969,11 +2053,36 @@ function day_diff_between_two_dates($new_date,$db_date){
 if($ajax_resquest_type=="remove_payment_method"){
     $query = "UPDATE payments SET active=0,updated_at=NOW() WHERE payment_id=$_POST[rowid]";
     if($query){
-        echo "Payment method removed successfully.";
+        $msg = "Payment method removed successfully.";
     }else{
-        echo "Sorry, Please try agan.";
+        $msg = "Sorry, Please try agan.";
     }
     mysql_query($query);
+
+    
+
+}
+
+if($ajax_resquest_type=="get_payment_method"){
+    $query = "SELECT First_Name AS 'First_Name',Last_Name AS 'Last_Name',billing_address AS 'billing_address' FROM payments WHERE payment_id=$_POST[rowid]";
+
+    if($query){
+        $msg = "Payment method removed successfully.";
+    }else{
+        $msg =  "Sorry, Please try again.";
+    }
+    $res = mysql_query($query);
+
+    $row = mysql_fetch_assoc($res);
+
+    $First_Name = $row['First_Name'];
+    $Last_Name = $row['Last_Name'];
+    $billing_address = $row['billing_address'];
+
+    $json_array =  array('First_Name'=>$First_Name,'Last_Name'=>$Last_Name,'billing_address'=>$billing_address);
+
+    echo $json_array1 = json_encode($json_array);
+
 }
 if($ajax_resquest_type=="add_more_boxes1"){
 
@@ -3065,7 +3174,7 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
 
     $product_name = $storesession->product_name;
 
-    $product_range = $storesession->product_range;
+    $product_range = get_product_range($product_id);
 
     $box_count = $storesession->box_count;
 
@@ -3143,11 +3252,22 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
     $shipping_type ="Pickup Empty Boxes";
     insert_into_shipping_info($order_id,$period_data_field,$shipping_type,$pickup_date,$pickup_address,$preferred_pickup_time,$alternate_pickup_time,$apt_unit_pickup,$apartment_level_pickup,$user_id,$pickup_address_loc_lat,$pickup_address_loc_long);
 
+    $payment_intent_id = $_REQUEST['payment_intent_id'];
+
+    $payment_method_id = $_REQUEST['payment_method_id'];
+
+    $subscription_id = $_REQUEST['subscription_id'];
+
+    $issubscription = $_REQUEST['issubscription'];
+
+    $subscription_status = $_REQUEST['subscription_status'];
+
+    $payment_status = $_REQUEST['payment_status'];
 
     $transaction_status = "Paid";
     $transaction_amount = $total_price;
 
-    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount);
+    insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription);
 
     $order_status="Order Received";
     $active=1;
@@ -3242,12 +3362,12 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
             //echo $body;
             $res_mail = wp_mail($email, $subject, $body);
         }else{
-            if($period_data_value="Month to Month")
+            if($period_data_value=="Month to Month")
             {
                 $subject ="Order Confirmation";
                 $body = file_get_contents("template-parts/mail/storage-month-to-month.php");
             
-                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_address'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
                 
                 foreach($array_rental as $key=>$value){
 
@@ -3255,10 +3375,10 @@ if($ajax_resquest_type=="goto_order_confirmation_page"){
                 }
                 $res_mail = wp_mail($email, $subject, $body);
             }else{
-                $subject ="Order Confirmation";
-                $body = file_get_contents("template-parts/mail/order_confirmation_rental.php");
+                $subject ="Order Confirmation Storage";
+                $body = file_get_contents("template-parts/mail/order_details_storage.php");
             
-                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$cardNumber,'delivery_address'=>$delivery_address,'delivery_date'=>$delivery_date,'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>$pickup_date,'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
+                $array_rental = array('order_id'=>$order_id,'order_date'=>$order_date,'product_name'=>$product_name,'product_box_count'=>$box_count,'product_range'=>$product_range,'order_time_period'=>$order_time_period,'subtotal'=>$subtotal,'Delivery_Cost'=>$delivery_cost,'Pickup_Cost'=>$pickup_cost,'Sales_tax'=>$sales_tax,'total_price'=>$total_price,'card_ending'=>$card_number,'delivery_address'=>$delivery_address,'delivery_date'=>get_custom_formatted_date($delivery_date),'optional_delivery_times'=>$preferred_delivery_time,'floor_level_delivery'=>$apartment_level_delivery,'pickup_adderess'=>$pickup_address,'pickup_date'=>get_custom_formatted_date($pickup_date),'optional_pickup_times'=>$preferred_pickup_time,'floor_level_pickup'=>$apartment_level_pickup);
                 
                 foreach($array_rental as $key=>$value){
 
@@ -3542,10 +3662,20 @@ function insert_into_order_tracking($order_id,$user_id,$order_status,$active){
     mysql_query($query);
 
 }
+function insert_into_subscriptions($subscription_id,$product_id,$product_id,$plan_id,$plan_name){
+    $query="INSERT INTO subscriptions(`subscriptions_stripe_id`,`product_id`,`plan_id`,`plan_name`,`status`)
+    VALUES('$subscription_id','$product_id','$plan_id','$plan_name',1)";
 
-function insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount){
-    $query = "INSERT INTO transactions(`order_id`,`user_id`,`transaction_status`,`transaction_tocken`,transaction_amount,`transaction_time`)
-    VALUES ($order_id,$user_id,'$transaction_status','$transaction_tocken','$transaction_amount',NOW())";
+    mysql_query($query);
+}
+function insert_into_customer_subscriptions($subscription_id,$customer_stripe_id,$payment_method_id,$payment_intent_id,$active){
+    echo "Query: ".$query = "INSERT INTO customer_subscriptions(`subscriptions_id`,`customer_id`,`payment_method_id`,`payment_intent_id`,`active`,`status`)
+    VALUES ('$subscription_id','$customer_stripe_id','$payment_method_id','$payment_intent_id',1,1)";
+}
+function insert_into_transactions($order_id,$user_id,$transaction_status,$transaction_tocken,$transaction_amount,$payment_intent_id,$payment_method_id,$subscription_id,$issubscription){
+
+    $query = "INSERT INTO transactions(`order_id`,`user_id`,`transaction_status`,`transaction_tocken`,transaction_amount,`payment_intent_id`,`payment_method_id`,`transaction_time`,`subscription_id`,`issubscription`)
+    VALUES ($order_id,$user_id,'$transaction_status','$transaction_tocken','$transaction_amount','$payment_intent_id','$payment_method_id',NOW(),'$issubscription',$issubscription)";
 
     mysql_query($query);
     
@@ -3558,6 +3688,16 @@ function mail_send_function($to,$subject,$replace_array,$body){
     }   
     $res_mail = wp_mail($to, $subject, $body);
     return $res_mail;
+}
+function get_product_range($product_id){
+
+    $query = "SELECT product_range from products where product_id=$product_id";
+
+    $res = mysql_query($query);
+
+    $row = mysql_fetch_row($res);
+
+    return $row[0];
 }
 // if($ajax_resquest_type == 'testemailfunction'){
 //     $body = file_get_contents("template-parts/mail/order-confirmation-rental.php");

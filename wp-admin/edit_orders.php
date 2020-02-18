@@ -298,10 +298,11 @@ function get_user_data($user_id){
 				if(current_status >= new_status){
 					alert('You can`t go back again');
 					return false;
-				}else if((parseInt(current_status)+1) < new_status){
+				}
+				/*else if((parseInt(current_status)+1) < new_status){
 					alert('You can`t skip steps between the process.');
 					return false;
-				}
+				}*/
 			}
 			jQuery.ajax({
 				url: "test-plugin-api.php",

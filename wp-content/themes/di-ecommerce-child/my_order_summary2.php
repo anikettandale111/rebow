@@ -8,7 +8,7 @@
 		<?php require_once('session_values.php');
 		
 		get_header();
-		print_r($session_data);
+		//print_r($session_data);
 		//print_r($session_data);?>
 		<!-- FAQ heading -->
 		<section class="faq-header">

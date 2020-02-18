@@ -8,7 +8,8 @@
 		require_once('session_values.php');
 		//$order_id = 
 		get_header();
-		
+		//print_r;
+		//print_r($session_data);
 		?>
 		<?php (wp_get_current_user()->display_name);
 		$user_id = wp_get_current_user()->id;

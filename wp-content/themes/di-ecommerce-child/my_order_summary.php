@@ -208,7 +208,7 @@
 					$product_data = get_package_data($data['product_id']);
 
 					if($data['order_type']=="RENTAL"){
-						/*if($data['product_id']!=0){
+						if($data['product_id']!=0){
 							//echo "in else";
 							$product_display_name = $product_data['product_name']." Package - ".$product_data['box_count']." Boxes (".$product_data['product_range'].")";
 
@@ -235,7 +235,7 @@
 							$product_labels_count = $data['added_box_count']." Labels";
 
 							$product_zipties_count = $data['added_box_count']." Security Zip Ties";
-						}*/
+						}
 					}else{
 
 						$storage_start_date = $delivery_date;

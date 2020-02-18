@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: Test plugin
 Description: A test plugin to demonstrate wordpress functionality
@@ -10,15 +9,20 @@ Version: 0.1
 //require_once('db_config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/rebow/db_config.php');
 add_action('admin_menu', 'test_plugin_setup_menu');
+/*add_action('activated_plugin','my_save_error');
+function my_save_error()
+{
+file_put_contents(dirname(__file__).'/error_activation.txt', ob_get_contents());
+}*/
 
 function test_plugin_setup_menu(){
-        add_menu_page( 'Test Plugin Page', 'Packages', 'manage_options', 'test-plugin', 'test_init' ,'dashicons-album');
+    add_menu_page( 'Test Plugin Page', 'Packages', 'manage_options', 'test-plugin', 'test_init' ,'dashicons-album');
 }
 
 function test_init(){
 
-	$url = admin_url()."add_packages.php";
-    echo "<div><h1>Packages </h1>&nbsp;&nbsp;<a href='$url' class='button button-primary'>Add New Package</a></div><br/>";
+	
+    
     
 	show_products();
 }
@@ -36,7 +40,8 @@ function show_products(){
 	
 	mysql_set_charset('utf8');
 	$db = mysql_select_db("rebow");*/
-
+	$url = admin_url()."add_packages.php";
+	echo "<div><h1>Packages </h1>&nbsp;&nbsp;<a href='$url' class='button button-primary'>Add New Package</a></div><br/>";
 	$sql="SELECT * FROM products WHERE status=1 AND product_type != 'CustomOrder' ";
 
 	$result = mysql_query($sql);
@@ -308,7 +313,7 @@ function get_payments_data($current_order_id){
 	return $data;
 }
 function get_payments_data_user($user_id){
-	$query = "select * from payments where user_id=$user_id and active=1";
+	$query = "select * from payments where user_id=$user_id and active=1 order by created_at desc";
 
 	$res = mysql_query($query);
 
@@ -370,7 +375,7 @@ function get_packages_datas($product_type){
             die('Could not connect: ' . mysql_error());
         }
         //mysql_query('SET names utf8');
-        mysql_set_charset('utf8');
+        //mysql_set_charset('utf8');
         $db = mysql_select_db("rebow");
 
         $sql="select * from products";
@@ -448,7 +453,7 @@ function get_packages_datas($product_type){
 		    die('Could not connect: ' . mysql_error());
 		}
 		//mysql_query('SET names utf8');
-		mysql_set_charset('utf8');
+		//mysql_set_charset('utf8');
 		$db = mysql_select_db("rebow");
 
 		$sql="select * from base_pricing";
@@ -509,4 +514,4 @@ function get_packages_datas($product_type){
 		</script>';
 
 	}
- ?>	
+ ?>

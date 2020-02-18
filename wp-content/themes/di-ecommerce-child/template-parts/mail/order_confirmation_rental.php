@@ -130,7 +130,7 @@
 						<p>order_time_period</p>
 					</div>
 					<div class="col">
-						<p>$ subtotal/ order_time_period</p>
+						<p>$subtotal/ order_time_period</p>
 					</div>
 					<div class="data-table">
 					<div class="table-responsive">

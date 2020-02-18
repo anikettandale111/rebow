@@ -731,7 +731,7 @@ get_header();
     jQuery( ".custom_order_button" ).click(function() {
         //alert('clicked');
         var order_values = jQuery(this).attr('id');
-        alert(order_values);
+        //alert(order_values);
         var res = order_values.split("_");
         var product_type = res[0];
 

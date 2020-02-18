@@ -1214,6 +1214,16 @@
                             //alert(exp_year);
 
                             var payment_method_id = jsonObj.payment_method_id;
+                            alert("payment_method_id: "+payment_method_id);
+                            var payment_intent_id = jsonObj.payment_intent_id;
+
+                            var subscription_id = jsonObj.subscription_id;
+
+                            var issubscription = jsonObj.issubscription;
+
+                            var subscription_status = jsonObj.subscription_status;
+
+                            var payment_status = jsonObj.payment_status;
 
                             var billingaddress = jQuery('#billingaddress').val();
 
@@ -1225,7 +1235,7 @@
                             var address_country ='US';
                             var currency ='USD';  
                             
-                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status+"&promo_price="+promo_price+"&new_total_price="+new_total_price+"&zipcode="+zipcode+"&promocode="+promocode;
+                            datastring = "ajax_request=goto_order_confirmation_page&firstName="+firstName+"&lastName="+lastName+"&payment_type="+payment_type+"&billingaddress="+billingaddress+"&city="+city+"&state="+state+"&period_data_field="+period_data_field+"&payment_method_id="+payment_method_id+"&user_status="+user_status+"&promo_price="+promo_price+"&new_total_price="+new_total_price+"&zipcode="+zipcode+"&promocode="+promocode+"&payment_intent_id="+payment_intent_id+"&subscription_id="+subscription_id+"&issubscription="+issubscription+"&subscription_status="+subscription_status+"&payment_status="+payment_status;
                             
                             //alert(datastring);
                             

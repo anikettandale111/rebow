@@ -12,7 +12,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/rebow/db_config.php');
 add_action('admin_menu', 'test_plugin_setup_menu');
 
 function test_plugin_setup_menu(){
-        add_menu_page( 'Test Plugin Page', 'Packages', 'manage_options', 'test-plugin', 'test_init' );
+    add_menu_page( 'Test Plugin Page', 'Packages', 'manage_options', 'test-plugin', 'test_init' );
 }
 
 function test_init(){
@@ -275,7 +275,7 @@ function get_payments_data($current_order_id){
 	return $data;
 }
 function get_payments_data_user($user_id){
-	$query = "select * from payments where user_id=$user_id and active=1";
+	$query = "SELECT * FROM payments where user_id=$user_id and active=1 order by created_at desc";
 
 	$res = mysql_query($query);
 
@@ -285,6 +285,7 @@ function get_payments_data_user($user_id){
 }
 function get_rental_shipping_data($current_order_id,$shipping_type){
 	$query = "select * from order_shipping where order_id=$current_order_id and shipping_type='$shipping_type'";
+
 	$res = mysql_query($query);
 
 	$data = mysql_fetch_assoc($res);

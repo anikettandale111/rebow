@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
-<link rel="stylesheet" href="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/css/fonts.css">
+<link rel="stylesheet" href="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/css/fonts.css">
 <style type="text/css">
 	*{margin: 0; padding: 0; border: 0;}
 	body{font-family: 'axiformaregular'; font-size: 14px; max-width: 600px; margin: 0 auto; padding: 2%; color: #000000;letter-spacing: 1px;}
@@ -91,7 +91,7 @@
 <body>
 	<div class="wrapper">
 		<div id="header" class="header">
-			<img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/rebow-logo-white.png" alt="">
+			<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/rebow-logo-white.png" alt="">
 		</div><!-- /header -->
 		<div class="email-container">
 			<div class="col">
@@ -99,32 +99,32 @@
 			</div>
 			<div class="blue-bg">
 				<h2>ORDER SUMMARY </h2>
-				<p>Order # 2340956 </p>
-				<p>Placed on March 23, 2018</p>
+				<p>Order # order_id </p>
+				<p>Placed on order_date</p>
 			</div>
 			<div class="grey-bg">
 				<div class="p-img text-center">
-					<img class="product-img" src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/dollies.png" alt="" style="">
+					<img class="product-img" src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/dollies.png" alt="" style="">
 					<div class="clear"></div>
 					<a class="btn-add-more" href="javascript:;">ADD MORE BOXES</a>
 				</div>
 				<div class="p-info">
 					<div class="col ord-details">
-						<p>1 Bedroom Package - 24 Boxes</p>
-						<p>(250 - 500 sq ft) </p>
+						<p>product_name Package - product_box_count Boxes</p>
+						<p>(product_range) </p>
 					</div>
 					<div class="col rnt-prd">
-						<label for="">Rental Period : </label>
-						<p>2 Weeks</p>
+						<label for="">Storage Period : </label>
+						<p>order_time_period</p>
 					</div>
 					<div class="col">
-						<p>$144 / 2 weeks</p>
+						<p>$subtotal / order_time_period</p>
 					</div>
 				</div>
 			</div>
 			<div class="grey-bg mt-2">
 				<div class="shiiping-heading">
-					<img class="shipping-icon" src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
+					<img class="shipping-icon" src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/shopping-delivery.png" alt="">
 					<p>DELIVERY & PICK UP DETAILS</p>
 				</div>
 			</div>
@@ -135,48 +135,48 @@
 				<div class="col">
 					<label for="">Delivery Address  :</label>
 					<div class="clear"></div>
-					<p>4412 Wasall Loop Austin, TX 78749</p>
+					<p>delivery_address</p>
 				</div>
 				<div class="col">
 					<label for="">Delivery Date :</label>
-					<p>March 1, 2018</p>
+					<p>delivery_date</p>
 				</div>
 				<div class="col">
 					<label for="">Optional Delivery Times :</label>
 				</div>
 				<div class="col">
 					<ul class="opt-time">
-						<li>8:30am - 11:00 am PST</li>
-						<li>11:00am - 1:00 pm PST’</li>
+						<li>optional_delivery_times</li>
+						<li>optional_delivery_times’</li>
 					</ul>
 				</div>
 				<div class="col">
 					<label for="">Delivery : </label>
-					<p>Curbside</p>
+					<p>floor_level_delivery</p>
 				</div>
 			</div>
 			<div class="del-pic">
 				<div class="col">
 					<label for="">Pick Up Address  : </label>
 					<div class="clear"></div>
-					<p>2034 South Mo Pac Exwy, #3D Austin, TX 78746</p>
+					<p>pickup_address</p>
 				</div>
 				<div class="col">
 					<label for="">Pick Up Date : </label>
-					<p>March 15, 2018</p>
+					<p>pickup_date</p>
 				</div>
 				<div class="col">
 					<label for="">Optional Pick Up Times : </label>
 				</div>
 				<div class="col">
 					<ul class="opt-time">
-						<li>8:30am - 11:00 am PST</li>
-						<li>11:00am - 1:00 pm PST</li>
+						<li>optional_pickup_times</li>
+						<li>optional_pickup_times</li>
 					</ul>
 				</div>
 				<div class="col">
 					<label for="">Pick Up : </label>
-					<p> Stairs </p>
+					<p> floor_level_pickup </p>
 				</div>
 			</div>
 			<div class="line"></div>
@@ -187,48 +187,48 @@
 				<div class="col">
 					<label for="">Delivery Address  :</label>
 					<div class="clear"></div>
-					<p>4412 Wasall Loop Austin, TX 78749</p>
+					<p>delivery_address</p>
 				</div>
 				<div class="col">
 					<label for="">Delivery Date :</label>
-					<p>March 1, 2018</p>
+					<p>delivery_date</p>
 				</div>
 				<div class="col">
 					<label for="">Optional Delivery Times :</label>
 				</div>
 				<div class="col">
 					<ul class="opt-time">
-						<li>8:30am - 11:00 am PST</li>
-						<li>11:00am - 1:00 pm PST’</li>
+						<li>optional_delivery_times</li>
+						<li>optional_delivery_times’</li>
 					</ul>
 				</div>
 				<div class="col">
 					<label for="">Delivery : </label>
-					<p>Curbside</p>
+					<p>floor_level_delivery</p>
 				</div>
 			</div>
 			<div class="del-pic">
 				<div class="col">
 					<label for="">Pick Up Address  : </label>
 					<div class="clear"></div>
-					<p>2034 South Mo Pac Exwy, #3D Austin, TX 78746</p>
+					<p>pickup_address</p>
 				</div>
 				<div class="col">
 					<label for="">Pick Up Date : </label>
-					<p>March 15, 2018</p>
+					<p>pickup_date</p>
 				</div>
 				<div class="col">
 					<label for="">Optional Pick Up Times : </label>
 				</div>
 				<div class="col">
 					<ul class="opt-time">
-						<li>8:30am - 11:00 am PST</li>
-						<li>11:00am - 1:00 pm PST</li>
+						<li>optional_pickup_times</li>
+						<li>optional_pickup_times</li>
 					</ul>
 				</div>
 				<div class="col">
 					<label for="">Pick Up : </label>
-					<p> Stairs </p>
+					<p> floor_level_pickup </p>
 				</div>
 			</div>
 			<div class="col confirm-time">
@@ -241,14 +241,14 @@
 			<div class="grey-bg strg-location">
 				<strong>STORAGE LOCATION :</strong>
 				<div class="storage-add">
-					<img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/warehouse-godown.png" alt="">
+					<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/warehouse-godown.png" alt="">
 					<p>141 W Avenue 34<br>Los Angeles, CA 90031</p>
 				</div>
 				<p class="need-access pd">Need to access your stuff? Call us to schedule a storage access 48 hours in advance during business hours Mon-Friday : 8am - 4pm</p>
 			</div>
 			<div class="blue-bg mb-1 mt-2">
 				<div class="col">
-					<img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/feedback.png" alt="">
+					<img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/feedback.png" alt="">
 				</div>
 				<div class="col">
 					<h3>How was your experience ?</h3>
@@ -269,10 +269,10 @@
 				<li>  323 - 277 - 1111</li>
 			</ul>
 			<ul class="social">
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/twitter-icon.png" alt=""></li>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/google-plus-icon.png" alt=""></li>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/facebook-icon.png" alt=""></li>
-				<li><img src="http://192.168.1.191/rebow/wp-content/themes/di-ecommerce-child/assets/images/instagram-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/twitter-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/google-plus-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/facebook-icon.png" alt=""></li>
+				<li><img src="http://40.71.206.180/rebow/wp-content/themes/di-ecommerce-child/assets/images/instagram-icon.png" alt=""></li>
 			</ul>
 			<p class="copy-right">COPYRIGHT © 2018 REBOW SYSTEMS.</p>
 		</div>

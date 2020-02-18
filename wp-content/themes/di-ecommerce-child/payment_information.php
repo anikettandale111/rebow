@@ -77,7 +77,7 @@ require_once("db_config.php");
 				            <div class="row">
 				              <div class="col-sm-12 o-summary">
 				                <div class="edit float-right pr-3">
-				                  <em><a href="#javascript;" data-toggle="modal" data-target="#myModal2">ADD NEW PAYMENT</a></em>
+				                  <em><a onclick="show_fields()" href="#javascript;" data-toggle="modal" data-target="#myModal2">ADD NEW PAYMENT</a></em>
 				                </div>
 				              </div>
 				            </div>
@@ -105,7 +105,7 @@ require_once("db_config.php");
 				                    <label for=""></label>
 				                  </div>
 				                  <ul class="edit-removed">
-				                    <li><a href="#javascript;" data-toggle="modal" data-target="#myModal1">EDIT</a></li>
+				                    <li><a onclick="hide_fields(<?php echo $payment['payment_id']; ?>)" href="#javascript;" id="<?php echo $payment['payment_id']; ?>" data-toggle="modal" data-target="#myModal2">EDIT</a></li>
 				                    <?php if(count($payments_data)!=1):?>
 				                    <li><a id="remove_payments" onclick="delete_payment_method(<?php echo $payment['payment_id']; ?>)" href="javascript:;">REMOVE</a></li>
 				                    <?php endif ?>
@@ -123,59 +123,7 @@ require_once("db_config.php");
 		</section>
 
 		<!-- Modal -->
-		<div id="myModal1" class="modal fade" role="dialog1">
-		  <div class="modal-dialog">
-
-		    <!-- Modal content-->
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        
-		        <h4 class="modal-title">Update Payment Info</h4><button type="button" class="close" data-dismiss="modal">&times;</button>
-		      </div>
-		      <div class="modal-body">
-		      	<form class="checkout-form form" id="update_payment_form">
-				   <div class="form-row">
-	                    <div class="form-group col-md-6 mb-0">
-	                      <label for="inputEmail4">Card Number:</label>
-	                    </div>
-	                    <div class="form-group col-md-4 mb-0">
-	                      <label for="inputEmail4">CCV:</label>
-	                    </div>
-	                </div>
-	                <div class="form-row">
-	                    <div class="form-group col-md-6">
-	                      	
-	                      	<span id="card-number" class="form-control">
-		                        <!-- Stripe Card Element -->
-		                    </span>
-	                    </div>
-	                    <div class="form-group col-md-4">
-	                      	
-	                      	<span id="card-cvc" class="form-control">
-		                        <!-- Stripe CVC Element -->
-		                    </span>
-	                    </div>
-	                </div>
-	                <div class="form-row">
-	                  	<div class="form-group col-md-12 mb-0">
-	                    	<label for="inputEmail4">Expiration Date :</label>
-	                  	</div>
-	                </div>
-	                <div class="form-row">
-	                  	<div class="form-group col-md-4">
-	                    	<span id="card-exp" class="form-control">
-	                      	<!-- Stripe Card Expiry Element -->
-	                    	</span>
-	                  	</div>
-	                </div>
-				  <button type="button" id="update_payment_method" onclick="update_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
-				</form>
-		      </div>
-		      
-		    </div>
-
-		  </div>
-		</div>
+		
 		<div id="myModal2" class="modal fade" role="dialog2">
 		  <div class="modal-dialog">
 
@@ -189,14 +137,12 @@ require_once("db_config.php");
 		      	<form class="checkout-form form" id="add_new_payment_form">
                 <?php //if($user_status!=1){?>
                 <div id="new_user_checkout">
-                  
-                  
-                  	<div class="form-row">
+                  <div class="form-row add_pay">
 	                    <div class="form-group col-md-6 mb-0">
 	                      <label for="inputAddress">Payment Type :</label>
 	                    </div>
                   	</div>
-                  	<div class="form-row">
+                  	<div class="form-row add_pay">
                     	<div class="form-group col-md-5">
                       		<div class="selectholder">
 	                      		<label>Payment Type</label>
@@ -207,10 +153,11 @@ require_once("db_config.php");
 									<option value="American_Express">American Express</option>
 									
 								</select>
+								<input type="hidden" id="rowid" value=""/>
                       		</div>
                     	</div>
                   	</div>
-                  	<div class="form-row">
+                  	<div class="form-row add_pay">
 	                    <div class="form-group col-md-6 mb-0">
 	                      <label for="inputEmail4">First Name:</label>
 	                    </div>
@@ -218,7 +165,7 @@ require_once("db_config.php");
 	                      <label for="inputEmail4">Last Name:</label>
 	                    </div>
 	                </div>
-                  	<div class="form-row">
+                  	<div class="form-row add_pay">
 	                    <div class="form-group col-md-6">
 	                      	<input type="text" class="form-control" id="firstName" value="<?php echo $firstName;?>" placeholder="First Name" required>
 	                    </div>
@@ -226,7 +173,7 @@ require_once("db_config.php");
 	                      	<input type="text" class="form-control" id="lastName" required value="<?php echo $lastName;?>" placeholder="Last Name">
 	                    </div>
 	                </div>
-	                <div class="form-row">
+	                <div class="form-row ">
 	                    <div class="form-group col-md-6 mb-0">
 	                      <label for="inputEmail4">Card Number:</label>
 	                    </div>
@@ -267,21 +214,22 @@ require_once("db_config.php");
 	                  </div>-->
                 </div>
                 
-                <div class="form-row">
+                <div class="form-row add_pay">
                   <div class="form-group col-md-12 mb-0">
                     <label for="inputEmail4">Billing Address :</label>
                   </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row add_pay">
                   <div class="form-group col-md-8">
                     <div class="location-pin">
                       <img src="/rebow/wp-content/themes/di-ecommerce-child/assets/images/location-pin.png" alt="">
                     </div>
-                    <input class="addrs" type="text" placeholder="Address*" name="billingaddress" id="billingaddress" value="<?php //echo $billing_address;?>" required>
+                    <input class="addrs" type="text" placeholder="Address*" name="billingaddress" id="billingaddress" value="<?php echo $billing_address;?>" required>
                   </div>
                 </div>
+
                
-                <button type="button" id="add_new_payment_method" data-secret="<?= $intent->client_secret ?>" onclick="add_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
+                <button type="button" id="add_new_payment_method" name="" data-secret="<?= $intent->client_secret ?>" onclick="add_payment_info()" class="submit_order_new btn btn-secondary">Submit</button>
               </form>
 		      </div>
 		    </div>
@@ -298,49 +246,51 @@ require_once("db_config.php");
 		<script>
 			var stripe = Stripe('pk_test_jtWtIVtWDtzfftY59MQaNGJQ00ZZy89Axo');
 	        // cardButton.addEventListener('click', function(ev) {
-	        var elements = stripe.elements();
-	        // Set up Stripe.js and Elements to use in checkout form
-	        var cardButton = document.getElementById('add_new_payment_method');
-          
-          	var clientSecret = cardButton.dataset.secret;
+	        
+	        	//alert(1);
+	        	var elements = stripe.elements();
+	        	// Set up Stripe.js and Elements to use in checkout form
 
-          	// Try to match bootstrap 4 styling
-	        var style = {
-	              base: {
-	                  'lineHeight': '1.35',
-	                  'fontSize': '1.11rem',
-	                  'color': 'green',
-	                  'fontFamily': 'apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'
-	              }
-	        };
+	        	var style = {
+		              base: {
+		                  'lineHeight': '1.35',
+		                  'fontSize': '1.11rem',
+		                  'color': 'green',
+		                  'fontFamily': 'apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'
+		              }
+		        };
 
-          	// Card number
-	        var card = elements.create('cardNumber', {
-	            'placeholder': 'Card Number*',
-	            'style': style
-	         });
-          	card.mount('#card-number');
+	          	// Card number
+		        var card = elements.create('cardNumber', {
+		            'placeholder': 'Card Number*',
+		            'style': style
+		         });
+	          	card.mount('#card-number');
 
-	        // CVC
-	        var cvc = elements.create('cardCvc', {
-	            'placeholder': 'CVC*',
-	            'style': style
-	        });
-	        cvc.mount('#card-cvc');
+		        // CVC
+		        var cvc = elements.create('cardCvc', {
+		            'placeholder': 'CVC*',
+		            'style': style
+		        });
+		        cvc.mount('#card-cvc');
 
-	        // Card expiry
-	        var exp = elements.create('cardExpiry', {
-	            'placeholder': 'MM/YY',
-	            'style': style
-	        });
-	        exp.mount('#card-exp');
+		        // Card expiry
+		        var exp = elements.create('cardExpiry', {
+		            'placeholder': 'MM/YY',
+		            'style': style
+		        });
+		        exp.mount('#card-exp');	
+
+		        
+	        
+	       	
 
 	        //var clientSecret = cardButton.dataset.secret;
 			
 			jQuery(document).ready(function() {
 				jQuery('#update_payment_info').click(function() {
 					//alert('clicked');
-					.//var card_number = jQuery('#card_number').val();
+					//var card_number = jQuery('#card_number').val();
 
 					//var month = jQuery('#month').val();
 
@@ -365,7 +315,7 @@ require_once("db_config.php");
 						}
 					});
 				});
-				jQuery('#remove_payments').click(function() {
+				/*jQuery('#remove_payments').click(function() {
 					var datastring  = "ajax_request=remove_payment_info";
 					jQuery.ajax({
 						url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
@@ -373,15 +323,14 @@ require_once("db_config.php");
 						data : datastring,
 						success: function(result){
 						    
-						    //var JSONobj = JSON.parse(result);
+						    
 						    console.log(result);
 						    refreshPage();
 
-						    //alert(result);
-						    //jQuery(location).attr('href', '/rebow/order-confirmation');
+						    
 						}
 					});
-				});
+				});*/
 
 				jQuery('#add_payment_info').click(function() {
 
@@ -433,8 +382,8 @@ require_once("db_config.php");
 				}
 			});
 			function add_payment_info(){
-
-				if(jQuery('#payment_type').val()==''){
+				var modal_title = jQuery('.modal-title').text();
+				/*if(jQuery('#payment_type').val()==''){
 		            setTimeout(function(){
 		              jQuery('#payment_type').focus();
 		            },1000);
@@ -459,12 +408,33 @@ require_once("db_config.php");
 		              jQuery('#lastName').focus();
 		            },1000);
 		            return false;
+		        }*/
+		        if(modal_title=="Update Payment Info"){
+
+		        	var rowid = jQuery('#rowid').val();
+		        	alert(rowid);
+		        	jQuery.ajax({
+                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                      	method : "POST",
+                      	data : {ajax_request:'remove_payment_method',rowid:rowid},
+                      	success: function(result){
+                          	//alert(result);
+                          	//$('#pament_method_'+rowid).remove();
+                          	//window.location.reload();
+                      	}
+                    });
 		        }
+		        var cardButton = document.getElementById('add_new_payment_method');
+          
+	          	var clientSecret = cardButton.dataset.secret;
+
+	          	// Try to match bootstrap 4 styling
+		        
 
 		        var firstName = jQuery('#firstName').val();
 		        
 		        var billingaddress = jQuery('#billingaddress').val();
-
+		        alert("billingaddress: "+billingaddress);
 		        //var zipcode = jQuery('input[name="postal"]').val();
 
 		        stripe.confirmCardSetup(
@@ -511,36 +481,54 @@ require_once("db_config.php");
 	                }
 	            });
 			}
-			function update_payment_info(){
+			function hide_fields(payment_id){
+				jQuery('.modal-title').text("Update Payment Info");
+				jQuery('.add_pay').hide();
+				//alert(payment_id);
+				jQuery('#rowid').val(payment_id);
+				jQuery.ajax({
+                      	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
+                      	method : "POST",
+                      	data : {ajax_request:'get_payment_method',rowid:payment_id,},
+                      	success: function(result){
+                          	console.log(result);
+                          	
+                          	var jsonobj = JSON.parse(result);
+                          	console.log(jsonobj);
+
+                          	jQuery('#firstName').val(jsonobj.First_Name);
+
+                          	jQuery('#lastName').val(jsonobj.Last_Name);
+                          	
+                          	if(jsonobj.billing_address==""){
+                          		jsonobj.billing_address ="Beverly Road, Los Angeles";
+                          	}
+                          	jQuery('#billingaddress').val(jsonobj.billing_address);
+
+                          	//$('#pament_method_'+rowid).remove();
+                          	//window.location.reload();
+                      	}
+                    });
+				//alert(jQuery(this).attr("id"));
+			}
+			function show_fields(){
+				jQuery('.modal-title').text("Add New Payment");
+				jQuery('.add_pay').show();
 				
-				if(jQuery('#payment_type').val()==''){
-		            setTimeout(function(){
-		              jQuery('#payment_type').focus();
-		            },1000);
-		            return false;
-		        }
-	          	if(jQuery('#billingaddress').val()==''){
-		            setTimeout(function(){
-		              jQuery('#billingaddress').focus();
-		            },1000);
-		            return false;
-		        }
+			}
+			function update_payment_info(){
+
+				jQuery('.modal-title').val("Update Payment Information");
+				jQuery('.add_pay').hide();
+
+
+				//var id = $(this).attr(id);
+				//console.log(id);
+				var cardButton = document.getElementById('add_new_payment_method');
           
-		        if(jQuery('#firstName').val()==''){
-		            setTimeout(function(){
-		              jQuery('#firstName').focus();
-		            },1000);
-		            return false;
-		        }
-
-		        if(jQuery('#lastName').val()==''){
-		            setTimeout(function(){
-		              jQuery('#lastName').focus();
-		            },1000);
-		            return false;
-		        }
-
-		        var firstName = jQuery('#firstName').val();
+	          	var clientSecret = cardButton.dataset.secret;
+	          
+		        var firstName = jQuery('#first_name').val();
 		        
 		        var billingaddress = jQuery('#billingaddress').val();
 
@@ -591,6 +579,7 @@ require_once("db_config.php");
 	            });
 			}
 			function delete_payment_method(rowid){
+				//alert("remove");
 				if(confirm('Are you sure to delete this ?')){
 	                jQuery.ajax({
                       	url: "/rebow/wp-content/themes/di-ecommerce-child/api-php.php",
